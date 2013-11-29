@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{595099EC-473C-4C23-8103-40750251ACBC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MvcPowerTools</RootNamespace>
+    <AssemblyName>MvcPowerTools</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\Net45\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Net45\MvcPowerTools.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CavemanTools, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\_Net45\CavemanTools.dll</HintPath>
+    </Reference>
+    <Reference Include="CavemanTools.Web, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\_Net45\CavemanTools.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlTags">
+      <HintPath>..\packages\HtmlTags.2.0.0.174\lib\4.0\HtmlTags.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AjaxRequestAttribute.cs" />
+    <Compile Include="Controllers\AbstractResultForInvalidModel.cs" />
+    <Compile Include="Controllers\Internal\IContextFacadeForSmartAction.cs" />
+    <Compile Include="Controllers\Internal\SmartActionWorker.cs" />
+    <Compile Include="Controllers\Internal\SmartContextFacade.cs" />
+    <Compile Include="Controllers\IOverrideValidationFailedPolicy.cs" />
+    <Compile Include="Controllers\IPopulateModel.cs" />
+    <Compile Include="Controllers\IResultForInvalidModel.cs" />
+    <Compile Include="Controllers\ISetupModel.cs" />
+    <Compile Include="Controllers\IValidationFailedPolicyFactory.cs" />
+    <Compile Include="Controllers\ModelIsArgumentAttribute.cs" />
+    <Compile Include="Controllers\NullSetupModel.cs" />
+    <Compile Include="Controllers\PopulateModel.cs" />
+    <Compile Include="Controllers\SetupModelExtensions.cs" />
+    <Compile Include="Controllers\SmartActionAttribute.cs" />
+    <Compile Include="Controllers\SmartController.cs" />
+    <Compile Include="Controllers\SmartControllerAttribute.cs" />
+    <Compile Include="Controllers\TransferResultForInvalidModel.cs" />
+    <Compile Include="Controllers\UpdateModelResult.cs" />
+    <Compile Include="Controllers\ValidationFailedPolicyActivator.cs" />
+    <Compile Include="Controllers\ViewResultForInvalidModel.cs" />
+    <Compile Include="Extensions\Common.cs" />
+    <Compile Include="Extensions\ControllerExtensions.cs" />
+    <Compile Include="Extensions\ExpressionObjectValue.cs" />
+    <Compile Include="Extensions\ExpressionParamValue.cs" />
+    <Compile Include="Extensions\HtmlHelpers.cs" />
+    <Compile Include="Extensions\ThemeHelper.cs" />
+    <Compile Include="Extensions\ThemeInfo.cs" />
+    <Compile Include="Filters\Extensions.cs" />
+    <Compile Include="Filters\FilterActionInfo.cs" />
+    <Compile Include="Filters\FiltersPolicy.cs" />
+    <Compile Include="Filters\FiltersWithPoliciesProvider.cs" />
+    <Compile Include="Filters\IFilterPolicy.cs" />
+    <Compile Include="HtmlConventions\DefaultBuilders.cs" />
+    <Compile Include="HtmlConventions\MissingConventionProfileException.cs" />
+    <Compile Include="HtmlConventions\ModelInfoExtensions.cs" />
+    <Compile Include="HtmlConventions\RadionButtonTag.cs" />
+    <Compile Include="HtmlConventions\ConventionRegistryExtensions.cs" />
+    <Compile Include="HtmlConventions\HtmlHelperExtensions.cs" />
+    <Compile Include="HtmlConventions\HtmlTagsUtils.cs" />
+    <Compile Include="HtmlConventions\IBuildElement.cs" />
+    <Compile Include="HtmlConventions\IConfigureAction.cs" />
+    <Compile Include="HtmlConventions\IConfigureActionCriteria.cs" />
+    <Compile Include="HtmlConventions\IConfigureConventions.cs" />
+    <Compile Include="HtmlConventions\IDefinedConventions.cs" />
+    <Compile Include="HtmlConventions\IGenerateHtml.cs" />
+    <Compile Include="HtmlConventions\IHaveModelConventions.cs" />
+    <Compile Include="HtmlConventions\IModifyElement.cs" />
+    <Compile Include="HtmlConventions\Internals\BaseGenerator.cs" />
+    <Compile Include="HtmlConventions\Internals\ConventionsRegistry.cs" />
+    <Compile Include="HtmlConventions\Internals\CustomTypeGenerator.cs" />
+    <Compile Include="HtmlConventions\Internals\GeneratorWrapper.cs" />
+    <Compile Include="HtmlConventions\Internals\LambdaConventions.cs" />
+    <Compile Include="HtmlConventions\Internals\ModelConventions.cs" />
+    <Compile Include="HtmlConventions\Internals\ModelTypeAdviser.cs" />
+    <Compile Include="HtmlConventions\Internals\NopBuilder.cs" />
+    <Compile Include="HtmlConventions\Internals\NullBuilder.cs" />
+    <Compile Include="HtmlConventions\Internals\NullHtmlGenerator.cs" />
+    <Compile Include="HtmlConventions\Internals\PrimitiveTypeGenerator.cs" />
+    <Compile Include="HtmlConventions\ISelectConvention.cs" />
+    <Compile Include="HtmlConventions\IUseConventions.cs" />
+    <Compile Include="HtmlConventions\LabelTag.cs" />
+    <Compile Include="HtmlConventions\ModelInfo.cs" />
+    <Compile Include="HtmlConventions\MvcCheckBox.cs" />
+    <Compile Include="HtmlConventions\HtmlConventionsManager.cs" />
+    <Compile Include="HtmlConventions\MvcHelpers.cs" />
+    <Compile Include="HtmlConventions\ValidationMessageTag.cs" />
+    <Compile Include="HttpModuleHost.cs" />
+    <Compile Include="IpTracking.cs" />
+    <Compile Include="LocalizationAttribute.cs" />
+    <Compile Include="ModelStateWrapper.cs" />
+    <Compile Include="OverrideThemeAttribute.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestMetricsFilter.cs" />
+    <Compile Include="Routing\ActionCall.cs" />
+    <Compile Include="Routing\Extensions.cs" />
+    <Compile Include="Routing\HandlerRouteConvention.cs" />
+    <Compile Include="Routing\HomepageAttribute.cs" />
+    <Compile Include="Routing\IMatchAction.cs" />
+    <Compile Include="Routing\IRouteConvention.cs" />
+    <Compile Include="Routing\IRouteGlobalPolicy.cs" />
+    <Compile Include="Routing\IRouteUrlFormatPolicy.cs" />
+    <Compile Include="Routing\RoutingPolicy.cs" />
+    <Compile Include="Routing\RoutingPolicySettings.cs" />
+    <Compile Include="ThemeAttribute.cs" />
+    <Compile Include="TransferResult.cs" />
+    <Compile Include="UnitTesting\FakeController.cs" />
+    <Compile Include="ViewEngines\Conventions\RazorConvention.cs" />
+    <Compile Include="ViewEngines\Conventions\ViewIsControllerNameConvention.cs" />
+    <Compile Include="ViewEngines\FlexibleViewEngine.cs" />
+    <Compile Include="ViewEngines\FlexibleViewEngineSettings.cs" />
+    <Compile Include="ViewEngines\IFindViewConvention.cs" />
+    <Compile Include="ViewEngines\IViewFactory.cs" />
+    <Compile Include="ViewEngines\MissingViewConventionsException.cs" />
+    <Compile Include="ViewEngines\MvcEngine\BuildManagerWrapper.cs" />
+    <Compile Include="ViewEngines\MvcEngine\IBuildManager.cs" />
+    <Compile Include="ViewEngines\MvcEngine\IResolver.cs" />
+    <Compile Include="ViewEngines\MvcEngine\SingleServiceResolver.cs" />
+    <Compile Include="ViewEngines\MvcEngine\ThemedBuildManagerViewEngine.cs" />
+    <Compile Include="ViewEngines\MvcEngine\ThemedVirtualPathProviderViewEngine.cs" />
+    <Compile Include="ViewEngines\RazorViewFactory.cs" />
+    <Compile Include="ViewEngines\ThemedRazorViewEngine.cs" />
+    <Compile Include="ViewEngines\ThemedWebformViewEngine.cs" />
+    <Compile Include="ViewEngines\ViewCreationData.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
