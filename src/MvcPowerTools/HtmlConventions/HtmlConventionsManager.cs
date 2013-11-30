@@ -79,7 +79,8 @@ namespace MvcPowerTools.HtmlConventions
         {
             CreateRegistry(EditorKey);
             CreateRegistry(DisplayKey);            
-            CreateRegistry(LabelKey);            
+            CreateRegistry(LabelKey);
+            this.SetDefaults();
         }
 
         public const string EditorKey = "editors";
@@ -118,6 +119,15 @@ namespace MvcPowerTools.HtmlConventions
             }
         }
 
-        private Dictionary<string,IDefinedConventions> _conventions=new Dictionary<string, IDefinedConventions>();     
+        private Dictionary<string,IDefinedConventions> _conventions=new Dictionary<string, IDefinedConventions>();
+
+        public static void LoadModule(params HtmlConventionModule[] modules)
+        {
+            foreach (var module in modules.OrderBy(d=>d.Order))
+            {
+                var convention = module.Profile.IsNullOrEmpty() ? DefaultProfile : GetProfile(module.Profile);
+                module.Configure(convention);
+            }
+        }
     }
 }

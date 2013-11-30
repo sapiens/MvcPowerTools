@@ -114,6 +114,7 @@
     <Compile Include="Filters\FiltersWithPoliciesProvider.cs" />
     <Compile Include="Filters\IFilterPolicy.cs" />
     <Compile Include="HtmlConventions\DefaultBuilders.cs" />
+    <Compile Include="HtmlConventions\HtmlConventionModule.cs" />
     <Compile Include="HtmlConventions\MissingConventionProfileException.cs" />
     <Compile Include="HtmlConventions\ModelInfoExtensions.cs" />
     <Compile Include="HtmlConventions\RadionButtonTag.cs" />

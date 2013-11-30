@@ -25,13 +25,23 @@ namespace MvcPowerTools.HtmlConventions
             return tag;
         }
 
+        /// <summary>
+        /// Creates label tag having for and name set
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static HtmlTag LabelBuilder(ModelInfo info)
         {
             if (info.IsRootModel) return HtmlTag.Empty();
             return new LabelTag(info.HtmlId, info.Name);    
         }
 
-        public static HtmlTag EmptyTagBuilder(ModelInfo info)
+        /// <summary>
+        /// Creates a span
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public static HtmlTag BasicTagBuilder(ModelInfo info)
         {
             return new HtmlTag("span").Text(info.RawValue==null?"":info.RawValue.ToString());
         }
