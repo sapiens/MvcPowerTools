@@ -46,8 +46,9 @@ namespace MvcPowerTools.HtmlConventions
         /// </summary>
         /// <param name="tag"></param>
         /// <returns></returns>
-        public static HtmlTag FirstInnerInputTag(this HtmlTag tag)
+        public static HtmlTag FirstInputTag(this HtmlTag tag)
         {
+            if (tag.IsInputElement()) return tag;
             return tag.GetChild<HtmlTag>(d => d.IsInputElement());
         }
 
@@ -74,43 +75,15 @@ namespace MvcPowerTools.HtmlConventions
             return null;
         }
 
+        public static HtmlTag EmailMode(this HtmlTag tag)
+        {
+            return tag.Attr("type", "email");
+        }
 
-        //public static HtmlTag ValidateAsNumber(this HtmlTag tag, string validationMessage)
-        //{
-        //   return tag.Validate().Data("val-number", validationMessage);
-        //}
+        public static HtmlTag NumberMode(this HtmlTag tag)
+        {
+            return tag.Attr("type", "number");
+        }
 
-        //static HtmlTag Validate(this HtmlTag tag)
-        //{
-        //    return tag.Data("val", "true");
-        //}
-
-        //public static HtmlTag ValidateAsRequired(this HtmlTag tag, string validationMessage)
-        //{
-        //    return tag.Validate().Data("val-required", validationMessage);
-        //}
-
-        //public static HtmlTag ValidateAsRange<T>(this HtmlTag tag, T min, T max,string validationMessage)
-        //{
-        //    return tag.Validate()
-        //        .Data("val-range",validationMessage)
-        //        .Data("val-range-max",max)
-        //        .Data("val-range-min",min);
-        //}
-
-        //public static HtmlTag ValidateAsStringLenth(this HtmlTag tag, int min, int max,string validationMessage)
-        //{
-        //    return tag.Validate()
-        //        .Data("val-length",validationMessage)
-        //        .Data("val-length-max",max)
-        //        .Data("val-length-min",min);
-        //}
-
-        //public static HtmlTag ValidateAsRegex(this HtmlTag tag, string patern, string validationMessage)
-        //{
-        //    return tag.Validate()
-        //        .Data("val-regex", validationMessage)
-        //        .Data("val-regex-pattern", patern);
-        //}
     }
 }

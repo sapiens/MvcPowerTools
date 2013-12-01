@@ -1,27 +1,34 @@
 ﻿using HtmlTags;
+using HtmlTags.Extended.Attributes;
 
 namespace MvcPowerTools.HtmlConventions
 {
     public static class DefaultBuilders
     {
         /// <summary>
-        /// Default type is text
+        /// Default type is text. It contains a label, input and validation message span
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public static HtmlTag TextboxBuilder(ModelInfo info)
+        public static HtmlTag FormInputBuilder(ModelInfo info)
         {
             var tag = HtmlTag.Placeholder();
             var label = info.ConventionsRegistry().Labels.GenerateTags(info);
             tag.Append(label);
-            var value = info.RawValue == null ? "" : info.RawValue.ToString();
-            tag.Children.Add(new TextboxTag(info.HtmlName, value).Id(info.HtmlId));
+            tag.Children.Add(new TextboxTag(info.HtmlName, info.ValueAsString).Id(info.HtmlId).Attr("placeholder",info.Meta.Watermark));
             var errMsg = "";
             if (info.ValidationFailed)
             {
                 errMsg = info.ModelErrors[0].ErrorMessage;
             }
             tag.Children.Add(new ValidationMessageTag(info.HtmlId, info.ValidationFailed, errMsg));
+            return tag;
+        }
+
+        public static HtmlTag FileUploadBuilder(ModelInfo info)
+        {
+            var tag = DefaultBuilders.FormInputBuilder(info);
+            tag.FirstInputTag().FileUploadMode();
             return tag;
         }
 
@@ -43,7 +50,7 @@ namespace MvcPowerTools.HtmlConventions
         /// <returns></returns>
         public static HtmlTag BasicTagBuilder(ModelInfo info)
         {
-            return new HtmlTag("span").Text(info.RawValue==null?"":info.RawValue.ToString());
+            return new HtmlTag("span").Text(info.ValueAsString);
         }
     }
 }

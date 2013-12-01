@@ -37,7 +37,7 @@ namespace MvcPowerTools.HtmlConventions
         public static HtmlConventionsManager SetDefaults(this HtmlConventionsManager conventions)
         {
             conventions.Displays.DefaultBuilder(DefaultBuilders.BasicTagBuilder);
-            conventions.Editors.DefaultBuilder(DefaultBuilders.TextboxBuilder);
+            conventions.Editors.DefaultBuilder(DefaultBuilders.FormInputBuilder);
             conventions.Labels.DefaultBuilder(DefaultBuilders.LabelBuilder);
             return conventions;
         }

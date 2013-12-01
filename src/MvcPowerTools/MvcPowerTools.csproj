@@ -47,6 +47,7 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -113,6 +114,8 @@
     <Compile Include="Filters\FiltersPolicy.cs" />
     <Compile Include="Filters\FiltersWithPoliciesProvider.cs" />
     <Compile Include="Filters\IFilterPolicy.cs" />
+    <Compile Include="HtmlConventions\CommonHtmlConventions.cs" />
+    <Compile Include="HtmlConventions\DataAnnotationConventions.cs" />
     <Compile Include="HtmlConventions\DefaultBuilders.cs" />
     <Compile Include="HtmlConventions\HtmlConventionModule.cs" />
     <Compile Include="HtmlConventions\MissingConventionProfileException.cs" />
@@ -147,6 +150,7 @@
     <Compile Include="HtmlConventions\MvcCheckBox.cs" />
     <Compile Include="HtmlConventions\HtmlConventionsManager.cs" />
     <Compile Include="HtmlConventions\MvcHelpers.cs" />
+    <Compile Include="HtmlConventions\SemanticConventions.cs" />
     <Compile Include="HtmlConventions\ValidationMessageTag.cs" />
     <Compile Include="HttpModuleHost.cs" />
     <Compile Include="IpTracking.cs" />

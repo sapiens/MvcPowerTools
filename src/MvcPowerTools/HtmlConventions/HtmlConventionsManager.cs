@@ -125,8 +125,16 @@ namespace MvcPowerTools.HtmlConventions
         {
             foreach (var module in modules.OrderBy(d=>d.Order))
             {
-                var convention = module.Profile.IsNullOrEmpty() ? DefaultProfile : GetProfile(module.Profile);
-                module.Configure(convention);
+                if (module.Profile.IsNullOrEmpty())
+                {
+                    profiles.Values.ForEach(v=>module.Configure(v));
+                }
+                else
+                {
+                    var convention =  GetProfile(module.Profile);
+                    module.Configure(convention);
+                }
+                
             }
         }
     }

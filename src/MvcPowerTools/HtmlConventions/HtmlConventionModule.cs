@@ -4,10 +4,10 @@
     {
         public HtmlConventionModule()
         {
-            Order = int.MaxValue;
+            Order = int.MaxValue-100;//to give some space
         }
         /// <summary>
-        /// Empty means default profile
+        /// Empty means any profile
         /// </summary>
         public string Profile { get; protected set; }
         public int Order { get; set; }

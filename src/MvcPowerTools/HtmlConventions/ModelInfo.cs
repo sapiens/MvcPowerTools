@@ -89,6 +89,15 @@ namespace MvcPowerTools.HtmlConventions
 
         public object RawValue { get; private set; }
 
+        public string ValueAsString
+        {
+            get
+            {
+                if (RawValue == null) return "";
+                return RawValue.ToString();
+            }
+        }
+
         public T Value<T>()
         {
             return (T) RawValue;

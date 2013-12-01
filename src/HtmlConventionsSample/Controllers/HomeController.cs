@@ -29,8 +29,10 @@ namespace HtmlConventionsSample.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-          
-            return View();
+
+            var fixture = new Fixture();
+            var model=fixture.Build<MyModel>().Without(d => d.File).Create<MyModel>();
+            return View(model);
         }
 
         public ActionResult Contact(string bla="lol")

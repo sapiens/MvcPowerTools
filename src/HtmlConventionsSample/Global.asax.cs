@@ -23,7 +23,7 @@ namespace HtmlConventionsSample
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             Conventions();
-
+            HtmlConventionsManager.LoadModule(new DataAnnotationConventions(), new SemanticConventions());
             FluentValidationModelValidatorProvider.Configure();
         }
 
@@ -84,18 +84,24 @@ namespace HtmlConventionsSample
                 .If(m => !m.RawValue.Is<bool>() && !m.Type.IsUserDefinedClass() && !m.Type.IsArray)
                 .Modify((tag, info) =>
                 {
-                    tag.GetChild<LabelTag>().AddClass("block");
+                    var label=tag.GetChild<LabelTag>();
+                    if (label!=null) label.AddClass("block");
                     return tag;
                 });
 
             editors.ForType<string[]>().Build(m =>
             {
                 var all = HtmlTag.Placeholder();
+                int i = 0;
                 foreach (var item in m.Value<string[]>())
                 {
-                    var rd = new RadionButtonTag(m.HtmlName, item).Id(m.HtmlId + "_" + item);
-                    all.Children.Add(rd);
-                    all.Children.Add(new LabelTag(rd.Id(),item));
+                    var ch = new MvcCheckboxElement(m.HtmlId + "_" + item, m.HtmlName + "[" + i + "]", true);
+                    all.Append(ch);
+                    all.Append(new LabelTag(ch.Tag.Id(), item));
+                    //var rd = new RadionButtonTag(m.HtmlName, item).Id(m.HtmlId + "_" + item);
+                    //all.Children.Add(rd);
+                    //all.Children.Add(new LabelTag(rd.Id(),item));
+                    i++;
                 }
                 return all;
             });
@@ -107,14 +113,7 @@ namespace HtmlConventionsSample
                 wrapper.AddClass("form-field");
                 tag.WrapWith(wrapper);
                 return wrapper;
-            });
-
-            editors.Always.Modify((tag, info) =>
-            {
-                var input = tag.FirstInnerInputTag();
-                MvcHelpers.AddValidationAttributes(input, info);
-                return tag;
-            });
+            });           
 
         }
     }
