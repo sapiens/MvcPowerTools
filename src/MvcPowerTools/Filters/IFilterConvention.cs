@@ -3,9 +3,9 @@
 namespace MvcPowerTools.Filters
 {
     /// <summary>
-    /// Policy to apply filters based on a convention
+    /// Convention to apply filters
     /// </summary>
-    public interface IFilterPolicy
+    public interface IFilterConvention
     {
         int? Order { get; }
         /// <summary>

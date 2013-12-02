@@ -111,9 +111,14 @@
     <Compile Include="Extensions\ThemeInfo.cs" />
     <Compile Include="Filters\Extensions.cs" />
     <Compile Include="Filters\FilterActionInfo.cs" />
-    <Compile Include="Filters\FiltersPolicy.cs" />
+    <Compile Include="Filters\FilterConfigurationModule.cs" />
+    <Compile Include="Filters\FiltersConventions.cs" />
     <Compile Include="Filters\FiltersWithPoliciesProvider.cs" />
-    <Compile Include="Filters\IFilterPolicy.cs" />
+    <Compile Include="Filters\IConfigureAction.cs" />
+    <Compile Include="Filters\IConfigureFilters.cs" />
+    <Compile Include="Filters\IFilterConvention.cs" />
+    <Compile Include="Filters\IMatchAction.cs" />
+    <Compile Include="Filters\LambdaHostConvention.cs" />
     <Compile Include="HtmlConventions\CommonHtmlConventions.cs" />
     <Compile Include="HtmlConventions\DataAnnotationConventions.cs" />
     <Compile Include="HtmlConventions\DefaultBuilders.cs" />
