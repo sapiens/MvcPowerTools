@@ -11,5 +11,15 @@ namespace MvcPowerTools.Routing
         bool Match(ActionCall actionCall);
         IEnumerable<Route> Build(ActionCall actionInfo);
     }
+
+    public interface IBuildRoutes:IMatchAction
+    {
+        IEnumerable<Route> Build(ActionCall actionInfo);
+    }
+
+    public interface IModifyRoute : IMatchAction
+    {
+        void Modify(Route route, ActionCall actionCall);
+    }
     
 }
