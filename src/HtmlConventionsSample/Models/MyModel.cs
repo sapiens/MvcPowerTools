@@ -19,7 +19,6 @@ namespace HtmlConventionsSample.Models
         
         [StringLength(45,MinimumLength = 2)]
         [Required]
-        [RegularExpression(@"[\w]+")]
         [Display(Name = "Modified Name")]
         public string Name { get; set; }
         [DataType(DataType.EmailAddress)]

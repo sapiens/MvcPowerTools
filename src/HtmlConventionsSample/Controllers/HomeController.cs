@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using HtmlConventionsSample.Models;
+using MvcPowerTools.Controllers;
 using Ploeh.AutoFixture;
 
 namespace HtmlConventionsSample.Controllers
@@ -23,7 +24,9 @@ namespace HtmlConventionsSample.Controllers
             {
                 return Content("ok");
             }
-            return View(model);
+            return Content("not ok");
+
+            //return View(model);
         }
 
         public ActionResult About()

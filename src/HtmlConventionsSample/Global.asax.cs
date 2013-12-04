@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using CavemanTools.Model;
 using FluentValidation.Mvc;
+using HtmlConventionsSample.Controllers;
 using HtmlConventionsSample.Models;
 using HtmlTags;
 using HtmlTags.Extended.Attributes;
+using MvcPowerTools.Controllers;
+using MvcPowerTools.Filters;
 using MvcPowerTools.HtmlConventions;
 
 namespace HtmlConventionsSample
@@ -22,12 +26,22 @@ namespace HtmlConventionsSample
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            Conventions();
+            HtmlConventions();
+            Filters();
             HtmlConventionsManager.LoadModule(new DataAnnotationConventions(), new SemanticConventions());
             FluentValidationModelValidatorProvider.Configure();
         }
 
-        void Conventions()
+        void Filters()
+        {
+            FiltersConventions.Config.RegisterControllers(typeof(HomeController).Assembly);
+            
+            FiltersConventions.Config.If(d => d.HasCustomAttribute<HttpPostAttribute>()).Use<SmartActionAttribute>();
+
+            FiltersConventions.Config.BuildAndEnable();
+        }
+
+        void HtmlConventions()
         {
             var profile = HtmlConventionsManager.DefaultProfile;
             profile.SetDefaults();
@@ -47,7 +61,8 @@ namespace HtmlConventionsSample
             display
                 .ForType<IdName>()
                 .Build(m =>
-            {
+                {
+                    if (m.RawValue == null) return HtmlTag.Empty();
                 var div = new DivTag();
                 var idLabel = new HtmlTag("span", div).Text("Id").Style("font-weight", "bold");
                 var id = HtmlTag.Placeholder().Text(m.Value<IdName>().Id.ToString());

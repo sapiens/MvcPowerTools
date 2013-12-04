@@ -96,7 +96,6 @@
     <Compile Include="Controllers\PopulateModel.cs" />
     <Compile Include="Controllers\SetupModelExtensions.cs" />
     <Compile Include="Controllers\SmartActionAttribute.cs" />
-    <Compile Include="Controllers\SmartController.cs" />
     <Compile Include="Controllers\SmartControllerAttribute.cs" />
     <Compile Include="Controllers\TransferResultForInvalidModel.cs" />
     <Compile Include="Controllers\UpdateModelResult.cs" />
@@ -184,15 +183,7 @@
     <Compile Include="ViewEngines\IFindViewConvention.cs" />
     <Compile Include="ViewEngines\IViewFactory.cs" />
     <Compile Include="ViewEngines\MissingViewConventionsException.cs" />
-    <Compile Include="ViewEngines\MvcEngine\BuildManagerWrapper.cs" />
-    <Compile Include="ViewEngines\MvcEngine\IBuildManager.cs" />
-    <Compile Include="ViewEngines\MvcEngine\IResolver.cs" />
-    <Compile Include="ViewEngines\MvcEngine\SingleServiceResolver.cs" />
-    <Compile Include="ViewEngines\MvcEngine\ThemedBuildManagerViewEngine.cs" />
-    <Compile Include="ViewEngines\MvcEngine\ThemedVirtualPathProviderViewEngine.cs" />
     <Compile Include="ViewEngines\RazorViewFactory.cs" />
-    <Compile Include="ViewEngines\ThemedRazorViewEngine.cs" />
-    <Compile Include="ViewEngines\ThemedWebformViewEngine.cs" />
     <Compile Include="ViewEngines\ViewCreationData.cs" />
   </ItemGroup>
   <ItemGroup>

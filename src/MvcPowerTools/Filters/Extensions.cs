@@ -56,5 +56,14 @@ namespace MvcPowerTools.Filters
                         conventions.Conventions.Add(f);
                     });
         }
+
+        /// <summary>
+        /// Builds the conventions and registers them to be used by asp.net mvc
+        /// </summary>
+        /// <param name="filters"></param>
+        public static void BuildAndEnable(this FiltersConventions filters)
+        {
+            filters.RegisterProvider(FilterProviders.Providers);
+        }
     }
 }
