@@ -37,6 +37,26 @@ namespace MvcPowerTools.HtmlConventions
         }
 
 
+      
+        //public static IDisposable BeginForm(this HtmlHelper html, string controller=null, string action=null,Action<FormTag> config=null)
+        //{
+        //    var form = new FormTag();
+        //    form.Method("POST");
+
+        //    if (controller.IsNullOrEmpty())
+        //    {
+        //        controller = html.ViewContext.GetControllerName();
+        //    }
+
+        //    if (action.IsNullOrEmpty())
+        //    {
+        //        action = html.ViewContext.GetActionName();
+        //    }
+            
+        //    if (config != null) config(form);
+        //    return null;
+        //}
+
         private static ModelInfo CreateModelInfo<T, R>(HtmlHelper<T> html, Expression<Func<T, R>> property,
             out ModelMetadata metadata)
         {

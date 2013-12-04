@@ -38,10 +38,20 @@ namespace System.Web.Mvc
         /// </summary>
         /// <param name="ctrl"></param>
         /// <returns></returns>
-        public static string GetActionName(this Controller ctrl)
+        public static string GetActionName(this ControllerContext ctrl)
         {
             if (ctrl == null) throw new ArgumentNullException("ctrl");
             return ctrl.RouteData.GetRequiredString("action");
+        }
+        
+        /// <summary>
+        /// Gets the invoked action for controller
+        /// </summary>
+        /// <param name="ctrl"></param>
+        /// <returns></returns>
+        public static string GetActionName(this Controller ctrl)
+        {
+            return ctrl.ControllerContext.GetActionName();            
         }
 
         public static string GetControllerName(this ControllerContext ctrl)
