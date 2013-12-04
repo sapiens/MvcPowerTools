@@ -176,6 +176,7 @@
     <Compile Include="ThemeAttribute.cs" />
     <Compile Include="TransferResult.cs" />
     <Compile Include="UnitTesting\FakeController.cs" />
+    <Compile Include="ViewEngines\Conventions\MvcTemplatesConvention.cs" />
     <Compile Include="ViewEngines\Conventions\RazorConvention.cs" />
     <Compile Include="ViewEngines\Conventions\ViewIsControllerNameConvention.cs" />
     <Compile Include="ViewEngines\FlexibleViewEngine.cs" />

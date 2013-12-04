@@ -15,6 +15,7 @@ using HtmlTags.Extended.Attributes;
 using MvcPowerTools.Controllers;
 using MvcPowerTools.Filters;
 using MvcPowerTools.HtmlConventions;
+using MvcPowerTools.ViewEngines;
 
 namespace HtmlConventionsSample
 {
@@ -30,6 +31,13 @@ namespace HtmlConventionsSample
             Filters();
             HtmlConventionsManager.LoadModule(new DataAnnotationConventions(), new SemanticConventions());
             FluentValidationModelValidatorProvider.Configure();
+
+            ViewEngine();
+        }
+
+        private void ViewEngine()
+        {
+           FlexibleViewEngine.Enable(removeOtherEngines:true);
         }
 
         void Filters()

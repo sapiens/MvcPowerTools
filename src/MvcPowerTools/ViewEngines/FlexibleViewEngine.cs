@@ -139,6 +139,21 @@ namespace MvcPowerTools.ViewEngines
                 disp.Dispose();
             }
         }
-       
+
+        /// <summary>
+        /// Adds the FlexibleViewEngine to asp.net mvc view engines colections.
+        /// The default Mvc conventions are automatically enabled
+        /// </summary>
+        /// <param name="configure"></param>
+        /// <param name="removeOtherEngines"></param>
+        public static void Enable(Action<FlexibleViewEngineSettings> configure=null, bool removeOtherEngines = false)
+        {
+            if (removeOtherEngines)
+            {
+                System.Web.Mvc.ViewEngines.Engines.Clear();                
+            }
+
+            System.Web.Mvc.ViewEngines.Engines.Add(new FlexibleViewEngine(configure));
+        }
     }
 }

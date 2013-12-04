@@ -13,7 +13,7 @@ namespace HtmlConventionsSample.Controllers
     {
         public ActionResult Index()
         {
-            var f = new Fixture();
+            var f = new Fixture();           
             return View(f.Create<FluentMyModel>());
         }
 
