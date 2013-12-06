@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using HtmlConventionsSample.Controllers;
+using MvcPowerTools.Routing;
+using HttpPostAttribute = System.Web.Mvc.HttpPostAttribute;
 
 namespace HtmlConventionsSample
 {
@@ -14,11 +18,23 @@ namespace HtmlConventionsSample
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );        
+            RoutingConventions.Configure(r =>
+            {
+                r
+                    .RegisterController<HomeController>()
+                    .HomeIs<HomeController>(h => h.Index())
+                    .DefaultBuilder(a =>
+                    {
+                        var url = a.Method.Name;
+                        var route = a.CreateRoute(url);
+                        if (a.Method.HasCustomAttribute<HttpPostAttribute>())
+                        {
+                            route.Constraints["method"] = new HttpMethodConstraint("POST");
+                        }
+                      return new[] {route};
+                    });
+
+            });
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Security.Policy;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -13,7 +14,7 @@ namespace MvcPowerTools.Routing
         private MethodInfo _method;
         private IDictionary<string, ParameterInfo> _args=new Dictionary<string, ParameterInfo>();
 
-        public ActionCall(MethodInfo method,RoutingPolicySettings settings)
+        public ActionCall(MethodInfo method,RoutingConventionsSettings settings)
         {
             method.MustNotBeNull();
             settings.MustNotBeNull();
@@ -44,7 +45,7 @@ namespace MvcPowerTools.Routing
             }
         }
 
-        public RoutingPolicySettings Settings { get; private set; }
+        public RoutingConventionsSettings Settings { get; private set; }
         /// <summary>
         /// Creates a route value dictionary with controller and action values set
         /// </summary>
@@ -57,13 +58,23 @@ namespace MvcPowerTools.Routing
             {
                 controler = controler.Substring(0, controler.Length - 10);
             }
-            defaults["controller"] = controler;
-            defaults["action"] = Method.Name;
+            defaults["controller"] = controler.ToLower();
+            defaults["action"] = Method.Name.ToLower();
             return defaults;
         }
 
+        public const string EmptyRouteUrl = "___";
+            
 
-
+        /// <summary>
+        /// Creates a Route with no url pattern and with the defaults (controller,action) set
+        /// </summary>
+        /// <returns></returns>
+        public Route CreateRoute(string url=EmptyRouteUrl)
+        {
+            url.MustNotBeEmpty();
+            return new Route(url,CreateDefaults(),new RouteValueDictionary(),Settings.CreateHandler());
+        }
 
         /// <summary>
         /// Sets the defaults for the route params. Only action parameters with default values are considered.
@@ -86,12 +97,7 @@ namespace MvcPowerTools.Routing
                 {
                     defaults[p.Name] = p.RawDefaultValue;
                 }
-            }
-            //var param = Method.GetParameters().Where(p => p.RawDefaultValue != DBNull.Value && !TypeExtensions.IsUserDefinedClass(p.ParameterType));
-            //foreach (var p in param)
-            //{
-            //    defaults[p.Name] = p.RawDefaultValue;
-            //}
+            }           
         }
     }
 }

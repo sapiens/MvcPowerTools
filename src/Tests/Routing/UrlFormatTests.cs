@@ -8,18 +8,7 @@ using FluentAssertions;
 namespace XTests.Mvc.Routing
 {
 
-    public class Prefix : IRouteUrlFormatPolicy
-    {
-        public bool Match(ActionCall action)
-        {
-            return true;
-        }
-
-        public string Format(string url, ActionCall actionInfo)
-        {
-            return "heh";
-        }
-    }
+   
     public class UrlFormatTests
     {
         private Stopwatch _t = new Stopwatch();
@@ -33,10 +22,13 @@ namespace XTests.Mvc.Routing
         public void test()
         {
             var r = RouteTable.Routes;
-            var pl = new RoutingPolicy();
+            var pl = new RoutingConventions();
             pl.AddAction(new ActionCall(GetType().GetMethod("test"),pl.Settings));
             pl.RegisterHandlerConvention();
-            pl.UrlFormatPolicies.Add(new Prefix());
+            pl.Always().Modify((rt, a) =>
+            {
+                rt.Url = "heh";
+            });
             pl.Apply(r);
             r[0].Cast<Route>().Url.Should().Be("heh");
         }
