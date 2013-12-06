@@ -11,7 +11,7 @@ namespace MvcPowerTools.Filters
          {
              foreach (var c in controllers)
              {
-                 c.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance).ForEach(m =>
+                 c.GetActionMethods().ForEach(m =>
                  {
                      conventions.Actions.Add(m);
                  });
@@ -20,7 +20,7 @@ namespace MvcPowerTools.Filters
 
         public static void RegisterControllers(this FiltersConventions conventions, Assembly asm)
         {
-            RegisterControllers(conventions,asm.GetTypesDerivedFrom<Controller>(true).ToArray());
+            RegisterControllers(conventions,asm.GetControllerTypes().ToArray());
         }
 
         public static void RegisterControllers<T>(this FiltersConventions conventions)
@@ -45,7 +45,7 @@ namespace MvcPowerTools.Filters
         /// </summary>
         /// <param name="conventions"></param>
         /// <param name="asm"></param>
-        public static void RegisterPolicies(this FiltersConventions conventions, Assembly asm)
+        public static void RegisterConventions(this FiltersConventions conventions, Assembly asm)
         {
             var resolve = DependencyResolver.Current;
             asm.GetTypesDerivedFrom<IFilterConvention>()

@@ -18,7 +18,7 @@ namespace XTests.Mvc.Routing
         public HandlerRouteConventionTests()
         {
             _sut = new HandlerRouteConvention();
-            _ac = new ActionCall(typeof(HomeController).GetMethod("Get"), new RoutingPolicySettings());
+            _ac = new ActionCall(typeof(HomeController).GetMethod("Get"), new RoutingConventionsSettings());
             
         }
 

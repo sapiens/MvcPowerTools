@@ -22,7 +22,23 @@ namespace XTests.Mvc.Routing
 
         public ActionCallTests()
         {
-            _sut = new ActionCall(typeof (HomeController).GetMethod("Get"), new RoutingPolicySettings());
+            _sut = new ActionCall(typeof (HomeController).GetMethod("Get"), new RoutingConventionsSettings());
+        }
+
+        [Fact]
+        public void create_route_creates_defaults()
+        {
+            var route = _sut.CreateRoute();
+            route.Url.Should().Be(ActionCall.EmptyRouteUrl);
+            route.Defaults["controller"].Should().Be("home");
+            route.Defaults["action"].Should().Be("get");
+        }
+
+        [Fact]
+        public void create_route_has_empty_constraints()
+        {
+            var route = _sut.CreateRoute();
+            route.Constraints.Should().BeEmpty();
         }
 
         [Fact]
@@ -40,8 +56,8 @@ namespace XTests.Mvc.Routing
         {
             var defaults = _sut.CreateDefaults();
             _sut.SetParamsDefaults(defaults);
-            defaults["controller"].Should().Be("Home");
-            defaults["action"].Should().Be("Get");
+            defaults["controller"].Should().Be("home");
+            defaults["action"].Should().Be("get");
             defaults.ContainsKey("id").Should().BeFalse();
             defaults["title"].Should().Be(UrlParameter.Optional);
             defaults["bla"].Should().Be(34);

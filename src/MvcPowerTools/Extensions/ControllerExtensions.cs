@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
 using MvcPowerTools.Extensions;
@@ -53,6 +55,26 @@ namespace System.Web.Mvc
         {
             return ctrl.ControllerContext.GetActionName();            
         }
+
+
+        public static IEnumerable<MethodInfo> GetActionMethods(this Type controllerType)
+        {
+            return
+                controllerType.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
+                    .Where(m => !m.HasCustomAttribute<NonActionAttribute>());
+        }
+
+        /// <summary>
+        /// Returns all public types inheriting Controller
+        /// </summary>
+        /// <param name="asm"></param>
+        /// <returns></returns>
+        public static IEnumerable<Type> GetControllerTypes(this Assembly asm)
+        {
+            asm.MustNotBeNull();
+            return asm.GetTypesDerivedFrom<Controller>(true);
+        }
+            
 
         public static string GetControllerName(this ControllerContext ctrl)
         {

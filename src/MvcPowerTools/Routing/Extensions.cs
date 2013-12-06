@@ -7,7 +7,14 @@ namespace MvcPowerTools.Routing
 {
     public static class Extensions
     {
-         public static string StripNamespaceRoot(this RoutingPolicySettings settings, string @namespace)
+        /// <summary>
+        /// Removes the namespace root from the provided string
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <param name="namespace">Usually the namespace of the controller</param>
+        /// <returns></returns>
+ 
+        public static string StripNamespaceRoot(this RoutingConventionsSettings settings, string @namespace)
          {
              return @namespace.Remove(0, settings.NamespaceRoot.Length);
          }
@@ -30,27 +37,25 @@ namespace MvcPowerTools.Routing
         /// <param name="policy"></param>
         /// <param name="asm"></param>
         /// <param name="res">Null means it uses the current dependecy resolver</param>
-        public static RoutingPolicy RegisterPolicies(this RoutingPolicy policy, Assembly asm,IDependencyResolver res=null)
+        public static RoutingConventions RegisterConventions(this RoutingConventions policy, Assembly asm, IDependencyResolver res = null)
         {
             if (res == null)
             {
                 res = DependencyResolver.Current;
-            }            
-            asm.GetTypesDerivedFrom<IRouteConvention>(true).ForEach(t =>
-                {
-                    policy.Conventions.Add(res.GetService(t) as IRouteConvention);
-                });
+            }
             
-            asm.GetTypesDerivedFrom<IRouteUrlFormatPolicy>(true).ForEach(t =>
-                {
-                    policy.UrlFormatPolicies.Add(res.GetService(t) as IRouteUrlFormatPolicy);
-                });
+            foreach(var builder in asm.GetTypesDerivedFrom<IBuildRoutes>())
+            {
+                policy.Add(res.GetService(builder) as IBuildRoutes);
+            }
             
-            asm.GetTypesDerivedFrom<IRouteGlobalPolicy>(true).ForEach(t =>
-                {
-                    policy.GlobalPolicies.Add(res.GetService(t) as IRouteGlobalPolicy);
-                });
+            foreach(var modifier in asm.GetTypesDerivedFrom<IModifyRoute>())
+            {
+                policy.Add(res.GetService(modifier) as IModifyRoute);
+            }
 
+            policy.LoadModule(asm.GetTypesDerivedFrom<RoutingConventionsModule>(true).Select(t=>(RoutingConventionsModule)res.GetService(t)).ToArray());
+            
             return policy;
         }
 
@@ -59,30 +64,30 @@ namespace MvcPowerTools.Routing
         /// </summary>
         /// <param name="policy"></param>
         /// <param name="asm"></param>
-        public static RoutingPolicy RegisterControllers(this RoutingPolicy policy,Assembly asm)
+        public static RoutingConventions RegisterControllers(this RoutingConventions policy,Assembly asm)
         {
-            return Register(policy,asm,t =>t.DerivesFrom<Controller>());          
+            return RegisterController(policy,asm.GetControllerTypes().ToArray());          
         }
-        /// <summary>
-        /// Register as actions types matching a criteria
-        /// </summary>
-        /// <param name="policy"></param>
-        /// <param name="asm"></param>
-        /// <param name="match"></param>
-        public static RoutingPolicy Register(this RoutingPolicy policy, Assembly asm, Func<Type, bool> match)
-        {
-            RegisterActions(policy, asm.GetTypes().Where(match).ToArray());
-            return policy;
-        }
+        ///// <summary>
+        ///// Register as actions types matching a criteria
+        ///// </summary>
+        ///// <param name="policy"></param>
+        ///// <param name="asm"></param>
+        ///// <param name="match"></param>
+        //public static RoutingConventions RegisterController(this RoutingConventions policy, Assembly asm, Func<Type, bool> match)
+        //{
+        //    RegisterController(policy, asm.GetTypes().Where(match).ToArray());
+        //    return policy;
+        //}
 
         /// <summary>
         /// Registers actions from controller
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="policy"></param>
-        public static RoutingPolicy Register<T>(this RoutingPolicy policy) where T : Controller
+        public static RoutingConventions RegisterController<T>(this RoutingConventions policy) where T : Controller
         {
-            policy.RegisterActions(typeof(T));
+            policy.RegisterController(typeof(T));
             return policy;
         }
 
@@ -92,11 +97,11 @@ namespace MvcPowerTools.Routing
         /// </summary>
         /// <param name="policy"></param>
         /// <param name="controllers"></param>
-        public static RoutingPolicy RegisterActions(this RoutingPolicy policy, params Type[] controllers)
+        public static RoutingConventions RegisterController(this RoutingConventions policy, params Type[] controllers)
         {
             foreach (var c in controllers)
             {
-                c.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance).ForEach(m =>
+                c.GetActionMethods().ForEach(m =>
                 {
                     policy.AddAction(new ActionCall(m, policy.Settings));
                 }); 
@@ -104,19 +109,16 @@ namespace MvcPowerTools.Routing
             return policy;
         }
 
-        public static RoutingPolicy RegisterHandlerConvention(this RoutingPolicy policy)
+        public static RoutingConventions RegisterHandlerConvention(this RoutingConventions policy)
         {
-            policy.Conventions.Add(new HandlerRouteConvention());
+            policy.Add(new HandlerRouteConvention());
             return policy;
         }
 
-        public static RoutingPolicy ConfigureFrom(this RoutingPolicy policy,params Assembly[] asms)
+
+        public static IConfigureAction Always(this IConfigureRoutingConventions cfg)
         {
-            foreach (var asm in asms)
-            {
-                policy.RegisterControllers(asm).RegisterPolicies(asm);
-            }
-            return policy;
+            return cfg.If(d => true);
         }
     }
 }

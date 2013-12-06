@@ -8,10 +8,10 @@ namespace MvcPowerTools.Routing
     /// <summary>
     /// Handler convention, the controller contains 1 GET and 1 POST
     /// All GET methods should be like get(param|param=value). IF param hasn't a default value it's considered required.
-    /// A parameter with default value of it type, it's considered optional
+    /// A parameter with default value of its type, it's considered optional
     /// POST method should be named just 'post'
     /// </summary>
-    public class HandlerRouteConvention:IRouteConvention
+    public class HandlerRouteConvention:IBuildRoutes
     {
       
         public virtual bool Match(ActionCall actionCall)
@@ -19,12 +19,12 @@ namespace MvcPowerTools.Routing
             return true;
         }
 
-        public virtual IEnumerable<Route> Build(ActionCall action)
+        public IEnumerable<Route> Build(ActionCall action)
         {
             
             var sb = new StringBuilder();
             var name = action.Controller.Name;
-            if (name.EndsWith("Controller", StringComparison.InvariantCultureIgnoreCase))
+            if (name.EndsWith("Controller", StringComparison.OrdinalIgnoreCase))
             {
                 name = name.Substring(0, name.Length - 10);
             }
@@ -32,7 +32,7 @@ namespace MvcPowerTools.Routing
             var defaults = action.CreateDefaults();
             var constraints = new RouteValueDictionary();
             
-            if (action.Method.Name.StartsWith("get", StringComparison.InvariantCultureIgnoreCase))
+            if (action.Method.Name.StartsWith("get", StringComparison.OrdinalIgnoreCase))
             {
                 foreach (var param in action.Arguments.Keys)
                 {
@@ -43,7 +43,7 @@ namespace MvcPowerTools.Routing
 
 
             var httpMethod = action.Method.Name.StartsWith("post",
-                                                           StringComparison.InvariantCultureIgnoreCase)
+                                                           StringComparison.OrdinalIgnoreCase)
                                  ? "POST"
                                  : "GET";
             constraints["httpMethod"] =new HttpMethodConstraint(httpMethod) ;

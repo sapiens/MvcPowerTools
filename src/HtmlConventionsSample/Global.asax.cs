@@ -14,7 +14,7 @@ using HtmlTags;
 using HtmlTags.Extended.Attributes;
 using MvcPowerTools.Controllers;
 using MvcPowerTools.Filters;
-using MvcPowerTools.HtmlConventions;
+using MvcPowerTools.Html;
 using MvcPowerTools.ViewEngines;
 
 namespace HtmlConventionsSample
