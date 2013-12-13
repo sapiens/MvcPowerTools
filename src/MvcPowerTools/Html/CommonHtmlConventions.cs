@@ -14,7 +14,13 @@ namespace MvcPowerTools.Html
             conventions.Labels
                 .If(info => info.Type.DerivesFrom<HttpPostedFileBase>())
                 .Build(DefaultBuilders.LabelBuilder);
-            
+
+            conventions.Editors
+                .ForType<bool>()
+                .Build(DefaultBuilders.MvcCheckBoxBuilder);
+            conventions.Editors
+                .ForType<bool?>()
+                .Build(DefaultBuilders.MvcCheckBoxBuilder);
             
             conventions.Editors
                 .If(info => info.Type.Is<DateTime>() || info.Type.Is<DateTime?>())
