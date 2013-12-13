@@ -123,6 +123,10 @@ namespace MvcPowerTools.Html
 
         public static void LoadModule(params HtmlConventionModule[] modules)
         {
+            if (profiles.Count == 0)
+            {
+                CreateProfile(DefaultProfileId);
+            }
             foreach (var module in modules.OrderBy(d=>d.Order))
             {
                 if (module.Profile.IsNullOrEmpty())

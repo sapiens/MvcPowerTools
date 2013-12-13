@@ -23,6 +23,8 @@ static string CurrentDir=Path.GetFullPath("./");
 
 static string[] Projects=new[]{"MvcPowerTools"};
 
+static string ReleaseDir=Path.Combine(SlnDir,"MvcPowerTools","bin/Release");
+
 static bool Built=false;
 
 [SkipIf("Built",true)]
@@ -69,7 +71,7 @@ static void Pack(string project,string[] deps=null)
     {
         foreach(var dep in deps)
         {
-            depsVersions[dep]=GetVersion(dep);            
+            depsVersions[dep]=GetDepVersion(dep);             
         }
     }
     
@@ -104,6 +106,12 @@ static void BuildNuget(string nuspecFile,string basePath)
     //}
     Path.Combine(TempDir,nuspecFile).CreateNuget(basePath,PackageDir);    
 }
+
+static string GetDepVersion(string asmName)
+{
+    return Path.Combine(ReleaseDir,"Net45",asmName+".dll").GetAssemblyVersion().ToSemanticVersion().ToString();
+}
+
 
 static string GetVersion(string asmName)
 {

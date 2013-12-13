@@ -3,7 +3,7 @@ using System.Web;
 
 namespace MvcPowerTools.Html
 {
-    public abstract class CommonHtmlConventions : HtmlConventionModule
+    public class CommonHtmlConventions : HtmlConventionModule
     {
         public override void Configure(HtmlConventionsManager conventions)
         {
@@ -28,7 +28,7 @@ namespace MvcPowerTools.Html
                 .Modify((tag, info) =>
                 {
                     var input = tag.FirstInputTag();
-                    if (tag == null || tag.Attr("type") == "hidden") return tag;
+                    if (input == null || input.Attr("type") == "hidden") return tag;
                     MvcHelpers.AddValidationAttributes(input, info);
                     return tag;
                 });

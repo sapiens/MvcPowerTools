@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace MvcPowerTools.Routing
 {
@@ -115,6 +116,23 @@ namespace MvcPowerTools.Routing
             return policy;
         }
 
+
+        public static void ConstrainToGet(this Route route)
+        {
+            route.Constrain("GET");
+        }
+
+
+        public static void ConstrainToPost(this Route route)
+        {
+            route.Constrain("POST");
+        }
+
+        static void Constrain(this Route route, string method)
+        {
+            route.MustNotBeNull();
+            route.Constraints["method"] = method;
+        }
 
         public static IConfigureAction Always(this IConfigureRoutingConventions cfg)
         {
