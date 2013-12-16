@@ -104,7 +104,7 @@ namespace MvcPowerTools.Routing
             {
                 c.GetActionMethods().ForEach(m =>
                 {
-                    policy.AddAction(new ActionCall(m, policy.Settings));
+                    policy.AddAction(new ActionCall(m,c, policy.Settings));
                 }); 
             }
             return policy;

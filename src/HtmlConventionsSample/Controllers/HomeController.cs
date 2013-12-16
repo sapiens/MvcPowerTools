@@ -1,16 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using HtmlConventionsSample.Models;
+using MvcPowerTools;
 using MvcPowerTools.Controllers;
+using MvcPowerTools.QueryHandlers;
 using Ploeh.AutoFixture;
 
 namespace HtmlConventionsSample.Controllers
 {
 
-  public class HomeController : Controller
+    public class IndexIn {}
+
+    public class IndexQuery : IHandleQueryAsync<IndexIn, FluentMyModel>
+    {
+        public Task<FluentMyModel> HandleAsync(IndexIn input)
+        {
+            var task = new Task<FluentMyModel>(()=> { 
+                var f = new Fixture();
+                var mode = f.Create<FluentMyModel>();
+                mode.Name = "From query handler";
+                Thread.Sleep(1000);
+                return mode;               
+
+            });
+            task.Start();
+            return task;
+        }
+    }
+
+    public class QueryController :QueryAsyncController<IndexIn,FluentMyModel>
+    {
+        
+        public override async Task<ActionResult> Get(IndexIn input)
+        {
+            return await HandleAsync(input);
+        }
+
+        protected override ActionResult GetView(FluentMyModel model)
+        {
+            return View("index", model);
+        }
+    }
+    //public class QueryController : Controller
+    //{
+    //    public ActionResult Index(IndexIn model)
+    //    {
+    //        // if (model==null) model=new IndexIn();
+    //        return View("Index", (model ?? new IndexIn()).QueryTo<FluentMyModel>());
+    //    }
+    //}
+
+  public class HomeController :Controller
     {
         public ActionResult Index()
         {

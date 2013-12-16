@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Autofac;
+using Autofac.Integration.Mvc;
 using CavemanTools.Model;
 using FluentValidation.Mvc;
 using HtmlConventionsSample.Controllers;
@@ -23,7 +25,8 @@ namespace HtmlConventionsSample
     {
         protected void Application_Start()
         {
-            AreaRegistration.RegisterAllAreas();
+            Container();
+            
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
@@ -33,6 +36,24 @@ namespace HtmlConventionsSample
             FluentValidationModelValidatorProvider.Configure();
 
             ViewEngine();
+        }
+
+        private void Container()
+        {
+            var cb = new ContainerBuilder();
+            var assembly = typeof(HomeController).Assembly;
+            cb.RegisterControllers(assembly);
+
+            cb.RegisterType<IndexQuery>().AsImplementedInterfaces();
+            
+            ValidModelOnlyAttribute.RegisterContainerTypes(t=> cb.RegisterGeneric(t));
+            cb.RegisterType<ValidModelOnlyAttribute>().AsSelf().SingleInstance();
+           
+            var models = assembly.GetExportedTypes().Where(d => d.Name.EndsWith("Model")).ToArray();
+            
+            cb.RegisterTypes(models).AsSelf();
+
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(cb.Build()));
         }
 
         private void ViewEngine()

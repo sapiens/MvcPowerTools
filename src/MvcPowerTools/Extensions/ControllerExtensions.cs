@@ -60,8 +60,8 @@ namespace System.Web.Mvc
         public static IEnumerable<MethodInfo> GetActionMethods(this Type controllerType)
         {
             return
-                controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                    .Where(m => !m.HasCustomAttribute<NonActionAttribute>());
+                controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance|BindingFlags.DeclaredOnly)
+                    .Where(m => !m.HasCustomAttribute<NonActionAttribute>() /*&& !m.Name.StartsWith("get_") && !m.Name.StartsWith("set_")*/);
         }
 
         /// <summary>

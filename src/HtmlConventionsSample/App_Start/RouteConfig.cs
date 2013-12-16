@@ -18,14 +18,16 @@ namespace HtmlConventionsSample
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             
+            
             RoutingConventions.Configure(r =>
             {
                 r
                     .RegisterController<HomeController>()
+                    .RegisterController<QueryController>()
                     .HomeIs<HomeController>(h => h.Index())
                     .DefaultBuilder(a =>
                     {
-                        var url = a.Method.Name;
+                        var url = a.GetControllerName()+"/"+a.Method.Name;
                         var route = a.CreateRoute(url);
                         if (a.Method.HasCustomAttribute<HttpPostAttribute>())
                         {

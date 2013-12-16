@@ -83,6 +83,7 @@
   <ItemGroup>
     <Compile Include="AjaxRequestAttribute.cs" />
     <Compile Include="Controllers\AbstractResultForInvalidModel.cs" />
+    <Compile Include="QueryHandlers\IHandleQuery.cs" />
     <Compile Include="Controllers\Internal\IContextFacadeForSmartAction.cs" />
     <Compile Include="Controllers\Internal\SmartActionWorker.cs" />
     <Compile Include="Controllers\Internal\SmartContextFacade.cs" />
@@ -93,13 +94,12 @@
     <Compile Include="Controllers\IValidationFailedPolicyFactory.cs" />
     <Compile Include="Controllers\ModelIsArgumentAttribute.cs" />
     <Compile Include="Controllers\NullSetupModel.cs" />
-    <Compile Include="Controllers\PopulateModel.cs" />
+    <Compile Include="Controllers\Internal\PopulateModel.cs" />
     <Compile Include="Controllers\SetupModelExtensions.cs" />
     <Compile Include="Controllers\ValidModelOnlyAttribute.cs" />
     <Compile Include="Controllers\SmartControllerAttribute.cs" />
     <Compile Include="Controllers\TransferResultForInvalidModel.cs" />
-    <Compile Include="Controllers\UpdateModelResult.cs" />
-    <Compile Include="Controllers\ValidationFailedPolicyActivator.cs" />
+    <Compile Include="Controllers\Internal\ValidationFailedPolicyActivator.cs" />
     <Compile Include="Controllers\ViewResultForInvalidModel.cs" />
     <Compile Include="Extensions\Common.cs" />
     <Compile Include="Extensions\ControllerExtensions.cs" />
@@ -162,6 +162,10 @@
     <Compile Include="ModelStateWrapper.cs" />
     <Compile Include="OverrideThemeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryHandlers\IHandleQueryAsync.cs" />
+    <Compile Include="QueryHandlers\Mediator.cs" />
+    <Compile Include="QueryHandlers\QueryAsyncController.cs" />
+    <Compile Include="QueryHandlers\QueryController.cs" />
     <Compile Include="RequestMetricsFilter.cs" />
     <Compile Include="Routing\ActionCall.cs" />
     <Compile Include="Routing\Extensions.cs" />

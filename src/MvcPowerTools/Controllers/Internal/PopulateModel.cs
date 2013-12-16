@@ -1,6 +1,6 @@
 using System;
 
-namespace MvcPowerTools.Controllers
+namespace MvcPowerTools.Controllers.Internal
 {
     internal class PopulateModel<T>:IPopulateModel
     {

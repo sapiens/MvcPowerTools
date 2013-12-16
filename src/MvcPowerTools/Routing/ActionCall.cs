@@ -14,12 +14,12 @@ namespace MvcPowerTools.Routing
         private MethodInfo _method;
         private IDictionary<string, ParameterInfo> _args=new Dictionary<string, ParameterInfo>();
 
-        public ActionCall(MethodInfo method,RoutingConventionsSettings settings)
+        public ActionCall(MethodInfo method,Type controller,RoutingConventionsSettings settings)
         {
             method.MustNotBeNull();
+            _controller = controller;
             settings.MustNotBeNull();
             Settings = settings;
-            _controller = method.DeclaringType;
             _method = method;
             foreach (var arg in method.GetParameters().Where(p=>!p.ParameterType.IsUserDefinedClass()))
             {

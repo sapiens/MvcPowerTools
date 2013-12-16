@@ -23,7 +23,7 @@ namespace XTests.Mvc.Routing
         {
             var r = RouteTable.Routes;
             var pl = new RoutingConventions();
-            pl.AddAction(new ActionCall(GetType().GetMethod("test"),pl.Settings));
+            pl.AddAction(new ActionCall(GetType().GetMethod("test"),GetType(),pl.Settings));
             pl.RegisterHandlerConvention();
             pl.Always().Modify((rt, a) =>
             {

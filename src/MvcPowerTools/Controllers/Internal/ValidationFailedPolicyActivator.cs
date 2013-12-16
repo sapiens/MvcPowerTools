@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 
-namespace MvcPowerTools.Controllers
+namespace MvcPowerTools.Controllers.Internal
 {
     public class ValidationFailedPolicyActivator : IValidationFailedPolicyFactory
     {
@@ -15,10 +15,11 @@ namespace MvcPowerTools.Controllers
 
         public IResultForInvalidModel<T> GetInstance<T>(Type policy, T model) where T : class, new()
         {
-            policy.MakeGenericType(typeof(T)).MustImplement<IResultForInvalidModel<T>>();
-            var inst = _solver.GetService(policy.MakeGenericType(typeof (T)));
+            var closed=policy.MakeGenericType(typeof(T));
+            closed.MustImplement<IResultForInvalidModel<T>>();
+            var inst = _solver.GetService(closed);
 
-            if (inst==null) throw new InvalidOperationException("Can't instantiate type '{0}'. The type isn't available from the DI Container or it doesn't exist.".ToFormat(typeof(T)));
+            if (inst==null) throw new InvalidOperationException("Can't instantiate type '{0}'. The type isn't available from the DI Container or it doesn't exist.".ToFormat(closed));
 
             var cast=  inst.Cast<IResultForInvalidModel<T>>();
             cast.Model = model;
