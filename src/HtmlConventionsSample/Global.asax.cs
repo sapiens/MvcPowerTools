@@ -44,7 +44,9 @@ namespace HtmlConventionsSample
         {
             FiltersConventions.Config.RegisterControllers(typeof(HomeController).Assembly);
             
-            FiltersConventions.Config.If(d => d.HasCustomAttribute<HttpPostAttribute>()).Use<SmartActionAttribute>();
+            FiltersConventions.Config
+                .If(d => d.HasCustomAttribute<HttpPostAttribute>())
+                .Use<ValidModelOnlyAttribute>();
 
             FiltersConventions.Config.BuildAndEnable();
         }

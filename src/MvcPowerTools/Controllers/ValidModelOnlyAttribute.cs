@@ -9,8 +9,11 @@ using MvcPowerTools.Controllers.Internal;
 
 namespace MvcPowerTools.Controllers
 {
+    /// <summary>
+    /// Invokes action only if the model is valid. Works only for POSTs
+    /// </summary>
     [AttributeUsage(AttributeTargets.Method)]
-    public class SmartActionAttribute:ActionFilterAttribute
+    public class ValidModelOnlyAttribute:ActionFilterAttribute
     {
         private const string WorkerKey = "_smart-worker";
         /// <summary>
@@ -26,7 +29,7 @@ namespace MvcPowerTools.Controllers
 
         internal static Type DefaultPolicy = typeof (ViewResultForInvalidModel<>);
 
-        public SmartActionAttribute()
+        public ValidModelOnlyAttribute()
         {
             Order = 100;
         }

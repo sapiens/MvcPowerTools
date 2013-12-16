@@ -9,7 +9,8 @@ using Ploeh.AutoFixture;
 
 namespace HtmlConventionsSample.Controllers
 {
-    public class HomeController : Controller
+
+  public class HomeController : Controller
     {
         public ActionResult Index()
         {

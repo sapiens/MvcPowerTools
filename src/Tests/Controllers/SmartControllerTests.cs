@@ -29,7 +29,7 @@ namespace XTests.Mvc.Controllers
             action.Setup(d => d.GetCustomAttributes(true))
                   .Returns(new IOverrideValidationFailedPolicy[] {new ReturnViewIfValidationFailsAttribute(), new TransferIfValidationFailsAttribute()});
             var facade = new SmartContextFacade();
-            SmartActionAttribute.CheckOverridePolicy(action.Object,facade);
+            ValidModelOnlyAttribute.CheckOverridePolicy(action.Object,facade);
             facade.PolicyOverride.Should().BeOfType<ReturnViewIfValidationFailsAttribute>();
         }
 
@@ -40,7 +40,7 @@ namespace XTests.Mvc.Controllers
             action.Setup(d => d.GetCustomAttributes(true))
                   .Returns(new IOverrideValidationFailedPolicy[0]);
             var facade = new SmartContextFacade();
-            SmartActionAttribute.CheckOverridePolicy(action.Object, facade);
+            ValidModelOnlyAttribute.CheckOverridePolicy(action.Object, facade);
             facade.PolicyOverride.Should().BeNull();
         }
 
@@ -49,7 +49,7 @@ namespace XTests.Mvc.Controllers
         {
             dynamic bag = new ExpandoObject();
             bag.Model = new MyClass(){Id = 3};
-            var model = (MyClass)SmartActionAttribute.EstablishModel(bag);
+            var model = (MyClass)ValidModelOnlyAttribute.EstablishModel(bag);
             model.Should().NotBeNull();
             model.Id.Should().Be(3);
         }
@@ -62,7 +62,7 @@ namespace XTests.Mvc.Controllers
             bag.Id = 22;
             bag.Model = new MyClass() { Id = 3 };
             AssertionExtensions.Should(
-                (object) SmartActionAttribute.EstablishModel(bag, new ModelIsArgumentAttribute(1))).BeOfType<MyClass>();
+                (object) ValidModelOnlyAttribute.EstablishModel(bag, new ModelIsArgumentAttribute(1))).BeOfType<MyClass>();
         }
         
         [Fact]
@@ -72,7 +72,7 @@ namespace XTests.Mvc.Controllers
             bag.Id = 22;
             bag.Model = new MyClass() { Id = 3 };
             AssertionExtensions.Should(
-                (object) SmartActionAttribute.EstablishModel(bag, new ModelIsArgumentAttribute("Model"))).BeOfType<MyClass>();
+                (object) ValidModelOnlyAttribute.EstablishModel(bag, new ModelIsArgumentAttribute("Model"))).BeOfType<MyClass>();
         }
 
         [Theory]
@@ -84,7 +84,7 @@ namespace XTests.Mvc.Controllers
         {
             dynamic bag = new ExpandoObject();
             bag.Id = value;
-            Assert.Null(SmartActionAttribute.EstablishModel(bag));            
+            Assert.Null(ValidModelOnlyAttribute.EstablishModel(bag));            
         }
 
         protected void Write(string format, params object[] param)

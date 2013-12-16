@@ -8,12 +8,12 @@ namespace MvcPowerTools.Controllers
     [AttributeUsage(AttributeTargets.Class)]
     public class SmartControllerAttribute:ActionFilterAttribute
     {
-        SmartActionAttribute _action=new SmartActionAttribute();
+        ValidModelOnlyAttribute _action=new ValidModelOnlyAttribute();
         
         /// <summary>
         /// Gets or sets the policy to use when a model validation fails.
         /// If empty, it will default to return a view with the same name as the action.
-        /// The policy can be overriden at action level using <see cref="SmartActionAttribute"/>
+        /// The policy can be overriden at action level using <see cref="ValidModelOnlyAttribute"/>
         /// </summary>
         public Type ValidationFailedPolicy
         {
@@ -29,7 +29,7 @@ namespace MvcPowerTools.Controllers
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             filterContext.HttpContext.Items.Remove(MustHandleKey);
-            if (!filterContext.ActionDescriptor.HasCustomAttribute<SmartActionAttribute>())
+            if (!filterContext.ActionDescriptor.HasCustomAttribute<ValidModelOnlyAttribute>())
             {
                 _action.OnActionExecuting(filterContext);
                 filterContext.HttpContext.Set(MustHandleKey,true);
@@ -49,7 +49,7 @@ namespace MvcPowerTools.Controllers
         /// <summary>
         /// Must be registered as generic
         /// </summary>
-        public static Type[] TypesForDIContainer = new[] {SmartActionAttribute.DefaultPolicy};
+        public static Type[] TypesForDIContainer = new[] {ValidModelOnlyAttribute.DefaultPolicy};
 
         /// <summary>
         /// Registers types with a DI Container using the provided action

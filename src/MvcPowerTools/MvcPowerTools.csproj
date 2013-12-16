@@ -95,7 +95,7 @@
     <Compile Include="Controllers\NullSetupModel.cs" />
     <Compile Include="Controllers\PopulateModel.cs" />
     <Compile Include="Controllers\SetupModelExtensions.cs" />
-    <Compile Include="Controllers\SmartActionAttribute.cs" />
+    <Compile Include="Controllers\ValidModelOnlyAttribute.cs" />
     <Compile Include="Controllers\SmartControllerAttribute.cs" />
     <Compile Include="Controllers\TransferResultForInvalidModel.cs" />
     <Compile Include="Controllers\UpdateModelResult.cs" />
