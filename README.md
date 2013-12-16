@@ -9,7 +9,7 @@ Power tools for the seasoned Asp.Net Mvc developer needing great flexibility and
 Althugh they resemble the FubuMvc conventions (especially Html Conventions) MvcPowertools is not a port of it and doesn't contain Fubu code, Fubu served only as inspiration.
 
 
-See Wiki for usage.
+See [Wiki](https://github.com/sapiens/MvcPowerTools/wiki) for usage.
 
 ### License
 
