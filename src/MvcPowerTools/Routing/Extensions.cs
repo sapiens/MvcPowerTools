@@ -47,17 +47,39 @@ namespace MvcPowerTools.Routing
             
             foreach(var builder in asm.GetTypesDerivedFrom<IBuildRoutes>())
             {
-                policy.Add(res.GetService(builder) as IBuildRoutes);
+                policy.Add(res.GetInstance<IBuildRoutes>(builder));
             }
             
             foreach(var modifier in asm.GetTypesDerivedFrom<IModifyRoute>())
             {
-                policy.Add(res.GetService(modifier) as IModifyRoute);
+                policy.Add(res.GetInstance<IModifyRoute>(modifier));
             }
 
-            policy.LoadModule(asm.GetTypesDerivedFrom<RoutingConventionsModule>(true).Select(t=>(RoutingConventionsModule)res.GetService(t)).ToArray());
+            policy.LoadModule(asm.GetTypesDerivedFrom<RoutingConventionsModule>(true).Select(t =>
+            {
+                return res.GetInstance<RoutingConventionsModule>(t);
+            }).ToArray());
             
             return policy;
+        }
+
+        static T GetInstance<T>(this IDependencyResolver res,Type type) where T:class 
+        {
+            var inst = (T)res.GetService(type);
+            if (inst == null)
+            {
+                inst = type.CreateInstance() as T;
+            }
+            return inst;
+        }
+
+        public static void RegisterModulesInContainer(this Assembly asm,
+            Action<Type> containerRegister)
+        {
+            foreach (var type in asm.GetTypesDerivedFrom<RoutingConventionsModule>(true))
+            {
+                containerRegister(type);
+            }            
         }
 
         /// <summary>

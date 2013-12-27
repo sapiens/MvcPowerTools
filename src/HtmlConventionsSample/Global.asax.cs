@@ -58,7 +58,10 @@ namespace HtmlConventionsSample
 
         private void ViewEngine()
         {
-           FlexibleViewEngine.Enable(removeOtherEngines:true);
+           FlexibleViewEngine.Enable(cfg =>
+           {
+               //cfg.Conventions.Add();
+           },removeOtherEngines:true);            
         }
 
         void Filters()

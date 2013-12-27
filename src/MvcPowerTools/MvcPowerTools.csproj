@@ -186,6 +186,7 @@
     <Compile Include="ViewEngines\Conventions\MvcTemplatesConvention.cs" />
     <Compile Include="ViewEngines\Conventions\RazorConvention.cs" />
     <Compile Include="ViewEngines\Conventions\ViewIsControllerNameConvention.cs" />
+    <Compile Include="ViewEngines\Extensions.cs" />
     <Compile Include="ViewEngines\FlexibleViewEngine.cs" />
     <Compile Include="ViewEngines\FlexibleViewEngineSettings.cs" />
     <Compile Include="ViewEngines\IFindViewConvention.cs" />
