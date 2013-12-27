@@ -58,8 +58,8 @@ namespace MvcPowerTools.Routing
             {
                 controler = controler.Substring(0, controler.Length - 10);
             }
-            defaults["controller"] = controler.ToLower();
-            defaults["action"] = Method.Name.ToLower();
+            defaults["controller"] = controler;
+            defaults["action"] = Method.Name;
             return defaults;
         }
 

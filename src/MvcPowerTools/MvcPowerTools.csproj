@@ -177,6 +177,7 @@
     <Compile Include="Routing\IBuildRoutes.cs" />
     <Compile Include="Routing\LambdaConventionConfigurator.cs" />
     <Compile Include="Routing\LambdaConventionHost.cs" />
+    <Compile Include="Routing\ModelInputHandlerRouting.cs" />
     <Compile Include="Routing\RoutingConventionsModule.cs" />
     <Compile Include="Routing\RoutingConventions.cs" />
     <Compile Include="Routing\RoutingConventionsSettings.cs" />

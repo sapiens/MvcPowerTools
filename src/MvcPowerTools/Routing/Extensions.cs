@@ -31,6 +31,25 @@ namespace MvcPowerTools.Routing
             return name.Substring(0, name.Length - 10);
         }
 
+        /// <summary>
+        /// True if the action name starts with 'get'
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static bool IsGet(this ActionCall action)
+        {
+            return action.Method.Name.StartsWith("get", StringComparison.OrdinalIgnoreCase);
+        }
+        
+        /// <summary>
+        /// True if the action name starts with 'post'
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static bool IsPost(this ActionCall action)
+        {
+            return action.Method.Name.StartsWith("get", StringComparison.OrdinalIgnoreCase);
+        }
 
         /// <summary>
         /// Scans assembly and registers policies. Uses dependency resolver
@@ -132,9 +151,20 @@ namespace MvcPowerTools.Routing
             return policy;
         }
 
-        public static RoutingConventions RegisterHandlerConvention(this RoutingConventions policy)
+        public static RoutingConventions UseHandlerConvention(this RoutingConventions policy)
         {
             policy.Add(new HandlerRouteConvention());
+            return policy;
+        }
+
+        /// <summary>
+        /// This conventions applies only for GET
+        /// </summary>
+        /// <param name="policy"></param>
+        /// <returns></returns>
+        public static RoutingConventions UseModelInputHandlerConvention(this RoutingConventions policy)
+        {
+            policy.Add(new ModelInputHandlerRouting());
             return policy;
         }
 

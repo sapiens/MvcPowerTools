@@ -50,4 +50,5 @@ namespace MvcPowerTools.Routing
             return new[]{ new Route(sb.ToString(),defaults,constraints,action.Settings.CreateHandler())};
         }
     }
+    
 }

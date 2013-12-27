@@ -30,8 +30,8 @@ namespace XTests.Mvc.Routing
         {
             var route = _sut.CreateRoute();
             route.Url.Should().Be(ActionCall.EmptyRouteUrl);
-            route.Defaults["controller"].Should().Be("home");
-            route.Defaults["action"].Should().Be("get");
+            route.Defaults["controller"].Should().Be("Home");
+            route.Defaults["action"].Should().Be("Get");
         }
 
         [Fact]
@@ -56,8 +56,8 @@ namespace XTests.Mvc.Routing
         {
             var defaults = _sut.CreateDefaults();
             _sut.SetParamsDefaults(defaults);
-            defaults["controller"].Should().Be("home");
-            defaults["action"].Should().Be("get");
+            defaults["controller"].Should().Be("Home");
+            defaults["action"].Should().Be("Get");
             defaults.ContainsKey("id").Should().BeFalse();
             defaults["title"].Should().Be(UrlParameter.Optional);
             defaults["bla"].Should().Be(34);

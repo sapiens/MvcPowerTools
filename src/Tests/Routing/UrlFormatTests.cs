@@ -24,7 +24,7 @@ namespace XTests.Mvc.Routing
             var r = RouteTable.Routes;
             var pl = new RoutingConventions();
             pl.AddAction(new ActionCall(GetType().GetMethod("test"),GetType(),pl.Settings));
-            pl.RegisterHandlerConvention();
+            pl.UseHandlerConvention();
             pl.Always().Modify((rt, a) =>
             {
                 rt.Url = "heh";

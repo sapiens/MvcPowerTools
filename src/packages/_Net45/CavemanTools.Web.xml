@@ -63,22 +63,6 @@
             <exception cref="T:System.InvalidCastException"></exception>
             <returns></returns>
         </member>
-        <member name="M:CavemanTools.Web.IHashPassword.Hash(System.String,System.String)">
-            <summary>
-            Creates a hash for a string using salt
-            </summary>
-            <param name="text">Value to hash</param>
-            <param name="salt">Optional random string</param>
-            <returns></returns>
-        </member>
-        <member name="M:CavemanTools.Web.CavemanHashStrategy.Hash(System.String,System.String)">
-            <summary>
-            Creates a hash for a string using salt
-            </summary>
-            <param name="text">Value to hash</param>
-            <param name="salt">Optional random string</param>
-            <returns></returns>
-        </member>
         <member name="T:CavemanTools.Web.ContextInstance`1">
             <summary>
             Base class for types which will be used as singletons within a http request
@@ -674,60 +658,6 @@
         <member name="P:CavemanTools.Web.OnlineUsersData.OnlineMembers">
             <summary>
             Gets a sequence of online members
-            </summary>
-        </member>
-        <member name="T:CavemanTools.Web.Password">
-            <summary>
-            Use it to encapsulate password hash generation. 
-            </summary>
-        </member>
-        <member name="M:CavemanTools.Web.Password.#ctor(System.String,System.String)">
-            <summary>
-            Generates a password hash using sha256
-            </summary>
-            <param name="password"></param>
-            <param name="salt">A random 7 characters string will be used if empty</param>
-        </member>
-        <member name="M:CavemanTools.Web.Password.#ctor(System.String,CavemanTools.Web.IHashPassword,System.String)">
-            <summary>
-            Generates a password hash using the specified hashing strategy
-            </summary>
-            <param name="password"></param>
-            <param name="hasher">Hashing strategy, implement <see cref="T:CavemanTools.Web.IHashPassword"/></param>
-            <param name="salt">A random 16 characters string will be used if empty</param>
-        </member>
-        <member name="P:CavemanTools.Web.Password.Hash">
-            <summary>
-            Gets hashed password
-            </summary>
-        </member>
-        <member name="M:CavemanTools.Web.PasswordHash.Matches(System.String)">
-            <summary>
-            True if the supplied argument matches hash
-            </summary>
-            <param name="otherHash"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CavemanTools.Web.PasswordHash.CreateCavemanHash(System.String)">
-            <summary>
-            Creates a SHA 512 password hash with a 16 char salt
-            </summary>
-            <param name="password"></param>
-            <returns></returns>
-        </member>
-        <member name="P:CavemanTools.Web.PasswordHash.Hash">
-            <summary>
-            Gets hash
-            </summary>
-        </member>
-        <member name="P:CavemanTools.Web.PasswordHash.Salt">
-            <summary>
-            Gets salt used for hashing
-            </summary>
-        </member>
-        <member name="T:CavemanTools.Web.Sha256Password">
-            <summary>
-            Password hashing strategy using sha256
             </summary>
         </member>
         <member name="M:System.Web.WebExtensions.RealIp(System.Web.HttpRequest)">

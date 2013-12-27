@@ -4,6 +4,13 @@
         <name>CavemanTools</name>
     </assembly>
     <members>
+        <member name="T:CavemanTools.LimitedList`1">
+            <summary>
+            Used to maintain a fixed sized list for history purposes.
+            Intended to support idempotency (by storing last n message ids)
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
         <member name="M:CavemanTools.Data.JsonStruct.#ctor(System.String,CavemanTools.Data.JsonStatus)">
             <summary>
             Sets the status and inserts a message.
@@ -385,6 +392,77 @@
             <exception cref="T:System.InvalidCastException"></exception>
             <returns></returns>
         </member>
+        <member name="M:CavemanTools.Model.ValueObjects.AbstractValueObject`1.#ctor(`0)">
+            <summary>
+            
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <param name="value"></param>
+        </member>
+        <member name="M:CavemanTools.Model.ValueObjects.AbstractValueObject`1.Validate(`0)">
+            <summary>
+            Is automatically invoked by the constructor
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CavemanTools.Model.ValueObjects.DomainString.Equals(System.String)">
+            <summary>
+            Indicates whether the current object is equal to another object of the same type.
+            </summary>
+            <returns>
+            true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+            </returns>
+            <param name="other">An object to compare with this object.</param>
+        </member>
+        <member name="F:CavemanTools.Model.ValueObjects.Tag.TagFormat">
+            <summary>
+            Tag validation regex
+            </summary>
+        </member>
+        <member name="F:CavemanTools.Model.ValueObjects.Tag.MaxLength">
+            <summary>
+            Maximum length of a tag
+            </summary>
+        </member>
+        <member name="M:CavemanTools.Model.ValueObjects.Tag.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <param name="value"></param>
+        </member>
+        <member name="M:CavemanTools.Model.ValueObjects.Tag.CreateFrom(System.String)">
+            <summary>
+            Splits the value into tags, separated by ','.
+            All invalid tag values are ignored
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CavemanTools.Model.ValueObjects.Tag.CreateFromValid(System.String)">
+            <summary>
+            It doesn't validate the value
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CavemanTools.Model.ValueObjects.Tag.Equals(System.String)">
+            <summary>
+            Indicates whether the current object is equal to another object of the same type.
+            </summary>
+            <returns>
+            true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+            </returns>
+            <param name="other">An object to compare with this object.</param>
+        </member>
+        <member name="M:CavemanTools.Model.ValueObjects.Tag.Validate(System.String)">
+            <summary>
+            Is automatically invoked by the constructor
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
         <member name="M:CavemanTools.Infrastructure.NullCache.Get``1(System.String,``0,System.Nullable{System.DateTimeOffset})">
             <summary>
             Gets typed object from cache or the supplied default value if the value doesn't exist.
@@ -622,7 +700,7 @@
             <param name="second"></param>
             <returns></returns>
         </member>
-        <member name="M:System.Collections.Generic.ListUtils.Compare``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})">
+        <member name="M:System.Collections.Generic.ListUtils.Diff``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})">
             <summary>
             Compares two sequences and returns the added or removed items.
             </summary>
@@ -697,20 +775,6 @@
             <typeparam name="T"></typeparam>
             <param name="items"></param>
             <param name="predicate"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CavemanTools.Model.ValueObjects.AbstractValueObject`1.#ctor(`0)">
-            <summary>
-            
-            </summary>
-            <exception cref="T:System.ArgumentException"></exception>
-            <param name="value"></param>
-        </member>
-        <member name="M:CavemanTools.Model.ValueObjects.AbstractValueObject`1.Validate(`0)">
-            <summary>
-            Is automatically invoked by the constructor
-            </summary>
-            <param name="value"></param>
             <returns></returns>
         </member>
         <member name="T:CavemanTools.Model.ValueObjects.Email">
@@ -921,6 +985,21 @@
             </summary>
             <param name="o"></param>
             <returns></returns>
+        </member>
+        <member name="M:CavemanTools.Salt.Generate(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="length">Length must be at least 8 bytes</param>
+            <returns></returns>
+        </member>
+        <member name="M:CavemanTools.Salt.ToString">
+            <summary>
+            Returns the fully qualified type name of this instance.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> containing a fully qualified type name.
+            </returns>
         </member>
         <member name="M:CavemanTools.SessionId.ToString">
             <summary>
@@ -1402,6 +1481,15 @@
             <param name="o"></param>
             <param name="interfaceName">The intuitive interface name</param>
             <param name="genericType">Interface's generic arguments types</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.TypeExtensions.ImplementsGeneric(System.Type,System.Type,System.Type[])">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <param name="genericInterfaceType"></param>
+            <param name="genericArgTypes">Leave empty to check for open generics</param>
             <returns></returns>
         </member>
         <member name="M:System.TypeExtensions.GetGenericArgument(System.Type,System.Int32)">
