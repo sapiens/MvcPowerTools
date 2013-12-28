@@ -56,6 +56,16 @@ namespace System.Web.Mvc
             return ctrl.ControllerContext.GetActionName();            
         }
 
+        public static string ControllerNameWithoutSuffix(this Type type)
+        {
+            var cname = type.Name;
+            var cidx = cname.IndexOf("Controller");
+            if (cidx > -1)
+            {
+                cname = cname.Remove(cidx, 10);
+            }
+            return cname;
+        }
 
         public static IEnumerable<MethodInfo> GetActionMethods(this Type controllerType)
         {

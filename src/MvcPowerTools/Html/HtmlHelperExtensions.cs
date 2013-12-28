@@ -36,8 +36,19 @@ namespace MvcPowerTools.Html
             return info.ConventionsRegistry().Displays.GenerateTags(info);
         }
 
+        public static HtmlTag LinkTo<T>(this UrlHelper url,string text, object model=null, string action = "get") where T:Controller
+        {
+            var controller = typeof (T).ControllerNameWithoutSuffix();
+            return LinkTo(url, controller, text, model, action);
+        }
 
-      
+        public static HtmlTag LinkTo(this UrlHelper url, string controller,string text, object model = null, string action = "get")
+            
+        {
+            var tagUrl = url.Action(action, controller, model);
+            return new LinkTag(text, tagUrl);
+        }
+
         //public static IDisposable BeginForm(this HtmlHelper html, string controller=null, string action=null,Action<FormTag> config=null)
         //{
         //    var form = new FormTag();

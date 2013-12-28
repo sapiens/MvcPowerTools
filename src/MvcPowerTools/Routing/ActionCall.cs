@@ -53,11 +53,7 @@ namespace MvcPowerTools.Routing
         public RouteValueDictionary CreateDefaults()
         {
             var defaults = new RouteValueDictionary();
-            var controler = Controller.Name;
-            if (controler.EndsWith("Controller"))
-            {
-                controler = controler.Substring(0, controler.Length - 10);
-            }
+            var controler = Controller.ControllerNameWithoutSuffix();
             defaults["controller"] = controler;
             defaults["action"] = Method.Name;
             return defaults;

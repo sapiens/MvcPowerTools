@@ -1,5 +1,6 @@
 ﻿@model FluentMyModel
 
+@using HtmlConventionsSample.Controllers
 @using HtmlConventionsSample.Models
 @using MvcPowerTools.Html
 
@@ -8,7 +9,7 @@
 }
 
 <div>
-    
+    @(Url.LinkTo<HomeController>("linky",action:"about"))
     @Html.ActionLink("Index query","Get","Query")
 </div>
 @Html.DisplayModel()
