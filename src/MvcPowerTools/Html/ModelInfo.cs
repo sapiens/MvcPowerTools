@@ -9,6 +9,20 @@ namespace MvcPowerTools.Html
         public ModelMetadata Meta { get; private set; }
         public ViewContext ViewContext { get; private set; }
 
+        private UrlHelper _url;
+
+        public UrlHelper Url
+        {
+            get
+            {
+                if (_url == null)
+                {
+                    _url=new UrlHelper(ViewContext.RequestContext);
+                }                
+                return _url;
+            }
+        }
+
         public ModelInfo(ModelMetadata meta, ViewContext viewContext)
         {
             Meta = meta;
