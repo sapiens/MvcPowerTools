@@ -58,16 +58,19 @@ namespace MvcPowerTools.Routing
 
                     if (value == null)
                     {
-                        if (type.IsNullable())
+                        if (type.IsNullable() || type.IsClass)
                         {
                             defaults[name] = UrlParameter.Optional;
                         }
                     }
                     else
                     {
-                        if (value == type.GetDefault())
+                        if (value.Equals(type.GetDefault()))
                         {
-                            defaults[name] = UrlParameter.Optional;
+                            if (!type.IsValueType)
+                            {
+                                defaults[name] = UrlParameter.Optional;
+                            }
                         }
                         else
                         {

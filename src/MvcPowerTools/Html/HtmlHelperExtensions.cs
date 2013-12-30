@@ -42,7 +42,7 @@ namespace MvcPowerTools.Html
             return LinkTo(url, controller, text, model, action);
         }
 
-        public static HtmlTag LinkTo(this UrlHelper url, string controller,string text, object model = null, string action = "get")
+        public static HtmlTag LinkTo(this UrlHelper url, string controller, string text, object model = null, string action = "get")
             
         {
             var tagUrl = url.Action(action, controller, model);
