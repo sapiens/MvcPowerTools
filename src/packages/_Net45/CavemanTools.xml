@@ -926,7 +926,7 @@
         </member>
         <member name="M:System.Reflection.AssemblyExtensions.GetInstancesOfTypesDerivedFrom``1(System.Reflection.Assembly)">
             <summary>
-            Searches and instantiate types derived from T
+            Searches and instantiate types derived from T. Must contain a public parameterless constructor
             </summary>
             <typeparam name="T"></typeparam>
             <param name="asm"></param>
@@ -1474,22 +1474,12 @@
             <param name="parent"></param>
             <returns></returns>
         </member>
-        <member name="M:System.TypeExtensions.ImplementsGenericInterface(System.Object,System.String,System.Type[])">
-            <summary>
-            
-            </summary>
-            <param name="o"></param>
-            <param name="interfaceName">The intuitive interface name</param>
-            <param name="genericType">Interface's generic arguments types</param>
-            <returns></returns>
-        </member>
-        <member name="M:System.TypeExtensions.ImplementsGeneric(System.Type,System.Type,System.Type[])">
+        <member name="M:System.TypeExtensions.ImplementsGenericInterface(System.Type,System.Type,System.Type[])">
             <summary>
             
             </summary>
             <param name="type"></param>
-            <param name="genericInterfaceType"></param>
-            <param name="genericArgTypes">Leave empty to check for open generics</param>
+            <param name="genericInterfaceType">It can be an open or close generics interface</param>
             <returns></returns>
         </member>
         <member name="M:System.TypeExtensions.GetGenericArgument(System.Type,System.Int32)">

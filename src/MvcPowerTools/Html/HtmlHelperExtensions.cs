@@ -49,6 +49,14 @@ namespace MvcPowerTools.Html
             return new LinkTag(text, tagUrl);
         }
 
+        public static HtmlTag Widget<T>(this HtmlHelper<T> html, object model)
+        {
+            model.MustNotBeNull();
+            var metadata=ModelMetadataProviders.Current.GetMetadataForType(() => model, model.GetType());
+            var info = new ModelInfo(metadata, html.ViewContext);
+            return info.ConventionsRegistry().Displays.GenerateTags(info);
+        }
+
         //public static IDisposable BeginForm(this HtmlHelper html, string controller=null, string action=null,Action<FormTag> config=null)
         //{
         //    var form = new FormTag();
