@@ -183,7 +183,7 @@ namespace MvcPowerTools.Routing
         static void Constrain(this Route route, string method)
         {
             route.MustNotBeNull();
-            route.Constraints["method"] = method;
+            route.Constraints["httpMethod"] = new HttpMethodConstraint(method);
         }
 
         public static IConfigureAction Always(this IConfigureRoutingConventions cfg)
