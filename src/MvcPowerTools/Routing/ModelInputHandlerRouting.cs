@@ -10,10 +10,16 @@ namespace MvcPowerTools.Routing
 {
     public class ModelInputHandlerRouting : IBuildRoutes
     {
+        private readonly Predicate<ActionCall> _match = a => true;
+
+        public ModelInputHandlerRouting(Predicate<ActionCall> match=null)
+        {
+            if (match!=null) _match = match;
+        }
+
         public virtual bool Match(ActionCall action)
         {
-            return true;
-            //    ;
+            return _match(action);          
         }
 
         protected virtual string FormatControllerName(string name)
@@ -21,12 +27,17 @@ namespace MvcPowerTools.Routing
             return name;
         }
 
+        protected virtual bool IsGetAction(MethodInfo method)
+        {
+            return method.Name.StartsWith("get", StringComparison.OrdinalIgnoreCase);
+        }
+
         string GenerateUrlAndDefaults(ActionCall info, RouteValueDictionary defaults)
         {
             var sb = new StringBuilder();
             sb.Append(FormatControllerName(info.GetControllerName()));
             
-            if (info.Method.Name.StartsWith("get", StringComparison.OrdinalIgnoreCase))
+            if (info.IsGet())
             {
                 GenerateForGet(info, defaults, sb);   
             }
@@ -118,7 +129,7 @@ namespace MvcPowerTools.Routing
             return mi.As<FieldInfo>().GetValue(inst);
         }
 
-        public IEnumerable<Route> Build(ActionCall actionInfo)
+        public virtual IEnumerable<Route> Build(ActionCall actionInfo)
         {
             var route = actionInfo.CreateRoute();
             route.Url = GenerateUrlAndDefaults(actionInfo, route.Defaults);

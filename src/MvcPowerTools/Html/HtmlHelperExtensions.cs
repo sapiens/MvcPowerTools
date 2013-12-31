@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using HtmlTags;
@@ -7,6 +8,14 @@ namespace MvcPowerTools.Html
 {
     public static class HtmlHelperExtensions
     {
+        /// <summary>
+        /// Uses the defined html conventions to build an editor for the view model
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="R"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="property"></param>
+        /// <returns></returns>
         public static HtmlTag Edit<T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property)
         {
             ModelMetadata metadata;
@@ -14,7 +23,12 @@ namespace MvcPowerTools.Html
             return info.ConventionsRegistry().Editors.GenerateTags(info);
         }
 
-
+        /// <summary>
+        /// Uses the defined html conventions to build an editor for the view model
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="html"></param>
+        /// <returns></returns>
         public static HtmlTag EditModel<T>(this HtmlHelper<T> html)
         {
             var dt = html.ViewData.ModelMetadata;
@@ -22,6 +36,14 @@ namespace MvcPowerTools.Html
             return info.ConventionsRegistry().Editors.GenerateTags(info);
         }
 
+        /// <summary>
+        /// Uses the defined html conventions to display the view model member
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="R"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="property"></param>
+        /// <returns></returns>
         public static HtmlTag Display<T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property)
         {
             ModelMetadata metadata;
@@ -29,6 +51,12 @@ namespace MvcPowerTools.Html
             return info.ConventionsRegistry().Displays.GenerateTags(info);
         }
 
+        /// <summary>
+        /// Uses the defined html conventions to display the view model
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="html"></param>
+        /// <returns></returns>
         public static HtmlTag DisplayModel<T>(this HtmlHelper<T> html)
         {
             var dt = html.ViewData.ModelMetadata;
@@ -49,6 +77,13 @@ namespace MvcPowerTools.Html
             return new LinkTag(text, tagUrl);
         }
 
+        /// <summary>
+        /// Uses the defined html conventions to build a widget for model
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public static HtmlTag Widget<T>(this HtmlHelper<T> html, object model)
         {
             model.MustNotBeNull();
@@ -57,6 +92,32 @@ namespace MvcPowerTools.Html
             return info.ConventionsRegistry().Displays.GenerateTags(info);
         }
 
+        /// <summary>
+        /// Renders a partial view for the specified model. 
+        /// The view must be in a DisplayTemplate directory and must have the type name
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="R"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static MvcHtmlString DisplayTemplate<T, R>(this HtmlHelper<T> html, R model)
+        {
+            var pname = "DisplayTemplates/" + model.GetType().Name;
+            var viewResult = System.Web.Mvc.ViewEngines.Engines.FindPartialView(html.ViewContext.Controller.ControllerContext, pname);
+            if (viewResult.View == null)
+            {
+                throw new InvalidOperationException("Partial for type '{0}' not found. Make sure you have a partial with the type name in the DisplayTemplates directory. Example: ~/Views/Shared/DisplayTemplates/MyType.cshtml".ToFormat(model.GetType().Name));
+            }
+            using (var sw = new StringWriter())
+            {
+                var vc = new ViewContext(html.ViewContext.Controller.ControllerContext, viewResult.View,
+                    new ViewDataDictionary(model), html.ViewContext.TempData, sw);
+                viewResult.View.Render(vc, sw);
+                return new MvcHtmlString(sw.ToString());
+            }
+
+        }
         //public static IDisposable BeginForm(this HtmlHelper html, string controller=null, string action=null,Action<FormTag> config=null)
         //{
         //    var form = new FormTag();

@@ -162,12 +162,16 @@ namespace MvcPowerTools.Routing
         /// </summary>
         /// <param name="policy"></param>
         /// <returns></returns>
-        public static RoutingConventions UseModelInputHandlerConvention(this RoutingConventions policy)
+        public static RoutingConventions UseModelInputHandlerConvention(this RoutingConventions policy,Predicate<ActionCall> applyTo=null)
         {
-            policy.Add(new ModelInputHandlerRouting());
+            policy.Add(new ModelInputHandlerRouting(applyTo));
             return policy;
         }
 
+        public static Route Duplicate(this Route route)
+        {
+            return new Route(route.Url,new RouteValueDictionary(route.Defaults), new RouteValueDictionary(route.Constraints), route.RouteHandler);
+        }
 
         public static void ConstrainToGet(this Route route)
         {
