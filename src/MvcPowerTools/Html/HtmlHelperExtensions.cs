@@ -69,6 +69,12 @@ namespace MvcPowerTools.Html
             var controller = typeof (T).ControllerNameWithoutSuffix();
             return LinkTo(url, controller, text, model, action);
         }
+        
+        public static string CreateFor<T>(this UrlHelper url,object model=null, string action = "get") where T:Controller
+        {
+            var controller = typeof (T).ControllerNameWithoutSuffix();
+            return url.Action(action, controller, model);
+        }
 
         public static HtmlTag LinkTo(this UrlHelper url, string controller, string text, object model = null, string action = "get")
             
