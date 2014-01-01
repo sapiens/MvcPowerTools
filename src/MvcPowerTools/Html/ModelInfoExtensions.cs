@@ -15,7 +15,19 @@ namespace MvcPowerTools.Html
         
         public static ModelInfo GetInfoForProperty<T>(this ModelInfo info,Expression<Func<T, object>> property)
         {
-            var name=ExpressionHelper.GetExpressionText(property);
+            string name = "";
+            if (property.Body.NodeType == ExpressionType.Convert)
+            {
+                var data = property.Body.As<UnaryExpression>().Operand;
+                var param = Expression.Parameter(typeof (T));
+                var lambda = Expression.Lambda(data, new[] {param});
+                name = ExpressionHelper.GetExpressionText(lambda);
+            }
+            else
+            {
+                name = ExpressionHelper.GetExpressionText(property);
+            }
+            
             return GetInfoForProperty(info, name);
         }
 

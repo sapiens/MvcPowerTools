@@ -75,7 +75,8 @@ namespace MvcPowerTools.Html
                     {
                         var attr = info.GetAttribute<StringLengthAttribute>();
                         var input=tag.FirstInputTag();
-                        input.Attr("maxlength", attr.MaximumLength);
+                        input.Attr("maxlength", attr.MaximumLength)
+                            .Attr("size",attr.MaximumLength<=100?attr.MaximumLength-2:98);
                         if (attr.MinimumLength > 0)
                             input.Attr("minlength", attr.MinimumLength);
                         return tag;
