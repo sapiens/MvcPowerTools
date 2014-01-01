@@ -4,7 +4,7 @@ using System.Web.Mvc;
 
 namespace MvcPowerTools.QueryHandlers
 {
-    public abstract class QueryAsyncController<TInput, TViewModel> : Controller
+    public abstract class QueryControllerAsync<TInput, TViewModel> : Controller
         where TViewModel : class where TInput : class
     {
 

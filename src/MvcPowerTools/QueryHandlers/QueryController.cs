@@ -19,17 +19,7 @@ namespace MvcPowerTools.QueryHandlers
             return GetView(model);
         }
 
-        
-
-        protected async Task<ActionResult> HandleAsync(TInput input)
-        {
-            var handlerType = typeof(IHandleQueryAsync<,>).MakeGenericType(typeof(TInput), typeof(TViewModel));
-            var handler = (IHandleQueryAsync<TInput, TViewModel>)DependencyResolver.Current.GetService(handlerType);
-            handler.MustNotBeNull();
-            var model = await handler.HandleAsync(input);
-            return GetView(model);
-        }
-
+             
         protected virtual ActionResult GetView(TViewModel model)
         {
             return View(model);
