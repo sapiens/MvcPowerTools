@@ -29,13 +29,14 @@ namespace MvcPowerTools.Html
         {
             var tag = HtmlTag.Placeholder();
             var label = info.ConventionsRegistry().Labels.GenerateTags(info);
-            tag.Append(label);
+            
             tag.Children.Add(new MvcCheckboxElement(info.HtmlId,info.HtmlName,info.RawValue==null?false:info.Value<bool>()));
             var errMsg = "";
             if (info.ValidationFailed)
             {
                 errMsg = info.ModelErrors[0].ErrorMessage;
             }
+            tag.Append(label);
             tag.Children.Add(new ValidationMessageTag(info.HtmlId, info.ValidationFailed, errMsg));
             return tag;
         }

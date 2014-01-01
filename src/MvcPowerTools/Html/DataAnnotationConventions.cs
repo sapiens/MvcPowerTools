@@ -9,7 +9,7 @@ namespace MvcPowerTools.Html
     /// <summary>
     /// Should be added at the end
     /// </summary>
-    public class DataAnnotationConventions:CommonHtmlConventions
+    public class DataAnnotationConventions:HtmlConventionModule
     {
         public DataAnnotationConventions()
         {
@@ -17,7 +17,6 @@ namespace MvcPowerTools.Html
         }
         public override void Configure(HtmlConventionsManager conventions)
         {
-            base.Configure(conventions);
             conventions.Labels
                 .ForModelWithAttribute<DisplayAttribute>()
                 .Modify((tag, info) =>

@@ -214,6 +214,14 @@
             <param name="propertyName">Property name</param>
             <returns></returns>
         </member>
+        <member name="M:System.Reflection.ReflectionUtils.SetValue(System.Reflection.MemberInfo,System.Object,System.Object)">
+            <summary>
+            Facade to set a value to a property or field
+            </summary>
+            <param name="member"></param>
+            <param name="data"></param>
+            <param name="value"></param>
+        </member>
         <member name="M:System.Reflection.ReflectionUtils.GetPropertyValue(System.Object,System.String)">
             <summary>
             Gets the value of a public property

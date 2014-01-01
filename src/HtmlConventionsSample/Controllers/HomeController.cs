@@ -31,7 +31,7 @@ namespace HtmlConventionsSample.Controllers
         }
     }
 
-    public class QueryController :QueryAsyncController<IndexIn,FluentMyModel>
+    public class QueryController :QueryControllerAsync<IndexIn,FluentMyModel>
     {
         
         public override async Task<ActionResult> Get(IndexIn input)
@@ -57,7 +57,7 @@ namespace HtmlConventionsSample.Controllers
     {
         public ActionResult Index()
         {
-            var f = new Fixture();           
+            var f = new Fixture();
             return View(f.Create<FluentMyModel>());
         }
 

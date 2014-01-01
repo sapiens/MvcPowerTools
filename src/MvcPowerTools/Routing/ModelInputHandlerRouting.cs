@@ -134,8 +134,7 @@ namespace MvcPowerTools.Routing
             var route = actionInfo.CreateRoute();
             route.Url = GenerateUrlAndDefaults(actionInfo, route.Defaults);
             if (actionInfo.IsGet()) route.ConstrainToGet();
-            if (actionInfo.IsPost()) route.ConstrainToPost();
-            route.ConstrainToGet();
+            if (actionInfo.IsPost()) route.ConstrainToPost();            
             return new[] { route };
         }
     }

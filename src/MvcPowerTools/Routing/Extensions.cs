@@ -48,7 +48,7 @@ namespace MvcPowerTools.Routing
         /// <returns></returns>
         public static bool IsPost(this ActionCall action)
         {
-            return action.Method.Name.StartsWith("get", StringComparison.OrdinalIgnoreCase);
+            return action.Method.Name.StartsWith("post", StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>

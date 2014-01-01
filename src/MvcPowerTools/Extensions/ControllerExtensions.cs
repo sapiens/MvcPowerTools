@@ -95,23 +95,32 @@ namespace System.Web.Mvc
        {
             var method = selector.Body as MethodCallExpression;
            var action = method.Method.Name;
-           var args = method.Method.GetParameters();
-            var param = method.Arguments.ToArray();
+          //  var args = method.Method.GetParameters();
+            var args = method.Arguments.ToArray();
            
-           var rv = new RouteValueDictionary();
+           RouteValueDictionary rv = null;
+           //var cname = typeof(T).Name;
+           //var cidx = cname.IndexOf("Controller");
+           //if (cidx > -1)
+           //{
+           //    cname = cname.Remove(cidx, 10);
+           //}
+           
+           if (args.Length > 0)
+           {
+               var argValue = args[0].GetValue();
+               rv=new RouteValueDictionary(argValue);
+           }
+           else
+           {
+               rv=new RouteValueDictionary();
+           }
            rv["action"] = action;
-           var cname = typeof(T).Name;
-           var cidx = cname.IndexOf("Controller");
-           if (cidx > -1)
-           {
-               cname = cname.Remove(cidx, 10);
-           }
-           rv["controller"] = cname;
-          
-           foreach (var p in args)
-           {
-               rv[p.Name] = param[p.Position].GetValue();              
-           }
+           rv["controller"] = typeof(T).ControllerNameWithoutSuffix();
+           //foreach (var p in args)
+           //{
+           //    rv[p.Name] = param[p.Position].GetValue();              
+           //}
            return rv;
        }
 
