@@ -46,10 +46,17 @@ namespace MvcPowerTools.Html
         /// </summary>
         /// <param name="tag"></param>
         /// <returns></returns>
-        public static HtmlTag FirstInputTag(this HtmlTag tag)
+        public static HtmlTag FirstInputTag(this HtmlTag tag,Predicate<HtmlTag> predicate=null)
         {
-            if (tag.IsInputElement()) return tag;
-            return tag.GetChild<HtmlTag>(d => d.IsInputElement());
+            if (predicate == null) predicate = t => true;
+            if (tag.IsInputElement() && predicate(tag)) return tag;
+            
+            return tag.GetChild<HtmlTag>(d => d.IsInputElement() && predicate(d));
+        }
+
+        public static bool IsHiddenInput(this HtmlTag tag)
+        {
+            return tag.IsInputElement() && tag.Attr("type") == "hidden";
         }
 
         /// <summary>

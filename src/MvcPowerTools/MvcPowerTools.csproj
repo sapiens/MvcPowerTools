@@ -83,6 +83,7 @@
   <ItemGroup>
     <Compile Include="AjaxRequestAttribute.cs" />
     <Compile Include="Controllers\AbstractResultForInvalidModel.cs" />
+    <Compile Include="Html\AngularJsSupport.cs" />
     <Compile Include="QueryHandlers\IHandleQuery.cs" />
     <Compile Include="Controllers\Internal\IContextFacadeForSmartAction.cs" />
     <Compile Include="Controllers\Internal\SmartActionWorker.cs" />

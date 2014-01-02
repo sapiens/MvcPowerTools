@@ -59,7 +59,7 @@ namespace MvcPowerTools.Routing
 
         public IConfigureRoutingConventions HomeIs<T>(Expression<Action<T>> actionSelector) where T : Controller
         {
-            actionSelector.MustNotBeNull();
+            actionSelector.MustNotBeNull();//todo refactor home - it should use the convetions
             var routeValues = ControllerExtensions.ToRouteValues(actionSelector);
             _home = new Route(@"{*catch}",routeValues,new MvcRouteHandler());
             return this;

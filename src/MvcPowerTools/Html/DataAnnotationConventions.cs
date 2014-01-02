@@ -99,7 +99,8 @@ namespace MvcPowerTools.Html
                 } )
                     .Modify((tag, info) =>
                     {
-                        tag.FirstInputTag().NumberMode();
+                        var input = tag.FirstInputTag();
+                        if(input.Attr("type")!="hidden") input.NumberMode();
                         return tag;
                     })
                 
