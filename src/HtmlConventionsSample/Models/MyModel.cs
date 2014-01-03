@@ -62,6 +62,7 @@ namespace HtmlConventionsSample.Models
         
         public bool IsTrue { get; set; }
         public string[] Items { get; set; }
+        public TplTest Tpl { get; set; }
 
         public string SelectedItem
         {

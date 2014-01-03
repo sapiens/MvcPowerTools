@@ -162,8 +162,12 @@ namespace HtmlConventionsSample
                 wrapper.AddClass("form-field");
                 tag.WrapWith(wrapper);
                 return wrapper;
-            });           
+            });
 
+            display.ForType<TplTest>().Build(m =>
+            {
+                return m.RenderTemplate();
+            });
         }
     }
 }

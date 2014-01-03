@@ -33,6 +33,10 @@ namespace MvcPowerTools.Html
             return tag.Angular("init", value);
         }
 
+        public static HtmlTag NgClick(this HtmlTag tag, string value)
+        {
+            return tag.Angular("click", value);           
+        }
 
     }
 }

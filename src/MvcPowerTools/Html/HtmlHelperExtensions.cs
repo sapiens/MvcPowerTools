@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq.Expressions;
+using System.Text;
 using System.Web.Mvc;
 using HtmlTags;
 
@@ -109,21 +110,35 @@ namespace MvcPowerTools.Html
         /// <returns></returns>
         public static MvcHtmlString DisplayTemplate<T, R>(this HtmlHelper<T> html, R model)
         {
+            return new MvcHtmlString(DisplayTemplate(html.ViewContext, model));
+        }
+
+        internal static string DisplayTemplate<R>(ViewContext context, R model)
+        {
             var pname = "DisplayTemplates/" + model.GetType().Name;
-            var viewResult = System.Web.Mvc.ViewEngines.Engines.FindPartialView(html.ViewContext.Controller.ControllerContext, pname);
+            var viewResult = System.Web.Mvc.ViewEngines.Engines.FindPartialView(context.Controller.ControllerContext, pname);
             if (viewResult.View == null)
             {
-                throw new InvalidOperationException("Partial for type '{0}' not found. Make sure you have a partial with the type name in the DisplayTemplates directory. Example: ~/Views/Shared/DisplayTemplates/MyType.cshtml".ToFormat(model.GetType().Name));
+                var sb = new StringBuilder();
+                sb.AppendLine(
+                    "Partial for type '{0}' not found. Make sure you have a partial with the type name in the DisplayTemplates directory. Example: ~/Views/Shared/DisplayTemplates/MyType.cshtml"
+                        .ToFormat(model.GetType().Name));
+                sb.AppendLine("Searched locations:");
+                foreach (var path in viewResult.SearchedLocations)
+                {
+                    sb.AppendLine(path);
+                }
+                throw new InvalidOperationException(sb.ToString());
             }
             using (var sw = new StringWriter())
             {
-                var vc = new ViewContext(html.ViewContext.Controller.ControllerContext, viewResult.View,
-                    new ViewDataDictionary(model), html.ViewContext.TempData, sw);
+                var vc = new ViewContext(context.Controller.ControllerContext, viewResult.View,
+                    new ViewDataDictionary(model), context.TempData, sw);
                 viewResult.View.Render(vc, sw);
-                return new MvcHtmlString(sw.ToString());
+                return sw.ToString();
             }
-
         }
+
         //public static IDisposable BeginForm(this HtmlHelper html, string controller=null, string action=null,Action<FormTag> config=null)
         //{
         //    var form = new FormTag();

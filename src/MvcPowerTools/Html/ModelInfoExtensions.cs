@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
+using HtmlTags;
 
 namespace MvcPowerTools.Html
 {
@@ -12,7 +13,37 @@ namespace MvcPowerTools.Html
             return HtmlConventionsManager.GetCurrentRequestProfile(info.ViewContext.HttpContext);
         }
 
+        /// <summary>
+        /// Renders the display template (found in DisplayTemplates/[typename].cshtml
+        /// and wraps it with a html tag
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="info"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static HtmlTag RenderTemplate<T>(this ModelInfo info,  T model)
+        {
+            return HtmlTag.Placeholder().AppendHtml(HtmlHelperExtensions.DisplayTemplate(info.ViewContext, model));
+        }
         
+        /// <summary>
+        /// Renders the display template (found in DisplayTemplates/[typename].cshtml
+        /// and wraps it with a html tag
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public static HtmlTag RenderTemplate(this ModelInfo info)
+        {
+            return HtmlTag.Placeholder().AppendHtml(HtmlHelperExtensions.DisplayTemplate(info.ViewContext, info.RawValue));
+        }
+        
+        /// <summary>
+        /// Gets the model info for the specified property
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="info"></param>
+        /// <param name="property"></param>
+        /// <returns></returns>
         public static ModelInfo GetInfoForProperty<T>(this ModelInfo info,Expression<Func<T, object>> property)
         {
             string name = "";
@@ -32,7 +63,7 @@ namespace MvcPowerTools.Html
         }
 
         /// <summary>
-        /// 
+        /// Gets the model info for the specified property
         /// </summary>
         /// <param name="info"></param>
         /// <param name="propertyName">Property can be specified as a path i.e property1.User.Name</param>
@@ -61,11 +92,7 @@ namespace MvcPowerTools.Html
                 idx++;
                 if (idx == path.Length) return meta;
                 return GetMeta(meta, path, idx);
-                //for (var i = 1; i < path.Length; i++)
-                //{
-                //    meta = meta.Properties.FirstOrDefault(d => d.PropertyName == path[i]);
-
-                //}
+               
             }
             return null;
         }
