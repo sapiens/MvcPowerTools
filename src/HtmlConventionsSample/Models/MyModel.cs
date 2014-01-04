@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using CavemanTools.Model;
 using FluentValidation;
 using FluentValidation.Attributes;
+using MvcPowerTools.Html;
 
 namespace HtmlConventionsSample.Models
 {
@@ -62,6 +63,7 @@ namespace HtmlConventionsSample.Models
         
         public bool IsTrue { get; set; }
         public string[] Items { get; set; }
+        [DisplayTemplate]
         public TplTest Tpl { get; set; }
 
         public string SelectedItem

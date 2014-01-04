@@ -164,10 +164,10 @@ namespace HtmlConventionsSample
                 return wrapper;
             });
 
-            display.ForType<TplTest>().Build(m =>
-            {
-                return m.RenderTemplate();
-            });
+            //display.ForType<TplTest>().Build(m =>
+            //{
+            //    return m.RenderTemplate();
+            //});
         }
     }
 }

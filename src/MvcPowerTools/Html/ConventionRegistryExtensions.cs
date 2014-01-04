@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using HtmlTags;
 using MvcPowerTools.Html.Internals;
 
@@ -16,6 +17,15 @@ namespace MvcPowerTools.Html
             return conventions.Ignore(d => d.Type == typeof (T));
         }
 
+        public static IConfigureConventions IgnoreMembersOf<T>(this IConfigureConventions conventions) where T : class
+        {
+            var tp = typeof (T);
+            return conventions.Ignore(m =>
+            {
+                return tp.GetProperty(m.Name, BindingFlags.DeclaredOnly|BindingFlags.Instance|BindingFlags.Public|BindingFlags.IgnoreCase) != null;
+            });
+        }
+
         public static IConfigureAction ForType<T>(this IConfigureConventions conventions)
         {
             return conventions.If(d => d.Type.Is<T>());
@@ -27,7 +37,6 @@ namespace MvcPowerTools.Html
             return conventions.If(d => d.HasAttribute<T>());
         }
 
-       
         public static HtmlTag GenerateTags(this IDefinedConventions conventions, ModelInfo info)
         {
             var all = conventions.GetConventions(info);
