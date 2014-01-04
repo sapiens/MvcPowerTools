@@ -65,22 +65,30 @@ namespace MvcPowerTools.Html
             return info.ConventionsRegistry().Displays.GenerateTags(info);
         }
 
-        public static HtmlTag LinkTo<T>(this UrlHelper url,string text, object model=null, string action = "get") where T:Controller
+        public static HtmlTag LinkTo<T>(this UrlHelper url, string text, object model = null, string action = "get", bool urlEncoded = true) where T : Controller
         {
             var controller = typeof (T).ControllerNameWithoutSuffix();
-            return LinkTo(url, controller, text, model, action);
+            return LinkTo(url, controller, text, model, action,urlEncoded);
         }
-        
-        public static string CreateFor<T>(this UrlHelper url,object model=null, string action = "get") where T:Controller
+
+        /// <summary>
+        /// Creates the url for the specifeid controller and action
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="url"></param>
+        /// <param name="model"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static string CreateFor<T>(this UrlHelper url, object model = null, string action = "get") where T : Controller
         {
             var controller = typeof (T).ControllerNameWithoutSuffix();
             return url.Action(action, controller, model);
         }
 
-        public static HtmlTag LinkTo(this UrlHelper url, string controller, string text, object model = null, string action = "get")
-            
+        public static HtmlTag LinkTo(this UrlHelper url, string controller, string text, object model = null, string action = "get",bool urlEncoded=true)           
         {
             var tagUrl = url.Action(action, controller, model);
+            if (!urlEncoded) tagUrl = url.RequestContext.HttpContext.Server.UrlDecode(tagUrl);
             return new LinkTag(text, tagUrl);
         }
 
