@@ -45,6 +45,23 @@ namespace MvcPowerTools.Routing
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Allows you to control the parameter name and prefix.
+        /// The route param will be {member_name} to lower
+        /// By default it checks for [RouteSegmentPrefix]
+        /// </summary>
+        /// <param name="member"></param>
+        /// <param name="sb"></param>
+        protected virtual void FormatRouteSegment(MemberInfo member,StringBuilder sb)
+        {
+            var prefix = member.GetSingleAttribute<RouteSegmentPrefixAttribute>();
+            if (prefix != null)
+            {
+                sb.AppendFormat("/{0}", prefix.Prefix);
+            }
+            sb.Append("/{" + member.Name.ToLower() + "}");
+        }
+
         private void GenerateForGet(ActionCall info, RouteValueDictionary defaults, StringBuilder sb)
         {
             var args = info.Method.GetParameters();
@@ -60,16 +77,17 @@ namespace MvcPowerTools.Routing
                             .Where(d =>
                                 d.MemberType == MemberTypes.Field || d.MemberType == MemberTypes.Property)
                             .Where(d => IsValidForRoute(d.GetMemberType()))
+                            .Where(d=> !d.HasCustomAttribute<ExcludeFromRouteAttribute>())
                     )
                 {
                     var name = member.Name.ToLower();
-                    sb.Append("/{" + name + "}");
+                   FormatRouteSegment(member,sb);
                     var value = GetMemberValue(member, inst);
                     var type = member.GetMemberType();
 
                     if (value == null)
                     {
-                        if (type.IsNullable() || type.IsClass)
+                       if (!type.Is<string>() && (type.IsNullable() || type.IsClass))
                         {
                             defaults[name] = UrlParameter.Optional;
                         }
@@ -85,7 +103,14 @@ namespace MvcPowerTools.Routing
                         }
                         else
                         {
-                            defaults[name] = value;
+                            if (type.Is<string>() && (string) value == string.Empty)
+                            {
+                                defaults[name] = UrlParameter.Optional;
+                            }
+                            else
+                            {
+                                defaults[name] = value;
+                            }                            
                         }
                     }
                 }
@@ -99,7 +124,7 @@ namespace MvcPowerTools.Routing
         /// <returns></returns>
         protected virtual bool IsValidForRoute(Type type)
         {
-            if (type.IsPrimitive) return true;
+           if (type.IsPrimitive) return true;
             var allowed = new[]
             {
                 typeof (DateTime)

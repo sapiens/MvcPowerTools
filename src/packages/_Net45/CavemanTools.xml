@@ -957,12 +957,13 @@
             <param name="inherit">When true, look up the hierarchy chain for custom attribute </param>
             <returns></returns>
         </member>
-        <member name="M:System.Reflection.AttributeUtils.GetSingleAttribute``1(System.Reflection.ICustomAttributeProvider)">
+        <member name="M:System.Reflection.AttributeUtils.GetSingleAttribute``1(System.Reflection.ICustomAttributeProvider,System.Boolean)">
             <summary>
             Gets a single or the first custom attribute of specified type
             </summary>
             <typeparam name="T">Attribute</typeparam>
             <param name="memberInfo">Custom Attribute provider</param>
+            <param name="inherit">True to lookup the hierarchy chain for the attribute</param>
             <returns></returns>
         </member>
         <member name="M:CavemanTools.Percentage.#ctor(System.Decimal)">
