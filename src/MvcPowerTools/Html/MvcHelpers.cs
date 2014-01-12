@@ -13,7 +13,7 @@ namespace MvcPowerTools.Html
         /// <param name="tag"></param>
         /// <param name="info"></param>
         /// <returns></returns>
-        public static HtmlTag AddValidationAttributes(HtmlTag tag, ModelInfo info)
+        public static HtmlTag AddValidationAttributes(this HtmlTag tag, ModelInfo info)
         {
             if (!tag.IsInputElement()) return tag;
             var all = ModelValidatorProviders.Providers.GetValidators(info.Meta, info.ViewContext)

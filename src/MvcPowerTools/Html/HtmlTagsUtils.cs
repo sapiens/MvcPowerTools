@@ -19,6 +19,16 @@ namespace MvcPowerTools.Html
             return name.Replace('.', '_');
         }
 
+        public static HtmlTag CreateValidationTag(this HtmlTag tag, ModelInfo info)
+        {
+            var errMsg = "";
+            if (info.ValidationFailed)
+            {
+                errMsg = info.ModelErrors[0].ErrorMessage;
+            }
+            return new ValidationMessageTag(info.HtmlId, info.ValidationFailed, errMsg);
+        }      
+
         /// <summary>
         /// Sets the id of the tag using the asp.net mvc default convention
         /// </summary>
