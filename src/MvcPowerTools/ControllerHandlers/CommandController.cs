@@ -26,10 +26,5 @@ namespace MvcPowerTools.ControllerHandlers
             return View(model);
 
         }
-
-        protected NoResult NoResult()
-        {
-            return new NoResult();
-        }
     }
 }
