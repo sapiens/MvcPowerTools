@@ -6,12 +6,17 @@ namespace MvcPowerTools.ControllerHandlers
 {
     public static class Mediator
     {
+        public static NoResult NoResult<T, R>(this IHandleCommand<T, R> handler) where T : class where R : class
+        {
+            return new NoResult();
+        }
+
         public static TOut QueryTo<TOut>(this object model)  where TOut : class
         {
             model.MustNotBeNull();
             var handlerType = typeof(IHandleQuery<,>).MakeGenericType(model.GetType(), typeof(TOut));
             var handler= (dynamic)DependencyResolver.Current.GetService(handlerType);
-            if (handler.IsNull()) throw new InvalidOperationException("There's no handler implementing 'IHandleQuery<{0},{1}>' registered with the DI Container".ToFormat(model.GetType().Name, typeof(TOut).Name));
+            if (handler==null) throw new InvalidOperationException("There's no handler implementing 'IHandleQuery<{0},{1}>' registered with the DI Container".ToFormat(model.GetType().Name, typeof(TOut).Name));
             return (TOut) handler.Handle((dynamic)model);
         }
            
@@ -20,7 +25,7 @@ namespace MvcPowerTools.ControllerHandlers
             model.MustNotBeNull();
             var handlerType = typeof(IHandleQueryAsync<,>).MakeGenericType(model.GetType(), typeof(TOut));
             var handler= (dynamic)DependencyResolver.Current.GetService(handlerType);
-            if (handler.IsNull()) throw new InvalidOperationException("There's no handler implementing 'IHandleQuery<{0},{1}>' registered with the DI Container".ToFormat(model.GetType().Name, typeof(TOut).Name));
+            if (handler==null) throw new InvalidOperationException("There's no handler implementing 'IHandleQuery<{0},{1}>' registered with the DI Container".ToFormat(model.GetType().Name, typeof(TOut).Name));
             return await (Task<TOut>) handler.HandleAsync((dynamic)model);
         }
 
@@ -30,7 +35,7 @@ namespace MvcPowerTools.ControllerHandlers
             input.MustNotBeNull();
             var handlerType = typeof(IHandleCommand<,>).MakeGenericType(input.GetType(), typeof(TResult));
             var handler = (dynamic)DependencyResolver.Current.GetService(handlerType);
-            if (handler.IsNull()) throw new InvalidOperationException("There's no handler implementing 'IHandleQuery<{0},{1}>' registered with the DI Container".ToFormat(input.GetType().Name, typeof(TResult).Name));
+            if (handler==null) throw new InvalidOperationException("There's no handler implementing 'IHandleQuery<{0},{1}>' registered with the DI Container".ToFormat(input.GetType().Name, typeof(TResult).Name));
             return (TResult)handler.Handle((dynamic)input);
         }
     }
