@@ -24,6 +24,7 @@ namespace MvcPowerTools.ControllerHandlers
         protected virtual ActionResult GetView(TModel model)
         {
             return View(model);
-        }     
+
+        }
     }
 }
