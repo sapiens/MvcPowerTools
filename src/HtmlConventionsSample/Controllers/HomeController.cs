@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using HtmlConventionsSample.Models;
-using MvcPowerTools.QueryHandlers;
+using MvcPowerTools.ControllerHandlers;
 using Ploeh.AutoFixture;
 
 namespace HtmlConventionsSample.Controllers

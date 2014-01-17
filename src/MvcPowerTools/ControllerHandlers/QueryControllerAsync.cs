@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace MvcPowerTools.QueryHandlers
+namespace MvcPowerTools.ControllerHandlers
 {
     public abstract class QueryControllerAsync<TInput, TViewModel> : Controller
         where TViewModel : class where TInput : class

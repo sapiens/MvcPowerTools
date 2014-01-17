@@ -82,11 +82,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AjaxRequestAttribute.cs" />
+    <Compile Include="ControllerHandlers\CommandController.cs" />
+    <Compile Include="ControllerHandlers\IHandleAction.cs" />
+    <Compile Include="ControllerHandlers\IHandleCommand.cs" />
+    <Compile Include="ControllerHandlers\NoResult.cs" />
     <Compile Include="Controllers\AbstractResultForInvalidModel.cs" />
     <Compile Include="Html\AngularJsSupport.cs" />
     <Compile Include="Html\DisplayTemplateAttribute.cs" />
     <Compile Include="Html\Internals\DisplayTemplateGenerator.cs" />
-    <Compile Include="QueryHandlers\IHandleQuery.cs" />
+    <Compile Include="IPagedInput.cs" />
+    <Compile Include="ControllerHandlers\IHandleQuery.cs" />
     <Compile Include="Controllers\Internal\IContextFacadeForSmartAction.cs" />
     <Compile Include="Controllers\Internal\SmartActionWorker.cs" />
     <Compile Include="Controllers\Internal\SmartContextFacade.cs" />
@@ -165,10 +170,10 @@
     <Compile Include="ModelStateWrapper.cs" />
     <Compile Include="OverrideThemeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueryHandlers\IHandleQueryAsync.cs" />
-    <Compile Include="QueryHandlers\Mediator.cs" />
-    <Compile Include="QueryHandlers\QueryController.cs" />
-    <Compile Include="QueryHandlers\QueryControllerAsync.cs" />
+    <Compile Include="ControllerHandlers\IHandleQueryAsync.cs" />
+    <Compile Include="ControllerHandlers\Mediator.cs" />
+    <Compile Include="ControllerHandlers\QueryController.cs" />
+    <Compile Include="ControllerHandlers\QueryControllerAsync.cs" />
     <Compile Include="RequestMetricsFilter.cs" />
     <Compile Include="Routing\ActionCall.cs" />
     <Compile Include="Routing\Extensions.cs" />

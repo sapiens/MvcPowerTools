@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace MvcPowerTools.QueryHandlers
+namespace MvcPowerTools.ControllerHandlers
 {
     public interface IHandleQueryAsync<in TInput, TOutput> where TInput:class where TOutput:class
     {

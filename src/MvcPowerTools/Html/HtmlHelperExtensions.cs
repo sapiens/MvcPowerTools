@@ -123,6 +123,7 @@ namespace MvcPowerTools.Html
 
         internal static string DisplayTemplate<R>(ViewContext context, R model)
         {
+            if (model==null) throw new ArgumentNullException("model","Model must not be null");
             var pname = "DisplayTemplates/" + model.GetType().Name;
             var viewResult = System.Web.Mvc.ViewEngines.Engines.FindPartialView(context.Controller.ControllerContext, pname);
             if (viewResult.View == null)
