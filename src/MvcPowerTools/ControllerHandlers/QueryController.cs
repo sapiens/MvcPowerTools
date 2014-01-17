@@ -17,14 +17,15 @@ namespace MvcPowerTools.ControllerHandlers
         protected ActionResult Handle(TInput input)
         {
             input.MustNotBeNull("input");
-            //var handlerType = typeof(IHandleQuery<,>).MakeGenericType(typeof(TInput), typeof(TViewModel));
-            //var handler = (IHandleQuery<TInput, TViewModel>)DependencyResolver.Current.GetService(handlerType);
-            //if (handler.IsNull()) throw new InvalidOperationException("There's no handler implementing 'IHandleQuery<{0},{1}>' registered with the DI Container".ToFormat(typeof(TInput).Name,typeof(TViewModel).Name));
-            //var model = handler.Handle(input);
             var model = input.QueryTo<TViewModel>();
+            if (model == null) return NullModelResult(input);
             return GetView(model);
         }
 
+        protected virtual ActionResult NullModelResult(TInput input)
+        {
+            return this.HttpNotFound();
+        }
              
         protected virtual ActionResult GetView(TViewModel model)
         {
