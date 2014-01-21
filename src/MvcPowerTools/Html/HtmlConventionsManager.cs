@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using MvcPowerTools.Html.Internals;
 
@@ -121,7 +122,17 @@ namespace MvcPowerTools.Html
 
         private Dictionary<string,IDefinedConventions> _conventions=new Dictionary<string, IDefinedConventions>();
 
-        public static void LoadModule(params HtmlConventionModule[] modules)
+        /// <summary>
+        /// Scans for instances of <see cref="HtmlConventionsModule"/> instantiate them and loads them into manager
+        /// </summary>
+        /// <param name="assemblies"></param>
+        /// <returns></returns>
+        public static void LoadModules(params Assembly[] assemblies)
+        {
+            Array.ForEach(assemblies, a => LoadModule(a.GetInstancesOfTypesDerivedFrom<HtmlConventionsModule>().ToArray()));        
+        }
+
+        public static void LoadModule(params HtmlConventionsModule[] modules)
         {
             if (profiles.Count == 0)
             {

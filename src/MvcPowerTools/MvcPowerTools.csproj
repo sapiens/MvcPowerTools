@@ -11,6 +11,8 @@
     <AssemblyName>MvcPowerTools</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,8 +41,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\_Net45\CavemanTools.Web.dll</HintPath>
     </Reference>
-    <Reference Include="HtmlTags">
-      <HintPath>..\packages\HtmlTags.2.0.0.174\lib\4.0\HtmlTags.dll</HintPath>
+    <Reference Include="HtmlTags, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\HtmlTags.2.0.0.181\lib\4.0\HtmlTags.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -52,27 +55,27 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.Helpers.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.0\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.0\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.WebPages.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -88,6 +91,8 @@
     <Compile Include="ControllerHandlers\NoResult.cs" />
     <Compile Include="Controllers\AbstractResultForInvalidModel.cs" />
     <Compile Include="Html\AngularJsSupport.cs" />
+    <Compile Include="Html\Conventions\CommonHtmlModifiers.cs" />
+    <Compile Include="Html\Conventions\DataAnnotationBuilders.cs" />
     <Compile Include="Html\DisplayTemplateAttribute.cs" />
     <Compile Include="Html\Internals\DisplayTemplateGenerator.cs" />
     <Compile Include="IPagedInput.cs" />
@@ -126,10 +131,10 @@
     <Compile Include="Filters\IFilterConvention.cs" />
     <Compile Include="Filters\IMatchAction.cs" />
     <Compile Include="Filters\LambdaHostConvention.cs" />
-    <Compile Include="Html\CommonHtmlConventions.cs" />
-    <Compile Include="Html\DataAnnotationConventions.cs" />
+    <Compile Include="Html\Conventions\CommonHtmlBuilders.cs" />
+    <Compile Include="Html\Conventions\DataAnnotationModifiers.cs" />
     <Compile Include="Html\DefaultBuilders.cs" />
-    <Compile Include="Html\HtmlConventionModule.cs" />
+    <Compile Include="Html\HtmlConventionsModule.cs" />
     <Compile Include="Html\MissingConventionProfileException.cs" />
     <Compile Include="Html\ModelInfoExtensions.cs" />
     <Compile Include="Html\RadionButtonTag.cs" />
@@ -162,7 +167,7 @@
     <Compile Include="Html\MvcCheckBox.cs" />
     <Compile Include="Html\HtmlConventionsManager.cs" />
     <Compile Include="Html\MvcHelpers.cs" />
-    <Compile Include="Html\SemanticConventions.cs" />
+    <Compile Include="Html\Conventions\SemanticModifiers.cs" />
     <Compile Include="Html\ValidationMessageTag.cs" />
     <Compile Include="HttpModuleHost.cs" />
     <Compile Include="IpTracking.cs" />
@@ -209,6 +214,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

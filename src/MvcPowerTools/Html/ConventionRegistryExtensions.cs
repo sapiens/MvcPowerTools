@@ -50,5 +50,7 @@ namespace MvcPowerTools.Html
             conventions.Labels.DefaultBuilder(DefaultBuilders.LabelBuilder);
             return conventions;
         }
+
+       
     }
 }

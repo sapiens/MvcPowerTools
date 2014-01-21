@@ -9,6 +9,10 @@ namespace MvcPowerTools.Html
 {
     public static class HtmlHelperExtensions
     {
+        //todo display template without model helper
+
+        //todo some workflow and base paradigm for html conventions:: builders, editors
+        
         /// <summary>
         /// Uses the defined html conventions to build an editor for the view model
         /// </summary>

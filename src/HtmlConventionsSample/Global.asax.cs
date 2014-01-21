@@ -17,6 +17,7 @@ using HtmlTags.Extended.Attributes;
 using MvcPowerTools.Controllers;
 using MvcPowerTools.Filters;
 using MvcPowerTools.Html;
+using MvcPowerTools.Html.Conventions;
 using MvcPowerTools.ViewEngines;
 
 namespace HtmlConventionsSample
@@ -32,7 +33,7 @@ namespace HtmlConventionsSample
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             HtmlConventions();
             Filters();
-            HtmlConventionsManager.LoadModule(new DataAnnotationConventions(), new SemanticConventions());
+            HtmlConventionsManager.LoadModule(new DataAnnotationModifiers(), new SemanticModifiers());
             FluentValidationModelValidatorProvider.Configure();
 
             ViewEngine();
