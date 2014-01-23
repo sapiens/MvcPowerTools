@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Web.Mvc;
 using HtmlTags;
 
@@ -8,6 +9,28 @@ namespace MvcPowerTools.Html
 {
     public static class ModelInfoExtensions
     {
+        public static bool PropertyOrParentHasAttribute<T>(this ModelInfo info) where T:Attribute
+        {
+            if (info.HasAttribute<T>()) return true;
+            return (info.ParentType != null && info.ParentType.HasCustomAttribute<T>());
+        }
+
+        /// <summary>
+        /// Gets attribute from property or parent container
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public static T GetModelAttribute<T>(this ModelInfo info) where T : Attribute
+        {
+            var at = info.GetAttribute<T>();
+            if (at == null && info.ParentType!=null)
+            {
+                at = info.ParentType.GetCustomAttribute<T>(true);
+            }
+            return at;
+        }
+
         public static HtmlConventionsManager ConventionsRegistry(this ModelInfo info)
         {
             return HtmlConventionsManager.GetCurrentRequestProfile(info.ViewContext.HttpContext);
