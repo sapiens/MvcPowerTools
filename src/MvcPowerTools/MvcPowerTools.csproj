@@ -91,7 +91,7 @@
     <Compile Include="ControllerHandlers\NoResult.cs" />
     <Compile Include="Controllers\AbstractResultForInvalidModel.cs" />
     <Compile Include="Html\AngularJsSupport.cs" />
-    <Compile Include="Html\Conventions\CommonHtmlModifiers.cs" />
+    <Compile Include="Html\Conventions\CommonEditorModifiers.cs" />
     <Compile Include="Html\Conventions\DataAnnotationBuilders.cs" />
     <Compile Include="Html\DisplayTemplateAttribute.cs" />
     <Compile Include="Html\Internals\DisplayTemplateGenerator.cs" />

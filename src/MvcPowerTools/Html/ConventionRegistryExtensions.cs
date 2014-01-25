@@ -26,15 +26,30 @@ namespace MvcPowerTools.Html
             });
         }
 
-        public static IConfigureAction ForType<T>(this IConfigureConventions conventions)
+        public static IConfigureAction IfDerivesFrom<T>(this IConfigureConventions conventions,bool mustBeProperty=false)
         {
-            return conventions.If(d => d.Type.Is<T>());
+            return conventions.If(d =>d.Type.DerivesFrom<T>() && !mustBeProperty?true:MemberRestriction(d,mustBeProperty));
+        }
+        
+        public static IConfigureAction PropertiesOnly(this IConfigureConventions conventions)
+        {
+            return conventions.If(d => !d.IsRootModel);
+        }
+        
+        public static IConfigureAction ForType<T>(this IConfigureConventions conventions,bool mustBeProperty=false)
+        {
+            return conventions.If(d => d.Type.Is<T>() && (!mustBeProperty?true:MemberRestriction(d, mustBeProperty)));
+        }
+
+        private static bool MemberRestriction(ModelInfo d, bool mustBeProperty)
+        {
+            return mustBeProperty?!d.IsRootModel:d.IsRootModel;
         }
 
         public static IConfigureAction ForModelWithAttribute<T>(this IConfigureConventions conventions)
             where T : Attribute
         {
-            return conventions.If(d => d.HasAttribute<T>());
+            return conventions.If(d => d.PropertyOrParentHasAttribute<T>());
         }
 
         public static HtmlTag GenerateTags(this IDefinedConventions conventions, ModelInfo info)

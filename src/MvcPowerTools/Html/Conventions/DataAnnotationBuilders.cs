@@ -4,6 +4,9 @@ using HtmlTags.Extended.Attributes;
 
 namespace MvcPowerTools.Html.Conventions
 {
+    /// <summary>
+    /// Builds hidden tag for [HiddenInput]
+    /// </summary>
     public class DataAnnotationBuilders : HtmlConventionsModule
     {
         public override void Configure(HtmlConventionsManager conventions)

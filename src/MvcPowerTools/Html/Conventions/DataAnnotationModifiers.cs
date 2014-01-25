@@ -4,9 +4,7 @@ using HtmlTags.Extended.Attributes;
 
 namespace MvcPowerTools.Html.Conventions
 {
-    /// <summary>
-    /// Should be added at the end
-    /// </summary>
+  
     public class DataAnnotationModifiers:HtmlConventionsModule
     {
         public DataAnnotationModifiers()

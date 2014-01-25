@@ -20,8 +20,8 @@ namespace MvcPowerTools.Html
                     ;
             }
             Tag.Value("true");
-            Children.Add(Tag);
-            Children.Add(new HiddenTag().Name(name).Value("false"));
+            Append(Tag);
+            Append(new HiddenTag().Name(name).Value("false"));
         }
 
         public CheckboxTag Tag { get; private set; }

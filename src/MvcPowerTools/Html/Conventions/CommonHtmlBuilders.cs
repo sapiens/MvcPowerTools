@@ -3,6 +3,9 @@ using System.Web;
 
 namespace MvcPowerTools.Html.Conventions
 {
+    /// <summary>
+    /// Builds file input, label for file input, mvc compatbile checkbox for bools
+    /// </summary>
     public class CommonHtmlBuilders : HtmlConventionsModule
     {
         public override void Configure(HtmlConventionsManager conventions)

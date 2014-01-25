@@ -31,9 +31,10 @@ namespace HtmlConventionsSample
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            HtmlConventionsManager.LoadModule(new DataAnnotationModifiers(), new SemanticModifiers(), new CommonEditorModifiers());
             HtmlConventions();
             Filters();
-            HtmlConventionsManager.LoadModule(new DataAnnotationModifiers(), new SemanticModifiers());
+            HtmlConventionsManager.LoadModule( new CommonHtmlBuilders());
             FluentValidationModelValidatorProvider.Configure();
 
             ViewEngine();
@@ -121,14 +122,14 @@ namespace HtmlConventionsSample
             editors.Ignore<IdName>();
             
             
-            editors
-                .ForType<bool>()
-                .Modify((tag, info) =>
-                {
-                   tag.Children.RemoveAll(t => t.IsInputElement());
-                   tag.Children.Insert(0, new MvcCheckboxElement(info.HtmlId,info.HtmlName,info.Value<bool>()));
-                   return tag;
-                });
+            //editors
+            //    .ForType<bool>()
+            //    .Modify((tag, info) =>
+            //    {
+            //       tag.Children.RemoveAll(t => t.IsInputElement());
+            //       tag.Children.Insert(0, new MvcCheckboxElement(info.HtmlId,info.HtmlName,info.Value<bool>()));
+            //       return tag;
+            //    });
             
             editors
                 .If(m => !m.RawValue.Is<bool>() && !m.Type.IsUserDefinedClass() && !m.Type.IsArray)

@@ -12,33 +12,37 @@ namespace MvcPowerTools.Html
         /// <returns></returns>
         public static HtmlTag FormInputBuilder(ModelInfo info)
         {
-            var tag = HtmlTag.Placeholder();
-            var label = info.ConventionsRegistry().Labels.GenerateTags(info);
-            tag.Append(label);
-            tag.Children.Add(new TextboxTag(info.HtmlName, info.ValueAsString).Id(info.HtmlId).Attr("placeholder",info.Meta.Watermark));
-            var errMsg = "";
-            if (info.ValidationFailed)
-            {
-                errMsg = info.ModelErrors[0].ErrorMessage;
-            }
-            tag.Children.Add(new ValidationMessageTag(info.HtmlId, info.ValidationFailed, errMsg));
-            return tag;
+            return new TextboxTag(info.HtmlName, info.ValueAsString).Id(info.HtmlId)
+                .Attr("placeholder", info.Meta.Watermark);
+
+            //var tag = HtmlTag.Placeholder();
+            //var label = info.ConventionsRegistry().Labels.GenerateTags(info);
+            //tag.Append(label);
+            //tag.Children.Add();
+            //var errMsg = "";
+            //if (info.ValidationFailed)
+            //{
+            //    errMsg = info.ModelErrors[0].ErrorMessage;
+            //}
+            //tag.Children.Add(new ValidationMessageTag(info.HtmlId, info.ValidationFailed, errMsg));
+            //return tag;
         }
         
         public static HtmlTag MvcCheckBoxBuilder(ModelInfo info)
         {
-            var tag = HtmlTag.Placeholder();
-            var label = info.ConventionsRegistry().Labels.GenerateTags(info);
+            return new MvcCheckboxElement(info.HtmlId, info.HtmlName, info.RawValue == null ? false : info.Value<bool>());
+            //var tag = HtmlTag.Placeholder();
+            //var label = info.ConventionsRegistry().Labels.GenerateTags(info);
             
-            tag.Children.Add(new MvcCheckboxElement(info.HtmlId,info.HtmlName,info.RawValue==null?false:info.Value<bool>()));
-            var errMsg = "";
-            if (info.ValidationFailed)
-            {
-                errMsg = info.ModelErrors[0].ErrorMessage;
-            }
-            tag.Append(label);
-            tag.Children.Add(new ValidationMessageTag(info.HtmlId, info.ValidationFailed, errMsg));
-            return tag;
+            //tag.Children.Add();
+            //var errMsg = "";
+            //if (info.ValidationFailed)
+            //{
+            //    errMsg = info.ModelErrors[0].ErrorMessage;
+            //}
+            //tag.Append(label);
+            //tag.Children.Add(new ValidationMessageTag(info.HtmlId, info.ValidationFailed, errMsg));
+            //return tag;
         }
 
         public static HtmlTag FileUploadBuilder(ModelInfo info)
@@ -60,13 +64,13 @@ namespace MvcPowerTools.Html
         }
 
         /// <summary>
-        /// Creates a span
+        /// Creates a div
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
         public static HtmlTag BasicTagBuilder(ModelInfo info)
         {
-            return new HtmlTag("span").Text(info.ValueAsString);
+            return new HtmlTag("div").Text(info.ValueAsString);
         }
     }
 }

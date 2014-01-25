@@ -19,7 +19,7 @@ namespace MvcPowerTools.Html
             return name.Replace('.', '_');
         }
 
-        public static HtmlTag CreateValidationTag(this HtmlTag tag, ModelInfo info)
+        public static ValidationMessageTag CreateValidationTag(this HtmlTag tag, ModelInfo info)
         {
             var errMsg = "";
             if (info.ValidationFailed)
@@ -64,9 +64,61 @@ namespace MvcPowerTools.Html
             return tag.GetChild<HtmlTag>(d => d.IsInputElement() && predicate(d));
         }
 
+        public static HtmlTag FirstNonHiddenInput(this HtmlTag tag)
+        {
+            return tag.FirstInputTag(d => !d.IsHiddenInput());
+        }
+
+        public static bool HasChild<T>(this HtmlTag tag, T instance = null) where T:HtmlTag
+        {
+            if (instance == null) return tag.GetChild<T>() != null;
+            return tag.GetChild<T>(t => t == instance) != null;
+        }
+
+        /// <summary>
+        /// Since HtmlTag doesn't have a Parent setter, we have to use this hack to set a tag's parent
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <param name="parent"></param>
+        /// <returns></returns>
+        public static HtmlTag RegisterParent(this HtmlTag tag, HtmlTag parent)
+        {
+            parent.MustNotBeNull();
+            parent.Append(tag);
+            parent.Children.Remove(tag);
+            return tag;
+        }
+
+
+        /// <summary>
+        /// Gets the position of tag relative to parent. -1 means it doesn't have a parent
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <returns></returns>
+        public static int PositionAsChild(this HtmlTag tag)
+        {
+            if (tag.Parent == null) return -1;
+            for (var i = 0; i < tag.Parent.Children.Count; i++)
+            {
+                if (tag.Parent.Children[i] == tag) return i;
+            }
+            throw new InvalidOperationException("This is a bug or this tag was removed from its parent by another thread");
+        }
+
         public static bool IsHiddenInput(this HtmlTag tag)
         {
             return tag.IsInputElement() && tag.Attr("type") == "hidden";
+        }
+
+        /// <summary>
+        /// Returns the tag's parent or a placeholder containing the tag
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <returns></returns>
+        public static HtmlTag ParentOrPlaceholder(this HtmlTag tag)
+        {
+            if (tag.Parent == null) return tag.WrapWith(HtmlTag.Placeholder());
+            return tag.Parent;
         }
 
         /// <summary>
