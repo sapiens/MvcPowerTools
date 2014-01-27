@@ -3,6 +3,7 @@ using HtmlTags;
 namespace MvcPowerTools.Html.Conventions
 {
     /// <summary>
+    /// Only for primitives
     /// Adds validation attributes,
     /// label (LabelTag) before input 
     /// and 
@@ -20,9 +21,9 @@ namespace MvcPowerTools.Html.Conventions
             //       return tag;
             //   });
 
-            conventions.Editors.If(d=>!d.IsRootModel).Modify(AddValidationAttributes);
-            conventions.Editors.If(d=>!d.IsRootModel).Modify(AddEditorLabel);
-            conventions.Editors.If(d =>!d.IsRootModel).Modify(AddValidationMessage);
+            conventions.Editors.IfNotCustomType().Modify(AddValidationAttributes);
+            conventions.Editors.IfNotCustomType().Modify(AddEditorLabel);
+            conventions.Editors.IfNotCustomType().Modify(AddValidationMessage);
         }
 
      

@@ -64,13 +64,13 @@ namespace MvcPowerTools.Html
         }
 
         /// <summary>
-        /// Creates a div
+        /// Creates a span
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
         public static HtmlTag BasicTagBuilder(ModelInfo info)
         {
-            return new HtmlTag("div").Text(info.ValueAsString);
+            return new HtmlTag("span").Text(info.ValueAsString);
         }
     }
 }

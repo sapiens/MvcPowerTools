@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using HtmlTags;
@@ -7,6 +8,45 @@ namespace MvcPowerTools.Html
 {
     public static class HtmlTagsUtils
     {
+        /// <summary>
+        /// Creates and returns a select tag (dropdown box) having the enumeration as options
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="options"></param>
+        /// <param name="setOption"></param>
+        /// <param name="selectedValue"></param>
+        /// <returns></returns>
+        public static SelectTag ToSelectTag<T>(this IEnumerable<T> options,Action<SelectTag,T> setOption, object selectedValue=null)
+        {
+            options.MustNotBeNull();
+            setOption.MustNotBeNull();
+        
+            var tag = new SelectTag();
+            foreach (var option in options)
+            {
+                setOption(tag, option);
+            }
+            if (selectedValue!=null)
+            tag.SelectByValue(selectedValue);
+            return tag;
+        }
+
+        /// <summary>
+        /// Creates and returns a select tag (dropdown box) having the enumeration as options
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="options"></param>
+        /// <param name="textValue">Lambda to select a display value</param>
+        /// <param name="optionValue">Lambda to select the option value</param>
+        /// <param name="selectedValue"></param>
+        /// <returns></returns>
+        public static SelectTag ToSelectTag<T>(this IEnumerable<T> options, Func<T, string> textValue,
+            Func<T, object> optionValue,object selectedValue=null)
+        {
+            return ToSelectTag(options, (s, d) => s.Option(textValue(d), optionValue(d)),selectedValue);
+        }
+
+
         public static T GetChild<T>(this HtmlTag tag) where T : HtmlTag
         {
             var tp = typeof (T);

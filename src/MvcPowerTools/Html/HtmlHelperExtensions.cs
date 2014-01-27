@@ -11,7 +11,7 @@ namespace MvcPowerTools.Html
     {
         //todo display template without model helper
 
-        //todo some workflow and base paradigm for html conventions:: builders, editors
+     
         
         /// <summary>
         /// Uses the defined html conventions to build an editor for the view model
@@ -23,9 +23,33 @@ namespace MvcPowerTools.Html
         /// <returns></returns>
         public static HtmlTag Edit<T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property)
         {
+            //ModelMetadata metadata;
+            //var info = CreateModelInfo(html, property, out metadata);
+            //return info.ConventionsRegistry().Editors.GenerateTags(info);
+            return html.GenerateFor(HtmlConventionsManager.EditorKey, property);
+        }
+
+
+        public static HtmlTag Label<T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property)
+        {
+            return html.GenerateFor(HtmlConventionsManager.LabelKey, property);
+        }
+
+        /// <summary>
+        /// Uses html conventions to generate tags using the specified registry
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="R"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="registry">Registry with conventions (Displays,Editor,Lables etc)</param>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        public static HtmlTag GenerateFor<T, R>(this HtmlHelper<T> html,string registry, Expression<Func<T, R>> property)
+        {
+            registry.MustNotBeEmpty();
             ModelMetadata metadata;
             var info = CreateModelInfo(html, property, out metadata);
-            return info.ConventionsRegistry().Editors.GenerateTags(info);
+            return info.ConventionsRegistry()[registry].GenerateTags(info);
         }
 
         /// <summary>
@@ -51,9 +75,10 @@ namespace MvcPowerTools.Html
         /// <returns></returns>
         public static HtmlTag Display<T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property)
         {
-            ModelMetadata metadata;
-            var info = CreateModelInfo(html, property, out metadata);
-            return info.ConventionsRegistry().Displays.GenerateTags(info);
+            return html.GenerateFor(HtmlConventionsManager.DisplayKey, property);
+            //ModelMetadata metadata;
+            //var info = CreateModelInfo(html, property, out metadata);
+            //return info.ConventionsRegistry().Displays.GenerateTags(info);
         }
 
         /// <summary>

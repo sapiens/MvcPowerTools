@@ -36,6 +36,11 @@ namespace MvcPowerTools.Html
             return conventions.If(d => !d.IsRootModel);
         }
         
+        public static IConfigureAction IfNotCustomType(this IConfigureConventions conventions)
+        {
+            return conventions.If(d => !d.Type.IsUserDefinedClass());
+        }
+        
         public static IConfigureAction ForType<T>(this IConfigureConventions conventions,bool mustBeProperty=false)
         {
             return conventions.If(d => d.Type.Is<T>() && (!mustBeProperty?true:MemberRestriction(d, mustBeProperty)));

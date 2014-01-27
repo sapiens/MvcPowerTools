@@ -31,7 +31,7 @@ namespace HtmlConventionsSample
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            HtmlConventionsManager.LoadModule(new DataAnnotationModifiers(), new SemanticModifiers(), new CommonEditorModifiers());
+            HtmlConventionsManager.LoadModule(new DataAnnotationModifiers(), new SemanticModifiers(), new CommonEditorModifiers(),new CommonDisplayModifiers());
             HtmlConventions();
             Filters();
             HtmlConventionsManager.LoadModule( new CommonHtmlBuilders());
