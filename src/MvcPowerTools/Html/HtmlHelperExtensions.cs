@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq.Expressions;
 using System.Text;
 using System.Web.Mvc;
+using System.Web.Routing;
 using HtmlTags;
 
 namespace MvcPowerTools.Html
@@ -111,6 +112,11 @@ namespace MvcPowerTools.Html
         public static string CreateFor<T>(this UrlHelper url, object model = null, string action = "get") where T : Controller
         {
             var controller = typeof (T).ControllerNameWithoutSuffix();
+            if (model != null)
+            {
+                var data= new RouteValueDictionary(model.ToDictionary());
+                return url.Action(action, controller, data);
+            }
             return url.Action(action, controller, model);
         }
 
