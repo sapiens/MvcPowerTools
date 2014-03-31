@@ -1,11 +1,11 @@
-﻿using System.Web.Routing;
+﻿using System;
+using System.Diagnostics;
+using System.Web.Routing;
+using FluentAssertions;
 using MvcPowerTools.Routing;
 using Xunit;
-using System;
-using System.Diagnostics;
-using FluentAssertions;
 
-namespace XTests.Mvc.Routing
+namespace Tests.Routing
 {
 
    

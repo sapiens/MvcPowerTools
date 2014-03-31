@@ -8,6 +8,55 @@ namespace MvcPowerTools.Routing
 {
     public static class Extensions
     {
+
+        /// <summary>
+        /// Creates a route value dictionary with controller and action values set
+        /// </summary>
+        /// <returns></returns>
+        public static RouteValueDictionary CreateDefaults(this ActionCall actionCall)
+        {
+            var defaults = new RouteValueDictionary();
+            var controler = actionCall.Controller.ControllerNameWithoutSuffix();
+            defaults["controller"] = controler;
+            defaults["action"] = actionCall.Method.Name;
+            return defaults;
+        }
+
+
+        /// <summary>
+        /// Creates a Route with no url pattern and with the defaults (controller,action) set
+        /// </summary>
+        /// <returns></returns>
+        public static Route CreateRoute(this ActionCall actionCall,string url = ActionCall.EmptyRouteUrl)
+        {
+            url.MustNotBeEmpty();
+            return new Route(url, actionCall.CreateDefaults(), new RouteValueDictionary(), actionCall.Settings.CreateHandler());
+        }
+
+        /// <summary>
+        /// Sets the defaults for the route params. Only action parameters with default values are considered.
+        /// If the value is equal to the type's default value, it's considered optional
+        /// User defined params are ignored.
+        /// This method should not be used for POST.
+        /// </summary>
+        /// <param name="defaults"></param>
+        public static void SetParamsDefaults(this ActionCall actionCall,RouteValueDictionary defaults)
+        {
+            foreach (var p in actionCall.Arguments.Values)
+            {
+                if (p.RawDefaultValue == DBNull.Value) continue;
+
+                if (p.RawDefaultValue == p.ParameterType.GetDefault())
+                {
+                    defaults[p.Name] = UrlParameter.Optional;
+                }
+                else
+                {
+                    defaults[p.Name] = p.RawDefaultValue;
+                }
+            }
+        }
+
         /// <summary>
         /// Removes the namespace root from the provided string
         /// </summary>

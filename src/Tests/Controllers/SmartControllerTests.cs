@@ -1,17 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Diagnostics;
 using System.Dynamic;
 using System.Reflection;
 using System.Web.Mvc;
+using FluentAssertions;
 using Moq;
 using MvcPowerTools.Controllers;
 using MvcPowerTools.Controllers.Internal;
 using Xunit;
-using System;
-using System.Diagnostics;
-using FluentAssertions;
 using Xunit.Extensions;
 
-namespace XTests.Mvc.Controllers
+namespace Tests.Controllers
 {
     public class MyClass
     {
