@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
@@ -41,7 +42,7 @@ namespace MvcPowerTools.Routing
         /// This method should not be used for POST.
         /// </summary>
         /// <param name="defaults"></param>
-        public static void SetParamsDefaults(this ActionCall actionCall,RouteValueDictionary defaults)
+        public static void SetParamsDefaults(this ActionCall actionCall,IDictionary<string,object> defaults)
         {
             foreach (var p in actionCall.Arguments.Values)
             {

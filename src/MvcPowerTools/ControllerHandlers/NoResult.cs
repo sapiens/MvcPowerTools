@@ -1,6 +1,23 @@
 namespace MvcPowerTools.ControllerHandlers
 {
-    public class NoResult { }
+    public class NoResult
+    {
+        public static NoResult Instance=new NoResult();
 
-    public class NoInput { }
+        private NoResult()
+        {
+            
+        }
+
+    }
+
+    public class NoInput
+    {
+        public static NoInput Instance= new NoInput();
+
+        private NoInput()
+        {
+            
+        }
+    }
 }

@@ -23,7 +23,7 @@ namespace Tests.Routing
         }
 
         [Fact]
-        public void test()
+        public void builds_proper_get_route()
         {
             var route = _sut.Build(_ac).First();
             route.Url.Should().Be("home/{id}/{bla}/{title}");

@@ -145,12 +145,11 @@ namespace MvcPowerTools.Routing
             } 
         }
 
-        //todo aspnet mvc convention
         private Func<ActionCall,IEnumerable<Route>> _defaultBuilder = a =>
         {
-            var url = a.GetControllerName() + "/" + a.Method.Name;
-            var route = a.CreateRoute(url);
-            return new Route[1] {route};
+            //var url = a.GetControllerName() + "/" + a.Method.Name;
+            //var route = a.CreateRoute(url);
+           return new Route[0];
         };
 
         public IConfigureRoutingConventions DefaultBuilder(Func<ActionCall,IEnumerable<Route>> builder)

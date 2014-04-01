@@ -17,7 +17,7 @@ namespace Tests.Routing
 
 
         [Fact]
-        public void makes_use_of_defined_conventions()
+        public void handles_argument_list_properly()
         {
             var sut = new RoutingConventions();
             sut.UseHandlerConvention();
@@ -34,10 +34,10 @@ namespace Tests.Routing
         }
         
         /// <summary>
-        /// Test to see if it works with user defined class passed as action arg. Used by <see cref="OneModelInHandlerConvention"/>
+        /// Test to see if it works with user defined class passed as action arg. Used by <see cref="MvcPowerTools.Routing.Conventions.OneModelInHandlerConvention"/>
         /// </summary>
         [Fact]
-        public void makes_use_of_defined_conventions_2()
+        public void handles_one_model_in_argument_properly()
         {
             var sut = new RoutingConventions();
             sut.UseOneModelInHandlerConvention();

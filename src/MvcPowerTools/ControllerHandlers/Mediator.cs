@@ -6,9 +6,9 @@ namespace MvcPowerTools.ControllerHandlers
 {
     public static class Mediator
     {
-        public static NoResult NoResult<T, R>(this IHandleCommand<T, R> handler) where T : class where R : class
+        public static NoResult NoResultInstance<T, R>(this IHandleCommand<T, R> handler) where T : class where R : class
         {
-            return new NoResult();
+            return NoResult.Instance;
         }
 
         public static TOut QueryTo<TOut>(this object model)  where TOut : class

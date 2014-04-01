@@ -2,7 +2,8 @@
 
 namespace Tests.Routing
 {
-    public class HandlerFixtureController:Controller
+
+   public class HandlerFixtureController:Controller
     {
         public ActionResult Get(int page=3)
         {
