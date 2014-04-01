@@ -1,5 +1,9 @@
 ﻿
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Web;
 using FluentAssertions;
 using MvcPowerTools.Routing;
 using Xunit;
@@ -8,13 +12,10 @@ namespace Tests.Routing
 {
     public class HomePageTests
     {
-       
+
         public HomePageTests()
         {
-           
-           
         }
-
 
         [Fact]
         public void handles_argument_list_properly()
