@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
+using MvcPowerTools.Routing.Conventions;
 
 namespace MvcPowerTools.Routing
 {
@@ -36,7 +37,7 @@ namespace MvcPowerTools.Routing
         /// <summary>
         /// Sets the defaults for the route params. Only action parameters with default values are considered.
         /// If the value is equal to the type's default value, it's considered optional
-        /// User defined params are ignored.
+        /// User defined class params are ignored.
         /// This method should not be used for POST.
         /// </summary>
         /// <param name="defaults"></param>
@@ -194,7 +195,7 @@ namespace MvcPowerTools.Routing
             {
                 c.GetActionMethods().ForEach(m =>
                 {
-                    policy.AddAction(new ActionCall(m,c, policy.Settings));
+                    policy.AddAction(new ActionCall(m, policy.Settings));
                 }); 
             }
             return policy;
@@ -207,13 +208,13 @@ namespace MvcPowerTools.Routing
         }
 
         /// <summary>
-        /// This conventions applies only for GET
+        /// This conventions applies only for GET requests
         /// </summary>
         /// <param name="policy"></param>
         /// <returns></returns>
-        public static RoutingConventions UseModelInputHandlerConvention(this RoutingConventions policy,Predicate<ActionCall> applyTo=null)
+        public static RoutingConventions UseOneModelInHandlerConvention(this RoutingConventions policy,Predicate<ActionCall> applyTo=null)
         {
-            policy.Add(new ModelInputHandlerRouting(applyTo));
+            policy.Add(new OneModelInHandlerConvention(applyTo));
             return policy;
         }
 

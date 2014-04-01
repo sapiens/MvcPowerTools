@@ -22,7 +22,7 @@ namespace Tests.Routing
 
         public ActionCallTests()
         {
-            _sut = new ActionCall(typeof (HomeController).GetMethod("Get"),typeof (HomeController), new RoutingConventionsSettings());
+            _sut = new ActionCall(typeof (HomeController).GetMethod("Get"), new RoutingConventionsSettings());
         }
 
         [Fact]

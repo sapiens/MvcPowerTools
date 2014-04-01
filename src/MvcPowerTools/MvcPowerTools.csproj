@@ -182,7 +182,7 @@
     <Compile Include="RequestMetricsFilter.cs" />
     <Compile Include="Routing\ActionCall.cs" />
     <Compile Include="Routing\Extensions.cs" />
-    <Compile Include="Routing\HandlerRouteConvention.cs" />
+    <Compile Include="Routing\Conventions\HandlerRouteConvention.cs" />
     <Compile Include="Routing\IConfigureAction.cs" />
     <Compile Include="Routing\IConfigureRoutingConventions.cs" />
     <Compile Include="Routing\IMatchAction.cs" />
@@ -190,9 +190,9 @@
     <Compile Include="Routing\IBuildRoutes.cs" />
     <Compile Include="Routing\LambdaConventionConfigurator.cs" />
     <Compile Include="Routing\LambdaConventionHost.cs" />
-    <Compile Include="Routing\ModelInputHandlerRouting.cs" />
-    <Compile Include="Routing\ExcludeFromRouteAttribute.cs" />
-    <Compile Include="Routing\RouteSegmentPrefixAttribute.cs" />
+    <Compile Include="Routing\Conventions\OneModelInHandlerConvention.cs" />
+    <Compile Include="Routing\Conventions\ExcludeFromRouteAttribute.cs" />
+    <Compile Include="Routing\Conventions\RouteSegmentPrefixAttribute.cs" />
     <Compile Include="Routing\RoutingConventionsModule.cs" />
     <Compile Include="Routing\RoutingConventions.cs" />
     <Compile Include="Routing\RoutingConventionsSettings.cs" />

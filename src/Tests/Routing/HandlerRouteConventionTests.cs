@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Routing;
 using FluentAssertions;
 using MvcPowerTools.Routing;
+using MvcPowerTools.Routing.Conventions;
 using Xunit;
 
 namespace Tests.Routing
@@ -17,7 +18,7 @@ namespace Tests.Routing
         public HandlerRouteConventionTests()
         {
             _sut = new HandlerRouteConvention();
-            _ac = new ActionCall(typeof(HomeController).GetMethod("Get"),typeof (HomeController), new RoutingConventionsSettings());
+            _ac = new ActionCall(typeof(HomeController).GetMethod("Get"), new RoutingConventionsSettings());
             
         }
 

@@ -94,18 +94,13 @@ namespace System.Web.Mvc
        internal static RouteValueDictionary ToRouteValues<T>(Expression<Action<T>> selector) where T:Controller
        {
             var method = selector.Body as MethodCallExpression;
+           method.MustComplyWith(m=>m!=null,"Only controller actions are accepted");
+           
            var action = method.Method.Name;
-          //  var args = method.Method.GetParameters();
-            var args = method.Arguments.ToArray();
+           var args = method.Arguments.ToArray();
            
            RouteValueDictionary rv = null;
-           //var cname = typeof(T).Name;
-           //var cidx = cname.IndexOf("Controller");
-           //if (cidx > -1)
-           //{
-           //    cname = cname.Remove(cidx, 10);
-           //}
-           
+        
            if (args.Length > 0)
            {
                var argValue = args[0].GetValue();

@@ -2,29 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Web.Mvc;
-using System.Web.Routing;
 
 namespace MvcPowerTools.Routing
 {
-    public class ActionCall
+    public class ActionCall:IEquatable<ActionCall>
     {
         private Type _controller;
         private MethodInfo _method;
         private IDictionary<string, ParameterInfo> _args=new Dictionary<string, ParameterInfo>();
 
-        public ActionCall(MethodInfo method,Type controller,RoutingConventionsSettings settings)
+        public ActionCall(MethodInfo method, RoutingConventionsSettings settings)
         {
             method.MustNotBeNull();
-            _controller = controller;
+            _controller = method.DeclaringType;
             settings.MustNotBeNull();
             Settings = settings;
             _method = method;
-            foreach (var arg in method.GetParameters().Where(p=>!p.ParameterType.IsUserDefinedClass()))
+            foreach (var arg in method.GetParameters().Where(p => !p.ParameterType.IsUserDefinedClass()))
             {
                 _args[arg.Name] = arg;
             }
         }
+        
+      
 
         public Type Controller
         {
@@ -48,8 +48,17 @@ namespace MvcPowerTools.Routing
        
 
         public const string EmptyRouteUrl = "___";
-            
 
-       
+
+        public bool Equals(ActionCall other)
+        {
+            if (other == null) return false;
+            return (other.Method == Method);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals((ActionCall) obj);
+        }
     }
 }

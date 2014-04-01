@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Web.Routing;
 
-namespace MvcPowerTools.Routing
+namespace MvcPowerTools.Routing.Conventions
 {
     /// <summary>
     /// Handler convention, the controller contains 1 GET and 1 POST

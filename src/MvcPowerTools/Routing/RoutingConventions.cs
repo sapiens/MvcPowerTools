@@ -11,13 +11,26 @@ namespace MvcPowerTools.Routing
 {
     public class RoutingConventions:IConfigureRoutingConventions
     {
+        /// <summary>
+        /// Configures routing conventions and applies them to RouteTable
+        /// </summary>
+        /// <param name="cfg"></param>
         public static void Configure(Action<RoutingConventions> cfg)
         {
             cfg.MustNotBeNull();
             var routing = new RoutingConventions();
             cfg(routing);
-            routing.Apply(RouteTable.Routes);
+            var routes=routing.BuildRoutes();
+            foreach (var route in routes)
+            {
+                RouteTable.Routes.Add(route);
+            }
         }
+
+        /// <summary>
+        /// You can change this. Default is {*catch}
+        /// </summary>
+        public static string DefaultRouteUrl = @"{*catch}";
 
         List<IBuildRoutes> _builders=new List<IBuildRoutes>();
         List<IModifyRoute> _modifiers=new List<IModifyRoute>();
@@ -35,7 +48,7 @@ namespace MvcPowerTools.Routing
 
         public RoutingConventionsSettings Settings { get; private set; }
 
-        private Route _home;
+       
         
         public IConfigureAction If(Predicate<ActionCall> predicate)
         {
@@ -57,15 +70,88 @@ namespace MvcPowerTools.Routing
             return this;
         }
 
+        private Route _home;
         public IConfigureRoutingConventions HomeIs<T>(Expression<Action<T>> actionSelector) where T : Controller
         {
-            actionSelector.MustNotBeNull();//todo refactor home - it should use the convetions
-            var routeValues = ControllerExtensions.ToRouteValues(actionSelector);
-            _home = new Route(@"{*catch}",routeValues,new MvcRouteHandler());
+            actionSelector.MustNotBeNull();
+            var hac=new HomeActionCall(Settings);
+            _home = hac.GetRoute(actionSelector);
+       
             return this;
         }
 
-        private Func<ActionCall,IEnumerable<Route>> _defaultBuilder = a => new Route[0];
+        class HomeActionCall
+        {
+            private readonly RoutingConventionsSettings _settings;
+            private ActionCall _action;
+            private MethodCallExpression _methodCall;
+            private bool _isModelInput;
+
+            private readonly string[] _skipDefaults = new[] {"controller","action","httpMethod"};
+
+            public HomeActionCall(RoutingConventionsSettings settings)
+            {
+                _settings = settings;                
+            }
+            
+            public Route GetRoute<T>(Expression<Action<T>> actionSelector)   where T:Controller
+            {
+                _methodCall = actionSelector.Body as MethodCallExpression;
+                _action = new ActionCall(_methodCall.Method, _settings);
+                var args=_methodCall.Method.GetParameters();
+                if (args.Length == 1)
+                {
+                    _isModelInput = args[0].ParameterType.IsUserDefinedClass();
+                }
+                return MakeDefaultRoute();
+            }
+
+          
+            void FillModelParamValues(IDictionary<string,object> defaults)
+            {
+                var exprArg = _methodCall.Arguments[0];
+                var val = exprArg.GetValue();
+                foreach (var prop in val.GetType().GetProperties())
+                {
+                    if (prop.PropertyType.IsUserDefinedClass()) continue;
+                    defaults[prop.Name] = prop.GetValue(val);
+                }
+            }
+
+            void FillParamValues(IDictionary<string, object> defaults)
+            {
+                var i = 0;
+                foreach (var arg in _methodCall.Method.GetParameters())
+                {
+                    if (arg.ParameterType.IsUserDefinedClass()) continue;
+                    defaults[arg.Name] = _methodCall.Arguments[i].GetValue();
+                    i++;
+                }                
+            }
+
+            Route MakeDefaultRoute()
+            {
+                var route = _action.CreateRoute(RoutingConventions.DefaultRouteUrl);
+                if (_isModelInput)
+                {
+                    FillModelParamValues(route.Defaults);
+                }
+                else
+                {
+                    FillParamValues(route.Defaults);
+                }
+                route.ConstrainToGet();
+                return route;
+            } 
+        }
+
+        //todo aspnet mvc convention
+        private Func<ActionCall,IEnumerable<Route>> _defaultBuilder = a =>
+        {
+            var url = a.GetControllerName() + "/" + a.Method.Name;
+            var route = a.CreateRoute(url);
+            return new Route[1] {route};
+        };
 
         public IConfigureRoutingConventions DefaultBuilder(Func<ActionCall,IEnumerable<Route>> builder)
         {
@@ -81,8 +167,9 @@ namespace MvcPowerTools.Routing
             _actions.Add(action);           
         }
 
-        public void Apply(RouteCollection routeCollection)
+        public IEnumerable<Route> BuildRoutes()
         {
+            List<Route>routeCollection=new List<Route>();
             foreach (var action in _actions)
             {
                 var builder = _builders.FirstOrDefault(d => d.Match(action));
@@ -103,15 +190,15 @@ namespace MvcPowerTools.Routing
                         modifier.Modify(route,action);
                     }
                 }
-                foreach (var route in routes)
-                {
-                    routeCollection.Add(route);
-                }
+
+             
+                routeCollection.AddRange(routes);
             }
             if (_home != null)
             {
                 routeCollection.Add(_home);
             }
+            return routeCollection;
         }
     }
 

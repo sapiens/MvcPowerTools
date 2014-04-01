@@ -6,13 +6,13 @@ using System.Text;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace MvcPowerTools.Routing
+namespace MvcPowerTools.Routing.Conventions
 {
-    public class ModelInputHandlerRouting : IBuildRoutes
+    public class OneModelInHandlerConvention : IBuildRoutes
     {
         private readonly Predicate<ActionCall> _match = a => true;
 
-        public ModelInputHandlerRouting(Predicate<ActionCall> match=null)
+        public OneModelInHandlerConvention(Predicate<ActionCall> match=null)
         {
             if (match!=null) _match = match;
         }
