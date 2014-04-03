@@ -23,7 +23,7 @@ namespace MvcPowerTools.Filters
             RegisterControllers(conventions,asm.GetControllerTypes().ToArray());
         }
 
-        public static void RegisterControllers<T>(this FiltersConventions conventions)
+        public static void RegisterController<T>(this FiltersConventions conventions)
         {
             conventions.RegisterControllers(typeof(T));
         }
@@ -41,7 +41,7 @@ namespace MvcPowerTools.Filters
 
         /// <summary>
         /// Scans assembly and registers all policies found.
-        /// Uses dependecy resolver
+        /// Uses dependency resolver
         /// </summary>
         /// <param name="conventions"></param>
         /// <param name="asm"></param>

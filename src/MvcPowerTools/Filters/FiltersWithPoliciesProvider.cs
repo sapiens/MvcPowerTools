@@ -5,16 +5,21 @@ namespace MvcPowerTools.Filters
 {
     internal class FiltersWithPoliciesProvider:IFilterProvider
     {
-        Dictionary<string,IEnumerable<Filter>> _filters=new Dictionary<string, IEnumerable<Filter>>();
+        private Dictionary<string,IEnumerable<Filter>> _filters=new Dictionary<string, IEnumerable<Filter>>();
         public FiltersWithPoliciesProvider(IEnumerable<FilterActionInfo> filters)
         {
             foreach (var filter in filters)
             {
-                _filters.Add(filter.Key,filter.Filters);
+                Filters.Add(filter.Key,filter.Filters);
             }
         }
-        
-        
+
+        public Dictionary<string, IEnumerable<Filter>> Filters
+        {
+            get { return _filters; }
+        }
+
+
         /// <summary>
         /// Returns an enumerator that contains all the <see cref="T:System.Web.Mvc.IFilterProvider"/> instances in the service locator.
         /// </summary>
@@ -27,7 +32,7 @@ namespace MvcPowerTools.Filters
             var key = FilterActionInfo.CreateKey(actionDescriptor.ControllerDescriptor.ControllerType,
                                                  actionDescriptor.ActionName);
             IEnumerable<Filter> filters;
-            if (!_filters.TryGetValue(key, out filters))
+            if (!Filters.TryGetValue(key, out filters))
             {
                 filters=new Filter[0];
             }
