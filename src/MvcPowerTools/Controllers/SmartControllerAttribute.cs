@@ -55,7 +55,7 @@ namespace MvcPowerTools.Controllers
         /// Registers types with a DI Container using the provided action
         /// </summary>
         /// <param name="genericTypeRegistration">Action which will register a generic open type with the DI Container</param>
-        public static void RegisterContainerTypes(Action<Type> genericTypeRegistration)
+        public static void RegisterInContainerGenericTypes(Action<Type> genericTypeRegistration)
         {
             Array.ForEach(TypesForDIContainer,genericTypeRegistration);
         }
