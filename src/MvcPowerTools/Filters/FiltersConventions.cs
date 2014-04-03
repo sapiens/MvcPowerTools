@@ -75,7 +75,7 @@ namespace MvcPowerTools.Filters
             filters.Add(BuildProvider());
         }
 
-        public void LoadModule(params FilterConfigurationModule[] modules)
+        public void LoadModule(params FiltersConventionsModule[] modules)
         {
             foreach (var module in modules)
             {

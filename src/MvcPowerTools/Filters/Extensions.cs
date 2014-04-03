@@ -11,6 +11,7 @@ namespace MvcPowerTools.Filters
          {
              foreach (var c in controllers)
              {
+                 if (!c.DerivesFrom<Controller>()) continue;
                  c.GetActionMethods().ForEach(m =>
                  {
                      conventions.Actions.Add(m);
@@ -23,7 +24,7 @@ namespace MvcPowerTools.Filters
             RegisterControllers(conventions,asm.GetControllerTypes().ToArray());
         }
 
-        public static void RegisterController<T>(this FiltersConventions conventions)
+        public static void RegisterController<T>(this FiltersConventions conventions) where T:Controller
         {
             conventions.RegisterControllers(typeof(T));
         }

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Reflection;
 using System.Web.Mvc;
 using FluentAssertions;
+using MvcPowerTools;
+using MvcPowerTools.Controllers;
 using MvcPowerTools.Filters;
 using Xunit;
 
@@ -42,7 +45,9 @@ namespace Tests.Filters
         {
             _sut = new FiltersConventions();
             _sut.RegisterController<TestMvcController>();
+            
         }
+     
 
         [Fact]
         public void apply_filter_to_controller_and_action()
