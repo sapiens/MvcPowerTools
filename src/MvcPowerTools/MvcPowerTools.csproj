@@ -89,6 +89,8 @@
     <Compile Include="ControllerHandlers\IHandleCommand.cs" />
     <Compile Include="ControllerHandlers\NoResult.cs" />
     <Compile Include="Controllers\AbstractResultForInvalidModel.cs" />
+    <Compile Include="Controllers\ReturnViewIfValidationFailsAttribute.cs" />
+    <Compile Include="Controllers\TransferIfValidationFailsAttribute.cs" />
     <Compile Include="Html\AngularJsSupport.cs" />
     <Compile Include="Html\Conventions\CommonDisplayModifiers.cs" />
     <Compile Include="Html\Conventions\CommonEditorModifiers.cs" />
@@ -123,7 +125,7 @@
     <Compile Include="Extensions\ThemeInfo.cs" />
     <Compile Include="Filters\Extensions.cs" />
     <Compile Include="Filters\FilterActionInfo.cs" />
-    <Compile Include="Filters\FilterConfigurationModule.cs" />
+    <Compile Include="Filters\FiltersConventionsModule.cs" />
     <Compile Include="Filters\FiltersConventions.cs" />
     <Compile Include="Filters\FiltersWithPoliciesProvider.cs" />
     <Compile Include="Filters\IConfigureAction.cs" />
