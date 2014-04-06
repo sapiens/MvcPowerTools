@@ -2,6 +2,6 @@
 {
     public abstract class RoutingConventionsModule
     {
-        public abstract void Configure(RoutingConventions conventions);
+        public abstract void Configure(IConfigureRoutingConventions conventions);
     }
 }

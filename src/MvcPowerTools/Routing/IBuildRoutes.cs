@@ -1,10 +1,24 @@
 ﻿using System.Collections.Generic;
+#if WEBAPI
+using System.Web.Http.Routing;
+#else
 using System.Web.Routing;
+#endif
 
-namespace MvcPowerTools.Routing
-{
+
+#if WEBAPI
+namespace WebApiPowerTools.Routing{
+#else
+namespace MvcPowerTools.Routing{    
+#endif
+
    public interface IBuildRoutes:IMatchAction
     {
-        IEnumerable<Route> Build(ActionCall actionInfo);
+#if WEBAPI
+    IEnumerable<HttpRoute> Build(RouteBuilderInfo info);
+#else
+    IEnumerable<Route> Build(RouteBuilderInfo info);
+#endif
+
     }
 }

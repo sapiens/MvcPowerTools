@@ -195,6 +195,7 @@
     <Compile Include="Routing\Conventions\OneModelInHandlerConvention.cs" />
     <Compile Include="Routing\Conventions\ExcludeFromRouteAttribute.cs" />
     <Compile Include="Routing\Conventions\RouteSegmentPrefixAttribute.cs" />
+    <Compile Include="Routing\RouteBuilderInfo.cs" />
     <Compile Include="Routing\RoutingConventionsModule.cs" />
     <Compile Include="Routing\RoutingConventions.cs" />
     <Compile Include="Routing\RoutingConventionsSettings.cs" />

@@ -6,16 +6,17 @@ namespace MvcPowerTools.Routing
 {
     class LambdaConventionConfigurator:IConfigureAction
     {
-        private readonly IConfigureRoutingConventions _parent;
+       
         private LambdaConventionHost _lambda;
+        private RoutingConventions _parent;
 
-        public LambdaConventionConfigurator(IConfigureRoutingConventions parent,Predicate<ActionCall> predicate)
+        public LambdaConventionConfigurator(RoutingConventions parent,Predicate<ActionCall> predicate)
         {
             _parent = parent;
             _lambda = new LambdaConventionHost(predicate);
         }
 
-        public IConfigureRoutingConventions Build(Func<ActionCall, IEnumerable<Route>> builder)
+       public IConfigureRoutingConventions Build(Func<RouteBuilderInfo, IEnumerable<Route>> builder)
         {
             builder.MustNotBeNull();
             _lambda.Builder = builder;
@@ -23,14 +24,12 @@ namespace MvcPowerTools.Routing
             return _parent;
         }
 
-        public IConfigureRoutingConventions Modify(Action<Route, ActionCall> modifier)
+        public IConfigureRoutingConventions Modify(Action<Route, RouteBuilderInfo> modifier)
         {
             modifier.MustNotBeNull();
             _lambda.Modifier = modifier;
-            _parent.Add((IModifyRoute) _lambda);
+            _parent.Add((IModifyRoute)_lambda);
             return _parent;
         }
-
-        
     }
 }

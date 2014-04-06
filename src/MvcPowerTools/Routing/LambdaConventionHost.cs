@@ -18,22 +18,22 @@ namespace MvcPowerTools.Routing
             return _predicate(action);
         }
 
-        public Func<ActionCall, IEnumerable<Route>> Builder { get; set; }
-        public Action<Route,ActionCall> Modifier { get; set; }
+        public Func<RouteBuilderInfo, IEnumerable<Route>> Builder { get; set; }
+        public Action<Route, RouteBuilderInfo> Modifier { get; set; }
 
-        public void Modify(Route route, ActionCall actionCall)
+        public void Modify(Route route, RouteBuilderInfo info)
         {
             if (Modifier != null)
             {
-                Modifier(route, actionCall);
+                Modifier(route, info);
             }
         }
 
-        public IEnumerable<Route> Build(ActionCall actionInfo)
+        public IEnumerable<Route> Build(RouteBuilderInfo info)
         {
             if (Builder != null)
             {
-                return Builder(actionInfo);
+                return Builder(info);
             }
             return new Route[0];
         }

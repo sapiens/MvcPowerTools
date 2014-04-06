@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace MvcPowerTools.Routing.Conventions
@@ -19,35 +21,32 @@ namespace MvcPowerTools.Routing.Conventions
             return true;
         }
 
-        public IEnumerable<Route> Build(ActionCall action)
+        public IEnumerable<Route> Build(RouteBuilderInfo info)
         {
             
             var sb = new StringBuilder();
-            var name = action.Controller.Name;
-            if (name.EndsWith("Controller", StringComparison.OrdinalIgnoreCase))
-            {
-                name = name.Substring(0, name.Length - 10);
-            }
+            var name = info.ActionCall.Controller.ControllerNameWithoutSuffix();
             sb.Append(name.ToLowerInvariant());
-            var defaults = action.CreateDefaults();
+            
+            var defaults = info.CreateDefaults();
             var constraints = new RouteValueDictionary();
             
-            if (action.Method.Name.StartsWith("get", StringComparison.OrdinalIgnoreCase))
+            if (info.ActionCall.Method.Name.StartsWith("get", StringComparison.OrdinalIgnoreCase))
             {
-                foreach (var param in action.Arguments.Keys)
+                foreach (var param in info.ActionCall.Method.GetParameters().Where(d=>!d.ParameterType.IsUserDefinedClass()).Select(d=>d.Name))
                 {
                     sb.Append("/{").Append(param).Append("}");
                 }
-                action.SetParamsDefaults(defaults);
+                info.ActionCall.SetParamsDefaults(defaults);
             }
 
 
-            var httpMethod = action.Method.Name.StartsWith("post",
+            var httpMethod = info.ActionCall.Method.Name.StartsWith("post",
                                                            StringComparison.OrdinalIgnoreCase)
                                  ? "POST"
                                  : "GET";
             constraints["httpMethod"] =new HttpMethodConstraint(httpMethod) ;
-            return new[]{ new Route(sb.ToString(),defaults,constraints,action.Settings.CreateHandler())};
+            return new[]{ new Route(sb.ToString(),defaults,constraints,info.Settings.CreateHandler())};
         }
     }
     

@@ -11,29 +11,35 @@ namespace MvcPowerTools.Routing
     public static class Extensions
     {
 
-        /// <summary>
-        /// Creates a route value dictionary with controller and action values set
-        /// </summary>
-        /// <returns></returns>
-        public static RouteValueDictionary CreateDefaults(this ActionCall actionCall)
-        {
-            var defaults = new RouteValueDictionary();
-            var controler = actionCall.Controller.ControllerNameWithoutSuffix();
-            defaults["controller"] = controler;
-            defaults["action"] = actionCall.Method.Name;
-            return defaults;
-        }
+        ///// <summary>
+        ///// Creates a route value dictionary with controller and action values set
+        ///// </summary>
+        ///// <returns></returns>
+        //public static RouteValueDictionary CreateDefaults(this RouteBuilderInfo info)
+        //{
+        //    var defaults = new RouteValueDictionary();
+        //    var controler = info.ActionCall.Controller.ControllerNameWithoutSuffix();
+        //    defaults["controller"] = controler;
+        //    var name = info.ActionCall.Method.Name.ToLower();
+        //    var actionAttrib = info.ActionCall.Method.GetCustomAttribute<ActionNameAttribute>();
+        //    if (actionAttrib != null)
+        //    {
+        //        name = actionAttrib.Name;
+        //    }
+        //    defaults["action"] = name;
+        //    return defaults;
+        //}
 
 
-        /// <summary>
-        /// Creates a Route with no url pattern and with the defaults (controller,action) set
-        /// </summary>
-        /// <returns></returns>
-        public static Route CreateRoute(this ActionCall actionCall,string url = ActionCall.EmptyRouteUrl)
-        {
-            url.MustNotBeEmpty();
-            return new Route(url, actionCall.CreateDefaults(), new RouteValueDictionary(), actionCall.Settings.CreateHandler());
-        }
+        ///// <summary>
+        ///// Creates a Route with no url pattern and with the defaults (controller,action) set
+        ///// </summary>
+        ///// <returns></returns>
+        //public static Route CreateRoute(this RouteBuilderInfo info,string url = ActionCall.EmptyRouteUrl)
+        //{
+        //    url.MustNotBeEmpty();
+        //    return new Route(url, info.CreateDefaults(), new RouteValueDictionary(), info.Settings.CreateHandler());
+        //}
 
         /// <summary>
         /// Sets the defaults for the route params. Only action parameters with default values are considered.
@@ -44,7 +50,7 @@ namespace MvcPowerTools.Routing
         /// <param name="defaults"></param>
         public static void SetParamsDefaults(this ActionCall actionCall,IDictionary<string,object> defaults)
         {
-            foreach (var p in actionCall.Arguments.Values)
+            foreach (var p in actionCall.Method.GetParameters().Where(d=>!d.ParameterType.IsUserDefinedClass()))
             {
                 if (p.RawDefaultValue == DBNull.Value) continue;
 
@@ -65,22 +71,21 @@ namespace MvcPowerTools.Routing
         /// <param name="settings"></param>
         /// <param name="namespace">Usually the namespace of the controller</param>
         /// <returns></returns>
- 
         public static string StripNamespaceRoot(this RoutingConventionsSettings settings, string @namespace)
          {
              return @namespace.Remove(0, settings.NamespaceRoot.Length);
          }
 
-        /// <summary>
-        /// Gets the controller name without the "Controler" suffix
-        /// </summary>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static string GetControllerName(this ActionCall action)
-        {
-            var name = action.Controller.Name;
-            return name.Substring(0, name.Length - 10);
-        }
+        ///// <summary>
+        ///// Gets the controller name without the "Controler" suffix
+        ///// </summary>
+        ///// <param name="action"></param>
+        ///// <returns></returns>
+        //public static string GetControllerName(this ActionCall action)
+        //{
+        //    var name = action.Controller.Name;
+        //    return name.Substring(0, name.Length - 10);
+        //}
 
         /// <summary>
         /// True if the action name starts with 'get'
@@ -102,8 +107,16 @@ namespace MvcPowerTools.Routing
             return action.Method.Name.StartsWith("post", StringComparison.OrdinalIgnoreCase);
         }
 
+        public static void LoadModules(this RoutingConventions policy, Assembly asm)
+        {
+            policy
+                .LoadModule(
+                asm.GetTypesDerivedFrom<RoutingConventionsModule>(true).Select(t => (RoutingConventionsModule)t.CreateInstance()).ToArray()
+                );
+        }
+
         /// <summary>
-        /// Scans assembly and registers policies. Uses dependency resolver
+        /// Scans assembly and registers routing convetions but not configuration modules. Uses dependency resolver
         /// </summary>
         /// <param name="policy"></param>
         /// <param name="asm"></param>
@@ -125,10 +138,10 @@ namespace MvcPowerTools.Routing
                 policy.Add(res.GetInstance<IModifyRoute>(modifier));
             }
 
-            policy.LoadModule(asm.GetTypesDerivedFrom<RoutingConventionsModule>(true).Select(t =>
-            {
-                return res.GetInstance<RoutingConventionsModule>(t);
-            }).ToArray());
+            //policy.LoadModule(asm.GetTypesDerivedFrom<RoutingConventionsModule>(true).Select(t =>
+            //{
+            //    return res.GetInstance<RoutingConventionsModule>(t);
+            //}).ToArray());
             
             return policy;
         }
@@ -142,7 +155,11 @@ namespace MvcPowerTools.Routing
             }
             return inst;
         }
-
+        /// <summary>
+        /// Searches routing conventions modules and registers them in Di Container
+        /// </summary>
+        /// <param name="asm"></param>
+        /// <param name="containerRegister"></param>
         public static void RegisterModulesInContainer(this Assembly asm,
             Action<Type> containerRegister)
         {
@@ -159,7 +176,7 @@ namespace MvcPowerTools.Routing
         /// <param name="asm"></param>
         public static RoutingConventions RegisterControllers(this RoutingConventions policy,Assembly asm)
         {
-            return RegisterController(policy,asm.GetControllerTypes().ToArray());          
+            return RegisterControllers(policy,asm.GetControllerTypes().ToArray());          
         }
         ///// <summary>
         ///// Register as actions types matching a criteria
@@ -180,7 +197,7 @@ namespace MvcPowerTools.Routing
         /// <param name="policy"></param>
         public static RoutingConventions RegisterController<T>(this RoutingConventions policy) where T : Controller
         {
-            policy.RegisterController(typeof(T));
+            policy.RegisterControllers(typeof(T));
             return policy;
         }
 
@@ -190,14 +207,11 @@ namespace MvcPowerTools.Routing
         /// </summary>
         /// <param name="policy"></param>
         /// <param name="controllers"></param>
-        public static RoutingConventions RegisterController(this RoutingConventions policy, params Type[] controllers)
+        public static RoutingConventions RegisterControllers(this RoutingConventions policy, params Type[] controllers)
         {
             foreach (var c in controllers)
             {
-                c.GetActionMethods().ForEach(m =>
-                {
-                    policy.AddAction(new ActionCall(m, policy.Settings));
-                }); 
+                policy.Actions.AddRange(c.GetActionMethods().Select(m=>new ActionCall(m)));                
             }
             return policy;
         }

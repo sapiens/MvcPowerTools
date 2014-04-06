@@ -13,12 +13,12 @@ namespace Tests.Routing
     {
         private Stopwatch _t = new Stopwatch();
         private HandlerRouteConvention _sut;
-        private ActionCall _ac;
+        private RouteBuilderInfo _ac;
 
         public HandlerRouteConventionTests()
         {
             _sut = new HandlerRouteConvention();
-            _ac = new ActionCall(typeof(HomeController).GetMethod("Get"), new RoutingConventionsSettings());
+            _ac = new RouteBuilderInfo(new ActionCall(typeof(HomeController).GetMethod("Get")),new RoutingConventions());
             
         }
 

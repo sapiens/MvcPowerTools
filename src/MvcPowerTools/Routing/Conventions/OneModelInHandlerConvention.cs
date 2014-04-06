@@ -32,14 +32,14 @@ namespace MvcPowerTools.Routing.Conventions
             return method.Name.StartsWith("get", StringComparison.OrdinalIgnoreCase);
         }
 
-        string GenerateUrlAndDefaults(ActionCall info, RouteValueDictionary defaults)
+        string GenerateUrlAndDefaults(RouteBuilderInfo info, RouteValueDictionary defaults)
         {
             var sb = new StringBuilder();
-            sb.Append(FormatControllerName(info.GetControllerName()));
+            sb.Append(FormatControllerName(info.ActionCall.Controller.ControllerNameWithoutSuffix()));
             
-            if (info.IsGet())
+            if (info.ActionCall.IsGet())
             {
-                GenerateForGet(info, defaults, sb);   
+                GenerateForGet(info.ActionCall, defaults, sb);   
             }
             
             return sb.ToString();
@@ -154,12 +154,12 @@ namespace MvcPowerTools.Routing.Conventions
             return mi.As<FieldInfo>().GetValue(inst);
         }
 
-        public virtual IEnumerable<Route> Build(ActionCall actionInfo)
+        public virtual IEnumerable<Route> Build(RouteBuilderInfo info)
         {
-            var route = actionInfo.CreateRoute();
-            route.Url = GenerateUrlAndDefaults(actionInfo, route.Defaults);
-            if (actionInfo.IsGet()) route.ConstrainToGet();
-            if (actionInfo.IsPost()) route.ConstrainToPost();            
+            var route = info.CreateRoute();
+            route.Url = GenerateUrlAndDefaults(info, route.Defaults);
+            if (info.ActionCall.IsGet()) route.ConstrainToGet();
+            if (info.ActionCall.IsPost()) route.ConstrainToPost();            
             return new[] { route };
         }
     }
