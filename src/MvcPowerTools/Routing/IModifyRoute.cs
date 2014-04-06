@@ -13,7 +13,7 @@ namespace MvcPowerTools.Routing
     public interface IModifyRoute : IMatchAction
     {
 #if WEBAPI
-        void Modify(HttpRoute route, RouteBuilderInfo info);
+        void Modify(IHttpRoute route, RouteBuilderInfo info);
 #else
         void Modify(Route route, RouteBuilderInfo info);
 #endif

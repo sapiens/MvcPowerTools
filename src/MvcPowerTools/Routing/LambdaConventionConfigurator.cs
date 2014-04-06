@@ -1,8 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web.Routing;
+#if WEBAPI
+using System.Web.Http.Routing;
 
+#else
+using System.Web.Routing;
+#endif
+
+#if WEBAPI
+
+namespace WebApiPowerTools.Routing
+#else
 namespace MvcPowerTools.Routing
+#endif
 {
     class LambdaConventionConfigurator:IConfigureAction
     {
@@ -16,7 +26,11 @@ namespace MvcPowerTools.Routing
             _lambda = new LambdaConventionHost(predicate);
         }
 
-       public IConfigureRoutingConventions Build(Func<RouteBuilderInfo, IEnumerable<Route>> builder)
+#if WEBAPI
+        public IConfigureRoutingConventions Build(Func<RouteBuilderInfo, IEnumerable<IHttpRoute>> builder)
+#else
+		public IConfigureRoutingConventions Build(Func<RouteBuilderInfo, IEnumerable<Route>> builder)
+#endif
         {
             builder.MustNotBeNull();
             _lambda.Builder = builder;
@@ -24,7 +38,11 @@ namespace MvcPowerTools.Routing
             return _parent;
         }
 
-        public IConfigureRoutingConventions Modify(Action<Route, RouteBuilderInfo> modifier)
+#if WEBAPI
+        public IConfigureRoutingConventions Modify(Action<IHttpRoute, RouteBuilderInfo> modifier)
+#else
+		public IConfigureRoutingConventions Modify(Action<Route, RouteBuilderInfo> modifier)
+#endif
         {
             modifier.MustNotBeNull();
             _lambda.Modifier = modifier;

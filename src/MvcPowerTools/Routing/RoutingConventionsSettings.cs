@@ -5,7 +5,12 @@ using System.Web.Mvc;
 using System.Web.Routing;
 #endif
 
+#if WEBAPI
+
+namespace WebApiPowerTools.Routing
+#else
 namespace MvcPowerTools.Routing
+#endif
 {
     public class RoutingConventionsSettings
     {

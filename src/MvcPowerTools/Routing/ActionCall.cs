@@ -38,6 +38,15 @@ namespace MvcPowerTools.Routing
             return Method.GetParameters().FirstOrDefault(d => d.Name.Equals(name,StringComparison.OrdinalIgnoreCase));            
         }
 
+        /// <summary>
+        /// Gets action arguments which are not user defined classes names
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<string> GetArgumentNames()
+        {
+            return Method.GetParameters().Where(d => !d.ParameterType.IsUserDefinedClass()).Select(d => d.Name);
+        }
+
         public const string EmptyRouteUrl = "___";
         
         public bool Equals(ActionCall other)

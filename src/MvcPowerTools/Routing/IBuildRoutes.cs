@@ -15,7 +15,7 @@ namespace MvcPowerTools.Routing{
    public interface IBuildRoutes:IMatchAction
     {
 #if WEBAPI
-    IEnumerable<HttpRoute> Build(RouteBuilderInfo info);
+    IEnumerable<IHttpRoute> Build(RouteBuilderInfo info);
 #else
     IEnumerable<Route> Build(RouteBuilderInfo info);
 #endif

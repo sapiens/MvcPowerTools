@@ -2,11 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+#if WEBAPI
+using System.Web.Http;
+using System.Net.Http;
+using System.Web.Http.Routing;
+using System.Web.Http.Dependencies;
+#else
 using System.Web.Mvc;
 using System.Web.Routing;
 using MvcPowerTools.Routing.Conventions;
+#endif
 
+#if WEBAPI
+
+namespace WebApiPowerTools.Routing
+#else
 namespace MvcPowerTools.Routing
+#endif
 {
     public static class Extensions
     {
@@ -39,7 +51,11 @@ namespace MvcPowerTools.Routing
 
                 if (p.RawDefaultValue == p.ParameterType.GetDefault())
                 {
-                    defaults[p.Name] = UrlParameter.Optional;
+#if WEBAPI
+                    defaults[p.Name] = RouteParameter.Optional;
+#else
+		            defaults[p.Name] = UrlParameter.Optional;
+#endif
                 }
                 else
                 {
@@ -58,17 +74,6 @@ namespace MvcPowerTools.Routing
          {
              return @namespace.Remove(0, settings.NamespaceRoot.Length);
          }
-
-        ///// <summary>
-        ///// Gets the controller name without the "Controler" suffix
-        ///// </summary>
-        ///// <param name="action"></param>
-        ///// <returns></returns>
-        //public static string GetControllerName(this ActionCall action)
-        //{
-        //    var name = action.Controller.Name;
-        //    return name.Substring(0, name.Length - 10);
-        //}
 
         /// <summary>
         /// True if the action name starts with 'get'
@@ -108,7 +113,11 @@ namespace MvcPowerTools.Routing
         {
             if (res == null)
             {
-                res = DependencyResolver.Current;
+#if WEBAPI
+                throw  new ArgumentNullException("res","A dependency resolver instance is required for WebApi");
+#else
+		    res = DependencyResolver.Current;
+#endif
             }
             
             foreach(var builder in asm.GetTypesDerivedFrom<IBuildRoutes>())
@@ -120,12 +129,7 @@ namespace MvcPowerTools.Routing
             {
                 policy.Add(res.GetInstance<IModifyRoute>(modifier));
             }
-
-            //policy.LoadModule(asm.GetTypesDerivedFrom<RoutingConventionsModule>(true).Select(t =>
-            //{
-            //    return res.GetInstance<RoutingConventionsModule>(t);
-            //}).ToArray());
-            
+          
             return policy;
         }
 
@@ -178,7 +182,11 @@ namespace MvcPowerTools.Routing
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="policy"></param>
-        public static RoutingConventions RegisterController<T>(this RoutingConventions policy) where T : Controller
+#if WEBAPI
+        public static RoutingConventions RegisterController<T>(this RoutingConventions policy) where T : ApiController
+#else
+		 public static RoutingConventions RegisterController<T>(this RoutingConventions policy) where T : Controller
+#endif
         {
             policy.RegisterControllers(typeof(T));
             return policy;
@@ -199,7 +207,8 @@ namespace MvcPowerTools.Routing
             return policy;
         }
 
-        public static RoutingConventions UseHandlerConvention(this RoutingConventions policy)
+#if !WEBAPI
+		public static RoutingConventions UseHandlerConvention(this RoutingConventions policy)
         {
             policy.Add(new HandlerRouteConvention());
             return policy;
@@ -237,7 +246,25 @@ namespace MvcPowerTools.Routing
             route.MustNotBeNull();
             route.Constraints["httpMethod"] = new HttpMethodConstraint(method);
         }
+#else
 
+        public static void ConstrainToGet(this IHttpRoute route)
+        {
+            route.Constrain(HttpMethod.Get);
+        }
+
+
+        public static void ConstrainToPost(this IHttpRoute route)
+        {
+            route.Constrain(HttpMethod.Post);
+        }
+
+        static void Constrain(this IHttpRoute route, HttpMethod method)
+        {
+            route.MustNotBeNull();
+            route.Constraints["httpMethod"] = new HttpMethodConstraint(method);
+        }
+#endif
         public static IConfigureAction Always(this IConfigureRoutingConventions cfg)
         {
             return cfg.If(d => true);

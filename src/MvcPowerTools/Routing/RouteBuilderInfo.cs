@@ -1,9 +1,11 @@
 using System;
-using System.Web.Mvc;
+
 #if WEBAPI
+using System.Web.Http;
 using System.Web.Http.Routing;
 #else 
 using System.Web.Routing;
+using System.Web.Mvc;
 #endif
 
 
@@ -35,9 +37,17 @@ namespace MvcPowerTools.Routing
         /// Creates a route value dictionary with controller and action values set
         /// </summary>
         /// <returns></returns>
-        public RouteValueDictionary CreateDefaults()
+#if WEBAPI
+        public HttpRouteValueDictionary CreateDefaults() 
+#else
+		public RouteValueDictionary CreateDefaults()
+#endif
         {
-            var defaults = new RouteValueDictionary();
+#if WEBAPI
+            var defaults = new HttpRouteValueDictionary();
+#else
+		    var defaults = new RouteValueDictionary();
+#endif
             var controler = ActionCall.Controller.ControllerNameWithoutSuffix();
             defaults["controller"] = controler;
             defaults["action"] = ActionCall.Method.Name;
@@ -49,11 +59,20 @@ namespace MvcPowerTools.Routing
         /// Creates a Route with no url pattern and with the defaults (controller,action) set
         /// </summary>
         /// <returns></returns>
-        public Route CreateRoute(string url = ActionCall.EmptyRouteUrl)
+#if WEBAPI
+        public IHttpRoute CreateRoute(string url = ActionCall.EmptyRouteUrl)
+        {
+            url.MustNotBeEmpty();
+            return new HttpRoute(url, CreateDefaults());
+        }
+#else
+		public Route CreateRoute(string url = ActionCall.EmptyRouteUrl)
         {
             url.MustNotBeEmpty();
             return new Route(url, CreateDefaults(), new RouteValueDictionary(), Settings.CreateHandler());
         }
+#endif
+        
 
         /// <summary>
         /// Gets defined constraint for type or null

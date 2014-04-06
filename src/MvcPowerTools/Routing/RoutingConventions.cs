@@ -1,21 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+#if WEBAPI
+using System.Web.Http.Routing;
+using System.Web.Http;
+using System.Web.Http.Routing.Constraints;
+#else
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Mvc.Routing.Constraints;
 using System.Web.Routing;
+#endif
 
 
+#if WEBAPI
+
+namespace WebApiPowerTools.Routing
+#else
 namespace MvcPowerTools.Routing
+#endif
 {
     public class RoutingConventions:IConfigureRoutingConventions
     {
+#if WEBAPI
         /// <summary>
-        /// Configures routing conventions and applies them to RouteTable
+        /// Configures routing conventions and applies them route collection
         /// </summary>
         /// <param name="cfg"></param>
+        /// <param name="httpConfiguration"></param>
+        public static void Configure(Action<RoutingConventions> cfg,HttpConfiguration httpConfiguration)
+        {
+            cfg.MustNotBeNull();
+            var routing = new RoutingConventions();
+            cfg(routing);
+            var routes = routing.BuildRoutes();
+            foreach (var route in routes)
+            {
+                httpConfiguration.Routes.Add("",route);
+            }
+        }
+#else
+    /// <summary>
+    /// Configures routing conventions and applies them to RouteTable
+    /// </summary>
+    /// <param name="cfg"></param>
         public static void Configure(Action<RoutingConventions> cfg)
         {
             cfg.MustNotBeNull();
@@ -27,10 +55,15 @@ namespace MvcPowerTools.Routing
                 RouteTable.Routes.Add(route);
             }
         }
+#endif
         public RoutingConventions()
         {
             Settings = new RoutingConventionsSettings();
-            Constraints = new Dictionary<Type, Func<IRouteConstraint>>();
+#if WEBAPI
+            Constraints = new Dictionary<Type, Func<IHttpRouteConstraint>>();
+#else
+		Constraints = new Dictionary<Type, Func<IRouteConstraint>>();
+#endif
             AddDefaultConstraints();
         }
         private void AddDefaultConstraints()
@@ -41,10 +74,13 @@ namespace MvcPowerTools.Routing
                 .Constrain<Guid>(() => new GuidRouteConstraint());
         }
 
-        /// <summary>
+#if !WEBAPI
+        
+       /// <summary>
         /// You can change this. Default is {*catch}
         /// </summary>
-        public static string DefaultRouteUrl = @"{*catch}";
+            public static string DefaultRouteUrl = @"{*catch}";
+#endif
 
         List<IBuildRoutes> _builders=new List<IBuildRoutes>();
         List<IModifyRoute> _modifiers=new List<IModifyRoute>();
@@ -64,13 +100,24 @@ namespace MvcPowerTools.Routing
            predicate.MustNotBeNull();
             return new LambdaConventionConfigurator(this,predicate);
         }
-        public IDictionary<Type, Func<IRouteConstraint>> Constraints { get; private set; }
 
-        public IConfigureRoutingConventions Constrain<T>(Func<IRouteConstraint> factory)
+#if WEBAPI
+        public IDictionary<Type, Func<IHttpRouteConstraint>> Constraints { get; private set; }
+        public IConfigureRoutingConventions Constrain<T>(Func<IHttpRouteConstraint> factory)
+        {
+            Constraints[typeof(T)] = factory;
+            return this;
+        }
+#else
+        public IDictionary<Type, Func<IRouteConstraint>> Constraints { get; private set; }
+         public IConfigureRoutingConventions Constrain<T>(Func<IRouteConstraint> factory)
         {
             Constraints[typeof (T)] = factory;
             return this;
         }
+#endif
+
+
 
         public IConfigureRoutingConventions Add(IBuildRoutes convention)
         {
@@ -86,6 +133,7 @@ namespace MvcPowerTools.Routing
             return this;
         }
 
+#if !WEBAPI
         private Route _home;
         public IConfigureRoutingConventions HomeIs<T>(Expression<Action<T>> actionSelector) where T : Controller
         {
@@ -162,9 +210,19 @@ namespace MvcPowerTools.Routing
             } 
         }
 
-        private Func<RouteBuilderInfo, IEnumerable<Route>> _defaultBuilder = a => new Route[0];
+#endif
 
+#if WEBAPI
+        private Func<RouteBuilderInfo, IEnumerable<HttpRoute>> _defaultBuilder = a => new HttpRoute[0];
+#else
+        private Func<RouteBuilderInfo, IEnumerable<Route>> _defaultBuilder = a => new Route[0];
+#endif
+
+#if WEBAPI
+        public IConfigureRoutingConventions DefaultBuilder(Func<RouteBuilderInfo, IEnumerable<HttpRoute>> builder)
+#else
         public IConfigureRoutingConventions DefaultBuilder(Func<RouteBuilderInfo, IEnumerable<Route>> builder)
+#endif
         {
             builder.MustNotBeNull();
             _defaultBuilder = builder;
@@ -177,15 +235,27 @@ namespace MvcPowerTools.Routing
             get { return _actions; }
         }
 
-        
-        public IEnumerable<Route> BuildRoutes()
+
+#if WEBAPI
+        public IEnumerable<IHttpRoute> BuildRoutes()
+#else
+		 public IEnumerable<Route> BuildRoutes()
+#endif
         {
-            List<Route>routeCollection=new List<Route>();
+#if WEBAPI
+            List<IHttpRoute> routeCollection = new List<IHttpRoute>();
+#else
+		List<Route>routeCollection=new List<Route>();
+#endif
             foreach (var action in Actions)
             {
                 var helper = new RouteBuilderInfo(action, this);
                 var builder = _builders.FirstOrDefault(d => d.Match(action));
-                IEnumerable<Route> routes;
+#if WEBAPI
+                IEnumerable<IHttpRoute> routes;
+#else
+		        IEnumerable<Route> routes;
+#endif
                 if (builder != null)
                 {
                     routes = builder.Build(helper);
@@ -206,10 +276,12 @@ namespace MvcPowerTools.Routing
              
                 routeCollection.AddRange(routes);
             }
-            if (_home != null)
+#if !WEBAPI
+		   if (_home != null)
             {
                 routeCollection.Add(_home);
             }
+#endif
             return routeCollection;
         }
     }

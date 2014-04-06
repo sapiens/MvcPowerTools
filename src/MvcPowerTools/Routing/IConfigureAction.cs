@@ -16,7 +16,8 @@ namespace MvcPowerTools.Routing
     public interface IConfigureAction
     {
 #if WEBAPI
-		
+        IConfigureRoutingConventions Build(Func<RouteBuilderInfo, IEnumerable<IHttpRoute>> builder);
+        IConfigureRoutingConventions Modify(Action<IHttpRoute, RouteBuilderInfo> modifier);
 #else
         IConfigureRoutingConventions Build(Func<RouteBuilderInfo, IEnumerable<Route>> builder);
         IConfigureRoutingConventions Modify(Action<Route, RouteBuilderInfo> modifier);

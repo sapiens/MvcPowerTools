@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CavemanTools">
+      <HintPath>..\packages\_Net45\CavemanTools.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -53,14 +56,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\MvcPowerTools\Extensions\ControllerExtensions.cs">
+      <Link>ControllerExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\MvcPowerTools\Routing\ActionCall.cs">
       <Link>Routing\ActionCall.cs</Link>
     </Compile>
-    <Compile Include="..\MvcPowerTools\Routing\BuildRouteInfo.cs">
-      <Link>BuildRouteInfo.cs</Link>
+    <Compile Include="..\MvcPowerTools\Routing\Extensions.cs">
+      <Link>Routing\Extensions.cs</Link>
     </Compile>
     <Compile Include="..\MvcPowerTools\Routing\IBuildRoutes.cs">
       <Link>Routing\IBuildRoutes.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcPowerTools\Routing\IConfigureAction.cs">
+      <Link>Routing\IConfigureAction.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcPowerTools\Routing\IConfigureRoutingConventions.cs">
+      <Link>Routing\IConfigureRoutingConventions.cs</Link>
     </Compile>
     <Compile Include="..\MvcPowerTools\Routing\IMatchAction.cs">
       <Link>Routing\IMatchAction.cs</Link>
@@ -68,20 +80,31 @@
     <Compile Include="..\MvcPowerTools\Routing\IModifyRoute.cs">
       <Link>Routing\IModifyRoute.cs</Link>
     </Compile>
+    <Compile Include="..\MvcPowerTools\Routing\LambdaConventionConfigurator.cs">
+      <Link>Routing\LambdaConventionConfigurator.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcPowerTools\Routing\LambdaConventionHost.cs">
+      <Link>Routing\LambdaConventionHost.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcPowerTools\Routing\RouteBuilderInfo.cs">
+      <Link>Routing\RouteBuilderInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcPowerTools\Routing\RoutingConventions.cs">
+      <Link>Routing\RoutingConventions.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcPowerTools\Routing\RoutingConventionsModule.cs">
+      <Link>Routing\RoutingConventionsModule.cs</Link>
+    </Compile>
     <Compile Include="..\MvcPowerTools\Routing\RoutingConventionsSettings.cs">
       <Link>Routing\RoutingConventionsSettings.cs</Link>
     </Compile>
-    <Compile Include="Routing\Extensions.cs" />
-    <Compile Include="Routing\HttpActionCall.cs" />
-    <Compile Include="Routing\HttpRoutingConventionModule.cs" />
-    <Compile Include="Routing\HttpRoutingConventions.cs" />
-    <Compile Include="Routing\IBuildHttpRoute.cs" />
-    <Compile Include="Routing\IConfigureHttpRoutingConventions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Routing\RouteFromParametersConvention.cs" />
+    <Compile Include="Routing\Conventions\RouteFromParametersConvention.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="Routing\packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

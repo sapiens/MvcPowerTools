@@ -1,8 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web.Routing;
+#if WEBAPI
+using System.Web.Http.Routing;
 
+#else
+using System.Web.Routing;
+#endif
+
+#if WEBAPI
+
+namespace WebApiPowerTools.Routing
+#else
 namespace MvcPowerTools.Routing
+#endif
 {
     class LambdaConventionHost : IBuildRoutes,IModifyRoute
     {
@@ -18,10 +28,19 @@ namespace MvcPowerTools.Routing
             return _predicate(action);
         }
 
-        public Func<RouteBuilderInfo, IEnumerable<Route>> Builder { get; set; }
+#if WEBAPI
+        public Func<RouteBuilderInfo, IEnumerable<IHttpRoute>> Builder { get; set; }
+        public Action<IHttpRoute, RouteBuilderInfo> Modifier { get; set; }
+#else
+		public Func<RouteBuilderInfo, IEnumerable<Route>> Builder { get; set; }
         public Action<Route, RouteBuilderInfo> Modifier { get; set; }
+#endif
 
-        public void Modify(Route route, RouteBuilderInfo info)
+#if WEBAPI
+        public void Modify(IHttpRoute route, RouteBuilderInfo info)
+#else
+		 public void Modify(Route route, RouteBuilderInfo info)
+#endif
         {
             if (Modifier != null)
             {
@@ -29,13 +48,21 @@ namespace MvcPowerTools.Routing
             }
         }
 
-        public IEnumerable<Route> Build(RouteBuilderInfo info)
+#if WEBAPI
+        public IEnumerable<IHttpRoute> Build(RouteBuilderInfo info)
+#else
+		public IEnumerable<Route> Build(RouteBuilderInfo info)
+#endif
         {
             if (Builder != null)
             {
                 return Builder(info);
             }
-            return new Route[0];
+#if WEBAPI
+            return new IHttpRoute[0];
+#else
+		return new Route[0];
+#endif
         }
     }
 }

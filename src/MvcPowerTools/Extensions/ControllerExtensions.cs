@@ -3,21 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+#if WEBAPI
+using System.Web.Http.Routing;
+#else
 using System.Web.Mvc;
 using System.Web.Routing;
 using MvcPowerTools.Extensions;
+#endif
 
+#if WEBAPI
+namespace System.Web.Http
+#else
 namespace System.Web.Mvc
+#endif
 {
     public static class ControllerExtensions
     {
-        /// <summary>
-        /// Redirects to the selected action
-        /// </summary>
-        /// <typeparam name="T">Controller</typeparam>
-        /// <param name="ctrl">controller</param>
-        /// <param name="selector">lambda statement</param>
-        /// <returns></returns>
+#if !WEBAPI
+
+    /// <summary>
+    /// Redirects to the selected action
+    /// </summary>
+    /// <typeparam name="T">Controller</typeparam>
+    /// <param name="ctrl">controller</param>
+    /// <param name="selector">lambda statement</param>
+    /// <returns></returns>
         public static ActionResult RedirectToAction<T>(this T ctrl,Expression<Action<T>> selector) where T:Controller
          {
             return new RedirectToRouteResult(ToRouteValues(selector));            
@@ -34,7 +44,50 @@ namespace System.Web.Mvc
         {
             return new RedirectToRouteResult(ToRouteValues(selector));
         }
-     
+
+        public static string GetControllerName(this ControllerContext ctrl)
+        {
+            return ctrl.RouteData.GetRequiredString("controller");
+        }
+
+        internal static RouteValueDictionary ToRouteValues<T>(Expression<Action<T>> selector) where T : Controller
+        {
+            var method = selector.Body as MethodCallExpression;
+            method.MustComplyWith(m => m != null, "Only controller actions are accepted");
+
+            var action = method.Method.Name;
+            var args = method.Arguments.ToArray();
+
+            RouteValueDictionary rv = null;
+
+            if (args.Length > 0)
+            {
+                var argValue = args[0].GetValue();
+                rv = new RouteValueDictionary(argValue);
+            }
+            else
+            {
+                rv = new RouteValueDictionary();
+            }
+            rv["action"] = action;
+            rv["controller"] = typeof(T).ControllerNameWithoutSuffix();
+            //foreach (var p in args)
+            //{
+            //    rv[p.Name] = param[p.Position].GetValue();              
+            //}
+            return rv;
+        }
+
+        public static ViewResult CreateView(this Controller controller, string viewName = null)
+        {
+            var ViewName = viewName ?? controller.GetActionName();
+            var result = new ViewResult();
+            result.TempData = controller.TempData;
+            result.ViewData = controller.ViewData;
+            result.ViewName = ViewName;
+            return result;
+        }
+
         /// <summary>
         /// Gets the invoked action for controller
         /// </summary>
@@ -55,6 +108,7 @@ namespace System.Web.Mvc
         {
             return ctrl.ControllerContext.GetActionName();            
         }
+#endif
 
         public static string ControllerNameWithoutSuffix(this Type type)
         {
@@ -82,52 +136,15 @@ namespace System.Web.Mvc
         public static IEnumerable<Type> GetControllerTypes(this Assembly asm)
         {
             asm.MustNotBeNull();
-            return asm.GetTypesDerivedFrom<Controller>(true);
+#if WEBAPI
+            return asm.GetTypesDerivedFrom<ApiController>(true);
+#else
+		 return asm.GetTypesDerivedFrom<Controller>(true);
+#endif
         }
             
 
-        public static string GetControllerName(this ControllerContext ctrl)
-        {
-            return ctrl.RouteData.GetRequiredString("controller");
-        }
-     
-       internal static RouteValueDictionary ToRouteValues<T>(Expression<Action<T>> selector) where T:Controller
-       {
-            var method = selector.Body as MethodCallExpression;
-           method.MustComplyWith(m=>m!=null,"Only controller actions are accepted");
-           
-           var action = method.Method.Name;
-           var args = method.Arguments.ToArray();
-           
-           RouteValueDictionary rv = null;
-        
-           if (args.Length > 0)
-           {
-               var argValue = args[0].GetValue();
-               rv=new RouteValueDictionary(argValue);
-           }
-           else
-           {
-               rv=new RouteValueDictionary();
-           }
-           rv["action"] = action;
-           rv["controller"] = typeof(T).ControllerNameWithoutSuffix();
-           //foreach (var p in args)
-           //{
-           //    rv[p.Name] = param[p.Position].GetValue();              
-           //}
-           return rv;
-       }
-
-        public static ViewResult CreateView(this Controller controller,string viewName=null)
-        {
-            var ViewName = viewName??controller.GetActionName();
-            var result = new ViewResult();
-            result.TempData = controller.TempData;
-            result.ViewData = controller.ViewData;
-            result.ViewName = ViewName;            
-            return result;
-        }
+       
 
     }
 }

@@ -3,20 +3,20 @@ using System.Text;
 using System.Web.Http;
 using System.Web.Http.Routing;
 
-namespace WebApiPowerTools
+namespace WebApiPowerTools.Routing.Conventions
 {
-    public class RouteFromParametersConvention : HttpRoutingConventionModule
+    public class RouteFromParametersConvention : RoutingConventionsModule
     {
     
-        public override void Configure(IConfigureHttpRoutingConventions routing)
+        public override void Configure(IConfigureRoutingConventions routing)
         {
             routing.Always().Build(builderHelper =>
             {
 
-                var route = builderHelper.ActionCall.CreateRoute(GenerateRouteName(builderHelper));
+                var route = builderHelper.CreateRoute(GenerateRouteTemplate(builderHelper));
                 
                 builderHelper.ActionCall.SetParamsDefaults(route.Defaults);
-                foreach (var arg in route.Defaults.Keys)
+                foreach (var arg in builderHelper.ActionCall.GetArgumentNames())
                 {
                     IHttpRouteConstraint constraint = GetConstraint(builderHelper, arg);
                     if (constraint != null)
@@ -25,7 +25,7 @@ namespace WebApiPowerTools
                     }
                 }
 
-                MethodInfo action = builderHelper.ActionCall.Action;
+                MethodInfo action = builderHelper.ActionCall.Method;
                 if (action.Name.StartsWith("Get") || action.Name.StartsWith("Find") ||
                     action.GetCustomAttribute<HttpGetAttribute>() != null)
                 {
@@ -40,25 +40,26 @@ namespace WebApiPowerTools
             });
         }
 
-        private static IHttpRouteConstraint GetConstraint(RouteBuilderHelper builderHelper,string arg)
+        private static IHttpRouteConstraint GetConstraint(RouteBuilderInfo builderHelper,string arg)
         {
             ParameterInfo parameter = null;
-            if (builderHelper.ActionCall.Arguments.TryGetValue(arg, out parameter))
+            var argument = builderHelper.ActionCall.GetActionArgument(arg);
+            if (argument!=null)
             {
                 return builderHelper.GetConstraint(parameter.ParameterType);
             }
             return null;
         }
 
-        static string GenerateRouteName(RouteBuilderHelper builder)
+        static string GenerateRouteTemplate(RouteBuilderInfo builder)
         {
             var sb=new StringBuilder();
-            sb.Append(builder.ActionCall.GetControllerName().ToLower())
+            sb.Append(builder.ActionCall.Controller.ControllerNameWithoutSuffix().ToLower())
                 .Append("/")
-                .Append(builder.ActionCall.Action.Name.ToLower())
+                .Append(builder.ActionCall.Method.Name.ToLower())
                 ;
 
-            foreach (var arg in builder.ActionCall.Arguments.Keys)
+            foreach (var arg in builder.ActionCall.GetArgumentNames())
             {
                 sb.Append("/");
                 sb.Append("{" + arg + "}");
