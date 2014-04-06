@@ -33,10 +33,13 @@ namespace MvcPowerTools.Routing
             get { return _method; }
         }
 
-        
+        public ParameterInfo GetActionArgument(string name)
+        {
+            return Method.GetParameters().FirstOrDefault(d => d.Name.Equals(name,StringComparison.OrdinalIgnoreCase));            
+        }
+
         public const string EmptyRouteUrl = "___";
-
-
+        
         public bool Equals(ActionCall other)
         {
             if (other == null) return false;

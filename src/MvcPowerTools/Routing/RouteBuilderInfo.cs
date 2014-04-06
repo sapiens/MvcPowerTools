@@ -1,5 +1,4 @@
 using System;
-using System.Reflection;
 using System.Web.Mvc;
 #if WEBAPI
 using System.Web.Http.Routing;
@@ -41,11 +40,6 @@ namespace MvcPowerTools.Routing
             var defaults = new RouteValueDictionary();
             var controler = ActionCall.Controller.ControllerNameWithoutSuffix();
             defaults["controller"] = controler;
-            //var actionAttrib = ActionCall.Method.GetCustomAttribute<ActionNameAttribute>();
-            //if (actionAttrib != null)
-            //{
-            //    name = actionAttrib.Name;
-            //}
             defaults["action"] = ActionCall.Method.Name;
             return defaults;
         }

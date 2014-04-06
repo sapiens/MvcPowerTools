@@ -11,35 +11,18 @@ namespace MvcPowerTools.Routing
     public static class Extensions
     {
 
-        ///// <summary>
-        ///// Creates a route value dictionary with controller and action values set
-        ///// </summary>
-        ///// <returns></returns>
-        //public static RouteValueDictionary CreateDefaults(this RouteBuilderInfo info)
-        //{
-        //    var defaults = new RouteValueDictionary();
-        //    var controler = info.ActionCall.Controller.ControllerNameWithoutSuffix();
-        //    defaults["controller"] = controler;
-        //    var name = info.ActionCall.Method.Name.ToLower();
-        //    var actionAttrib = info.ActionCall.Method.GetCustomAttribute<ActionNameAttribute>();
-        //    if (actionAttrib != null)
-        //    {
-        //        name = actionAttrib.Name;
-        //    }
-        //    defaults["action"] = name;
-        //    return defaults;
-        //}
-
-
-        ///// <summary>
-        ///// Creates a Route with no url pattern and with the defaults (controller,action) set
-        ///// </summary>
-        ///// <returns></returns>
-        //public static Route CreateRoute(this RouteBuilderInfo info,string url = ActionCall.EmptyRouteUrl)
-        //{
-        //    url.MustNotBeEmpty();
-        //    return new Route(url, info.CreateDefaults(), new RouteValueDictionary(), info.Settings.CreateHandler());
-        //}
+      
+        /// <summary>
+        /// Returns action name, taking into account [ActionName]
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static string GetActionName(this ActionCall action)
+        {
+            var attrib = action.Method.GetCustomAttribute<ActionNameAttribute>();
+            if (attrib != null) return attrib.Name;
+            return action.Method.Name;
+        }
 
         /// <summary>
         /// Sets the defaults for the route params. Only action parameters with default values are considered.
