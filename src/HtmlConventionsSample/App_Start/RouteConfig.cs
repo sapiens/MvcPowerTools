@@ -19,24 +19,20 @@ namespace HtmlConventionsSample
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             
             
-            RoutingConventions.Configure(r =>
-            {
-                r
-                    .RegisterController<HomeController>()
-                    .RegisterController<QueryController>()
-                    .HomeIs<HomeController>(h => h.Index())
-                    .DefaultBuilder(a =>
+            RoutingConventions.Configure(r => r
+                .RegisterController<HomeController>()
+                .RegisterController<QueryController>()
+                .HomeIs<HomeController>(h => h.Index())
+                .DefaultBuilder(a =>
+                {
+                    var url = a.ActionCall.Controller.ControllerNameWithoutSuffix()+"/"+a.ActionCall.Method.Name;
+                    var route = a.CreateRoute(url);
+                    if (a.ActionCall.Method.HasCustomAttribute<HttpPostAttribute>())
                     {
-                        var url = a.GetControllerName()+"/"+a.Method.Name;
-                        var route = a.CreateRoute(url);
-                        if (a.Method.HasCustomAttribute<HttpPostAttribute>())
-                        {
-                            route.Constraints["method"] = new HttpMethodConstraint("POST");
-                        }
-                      return new[] {route};
-                    });
-
-            });
+                        route.Constraints["method"] = new HttpMethodConstraint("POST");
+                    }
+                    return new[] {route};
+                }));
         }
     }
 }

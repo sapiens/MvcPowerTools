@@ -29,8 +29,11 @@ namespace MvcPowerTools.Routing
 #endif
 #if !WEBAPI
         IConfigureRoutingConventions HomeIs<T>(Expression<Action<T>> actionSelector) where T:Controller;
+        IConfigureRoutingConventions DefaultBuilder(Func<RouteBuilderInfo, IEnumerable<Route>> builder);
+#else
+        IConfigureRoutingConventions DefaultBuilder(Func<RouteBuilderInfo, IEnumerable<IHttpRoute>> builder);
 #endif
 
-        //IConfigureRoutingConventions DefaultBuilder(Func<ActionCall,IEnumerable<Route>> builder);
+
     }
 }
