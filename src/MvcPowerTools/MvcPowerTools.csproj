@@ -202,8 +202,12 @@
     <Compile Include="ThemeAttribute.cs" />
     <Compile Include="TransferResult.cs" />
     <Compile Include="UnitTesting\FakeController.cs" />
+    <Compile Include="ViewEngines\Conventions\BaseViewConvention.cs" />
     <Compile Include="ViewEngines\Conventions\MvcTemplatesConvention.cs" />
-    <Compile Include="ViewEngines\Conventions\RazorConvention.cs" />
+    <Compile Include="ViewEngines\Conventions\OneLayoutConvention.cs" />
+    <Compile Include="ViewEngines\Conventions\RazorControllerActionConvention.cs" />
+    <Compile Include="ViewEngines\Conventions\BaseRazorMvcConvention.cs" />
+    <Compile Include="ViewEngines\Conventions\RazorSharedFolderConvention.cs" />
     <Compile Include="ViewEngines\Conventions\ViewIsControllerNameConvention.cs" />
     <Compile Include="ViewEngines\Extensions.cs" />
     <Compile Include="ViewEngines\FlexibleViewEngine.cs" />

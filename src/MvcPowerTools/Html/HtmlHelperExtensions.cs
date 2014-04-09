@@ -24,10 +24,7 @@ namespace MvcPowerTools.Html
         /// <returns></returns>
         public static HtmlTag Edit<T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property)
         {
-            //ModelMetadata metadata;
-            //var info = CreateModelInfo(html, property, out metadata);
-            //return info.ConventionsRegistry().Editors.GenerateTags(info);
-            return html.GenerateFor(HtmlConventionsManager.EditorKey, property);
+           return html.GenerateFor(HtmlConventionsManager.EditorKey, property);
         }
 
 
