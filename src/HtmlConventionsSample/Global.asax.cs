@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Mvc;
+using StartItUp;
 
 
 namespace HtmlConventionsSample
@@ -7,7 +8,8 @@ namespace HtmlConventionsSample
     {
         protected void Application_Start()
         {
-           FluentValidationModelValidatorProvider.Configure();
+           StartupTasks.RunFromAssemblyOf<ConfigTask_1_Container>();
+            FluentValidationModelValidatorProvider.Configure();
         }
 
     }

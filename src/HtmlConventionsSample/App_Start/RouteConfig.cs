@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Web;
-using System.Web.Http;
-using System.Web.Mvc;
-using System.Web.Routing;
+﻿using HtmlConventionsSample.Browse.Posts;
+using MvcPowerTools.ControllerHandlers;
+using MvcPowerTools.Routing;
 
 
 namespace HtmlConventionsSample
 {
-    public class RouteConfig
+    public class ConfigTask_Routing
     {
-        public static void RegisterRoutes(RouteCollection routes)
+        public static void Run()
         {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            
-            
-           
-               
+    
+            RoutingConventions.Configure(c =>
+            {
+                c.RegisterControllers(typeof (ConfigTask_Routing).Assembly);
+                c.UseOneModelInHandlerConvention();
+                c.HomeIs<IndexController>(d => d.Get(NoInput.Instance));
+            });
         }
     }
+    
 }

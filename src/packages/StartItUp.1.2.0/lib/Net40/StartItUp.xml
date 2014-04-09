@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StartItUp</name>
+    </assembly>
+    <members>
+        <member name="T:StartItUp.StartUpTaskAttribute">
+            <summary>
+            Decorate classes which run app start up code.	
+            </summary>
+        </member>
+        <member name="P:StartItUp.StartUpTaskAttribute.Order">
+            <summary>
+            Order of task
+            </summary>
+        </member>
+        <member name="P:StartItUp.StartUpTaskAttribute.Method">
+            <summary>
+            Name of the static method to execute
+            Default is Run
+            </summary>
+        </member>
+        <member name="T:StartItUp.StartupTasks">
+            <summary>
+            Executes tasks
+            </summary>
+        </member>
+        <member name="F:StartItUp.StartupTasks.TaskFromTypeConvention">
+            <summary>
+            Default handles types with [StartUpTask] or following naming convention ConfigTask_[number]_[some name]_[method]
+            </summary>
+        </member>
+        <member name="M:StartItUp.StartupTasks.ScanAndRun(System.Func{System.Reflection.Assembly,System.Boolean})">
+            <summary>
+            Runs tasks found in all assemblies loaded by the app
+            <param name="filter">predicate to filter assemblies</param>
+            </summary>
+        </member>
+        <member name="M:StartItUp.StartupTasks.RunFromAssemblyOf``1">
+            <summary>
+            Runs tasks found in the assembly of type
+            </summary>
+            <typeparam name="T">Type name</typeparam>
+        </member>
+        <member name="M:StartItUp.StartupTasks.ScanAndRun(System.String[])">
+            <summary>
+            Runs tasks found in all assemblies loaded by the app
+            Select only specified assemblies by name
+            <param name="assemblyNames">Name of assembly</param>
+            </summary>
+        </member>
+        <member name="M:StartItUp.StartupTasks.Run">
+            <summary>
+            Runs tasks found in current assembly
+            </summary>
+        </member>
+        <member name="M:StartItUp.StartupTasks.Run(System.Reflection.Assembly)">
+            <summary>
+            Scan and execute tasks decorated with the attribute
+            </summary>
+            <param name="assembly">Assembly containing tasks</param>
+        </member>
+        <member name="P:StartItUp.TaskInfo.Method">
+            <summary>
+            Default is Run
+            </summary>
+        </member>
+    </members>
+</doc>

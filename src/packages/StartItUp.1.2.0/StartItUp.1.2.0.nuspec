@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>StartItUp</id>
+    <version>1.2.0</version>
+    <title>StartItUp</title>
+    <authors>Mihai Mogosanu</authors>
+    <owners>Mihai Mogosanu</owners>
+    <projectUrl>https://bitbucket.org/sapiensworks/startitup/wiki/Home</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Remove clutter from Application_Start and use this little utility to execute app startup code in a quick and elegant way.</description>
+    <releaseNotes>New features added, see the project wiki</releaseNotes>
+    <copyright>Mihai Mogosanu 2012</copyright>
+    <tags>task startup initialization bootstrap</tags>
+  </metadata>
+</package>
