@@ -14,15 +14,21 @@ namespace MvcPowerTools.Routing
         private Type _controller;
         private MethodInfo _method;
    
-        public ActionCall(MethodInfo method)
+        public ActionCall(MethodInfo method,Type controller=null)
         {
             method.MustNotBeNull();
-            _controller = method.DeclaringType;
-        
+            if (controller == null)
+            {
+                _controller = method.DeclaringType;
+            }
+            else
+            {
+                _controller = controller;
+            }
             _method = method;
         
         }
-        
+
         public Type Controller
         {
             get { return _controller; }

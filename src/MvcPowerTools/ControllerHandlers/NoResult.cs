@@ -4,7 +4,7 @@ namespace MvcPowerTools.ControllerHandlers
     {
         public static NoResult Instance=new NoResult();
 
-        private NoResult()
+        public NoResult()
         {
             
         }
@@ -15,7 +15,7 @@ namespace MvcPowerTools.ControllerHandlers
     {
         public static NoInput Instance= new NoInput();
 
-        private NoInput()
+        public NoInput()
         {
             
         }

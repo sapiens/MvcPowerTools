@@ -161,7 +161,8 @@ namespace MvcPowerTools.Routing
             public Route GetRoute<T>(Expression<Action<T>> actionSelector)   where T:Controller
             {
                 _methodCall = actionSelector.Body as MethodCallExpression;
-                _action = new ActionCall(_methodCall.Method);
+                
+                _action = new ActionCall(_methodCall.Method,_methodCall.Object.Type);
                 var args=_methodCall.Method.GetParameters();
                 if (args.Length == 1)
                 {
