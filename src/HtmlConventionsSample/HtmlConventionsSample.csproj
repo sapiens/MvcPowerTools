@@ -148,14 +148,17 @@
   <ItemGroup>
     <Folder Include="Admin\" />
     <Folder Include="App_Data\" />
+    <Folder Include="App_Start\Html\" />
+    <Folder Include="App_Start\ViewEngine\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\ConfigTask_Bundles.cs" />
     <Compile Include="App_Start\ConfigTask_1_Container.cs" />
     <Compile Include="App_Start\Container\AspMvc.cs" />
     <Compile Include="App_Start\ConfigTask_Filters.cs" />
-    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Container\MvcPowerTools.cs" />
+    <Compile Include="App_Start\ConfigTask_Routing.cs" />
     <Compile Include="Browse\Posts\IndexController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
