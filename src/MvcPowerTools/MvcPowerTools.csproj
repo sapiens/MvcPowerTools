@@ -209,6 +209,7 @@
     <Compile Include="ViewEngines\Conventions\BaseRazorMvcConvention.cs" />
     <Compile Include="ViewEngines\Conventions\RazorSharedFolderConvention.cs" />
     <Compile Include="ViewEngines\Conventions\ViewIsControllerNameConvention.cs" />
+    <Compile Include="ViewEngines\Conventions\ViewsBesidesController.cs" />
     <Compile Include="ViewEngines\Extensions.cs" />
     <Compile Include="ViewEngines\FlexibleViewEngine.cs" />
     <Compile Include="ViewEngines\FlexibleViewEngineSettings.cs" />
