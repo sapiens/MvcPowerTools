@@ -1,0 +1,20 @@
+﻿@using HtmlConventionsSample.Browse.Posts
+@using HtmlConventionsSample.Edit
+@using HtmlConventionsSample._Auxilia
+@using MvcPowerTools.Extensions
+@using MvcPowerTools.Html
+@model HtmlConventionsSample.Browse.Posts.ViewModels.PostsListModel
+
+@{
+    ViewBag.Title = "Posts";    
+}
+
+<h2>Posts</h2>
+@(Url.LinkTo<AddPostController>("Add post"))
+<ul>
+    @foreach (var p in Model.Data.Items)
+    {
+        <li>@Html.DisplayTemplate(p)</li>
+    }
+</ul>
+@Html.Pager(Model.Page, PagedInput.DefaultPageSize, Model.Data.Count, i => Url.CreateFor<PostsListController>(new PagedInput(){Page = i}))

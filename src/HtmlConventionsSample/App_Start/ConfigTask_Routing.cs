@@ -1,4 +1,5 @@
 ﻿using HtmlConventionsSample.Browse.Posts;
+using HtmlConventionsSample._Auxilia;
 using MvcPowerTools.ControllerHandlers;
 using MvcPowerTools.Routing;
 
@@ -14,7 +15,7 @@ namespace HtmlConventionsSample
             {
                 c.RegisterControllers(typeof (ConfigTask_Routing).Assembly);
                 c.UseOneModelInHandlerConvention();
-                c.HomeIs<IndexController>(d => d.Get(NoInput.Instance));
+                c.HomeIs<PostsListController>(d => d.Get(new PagedInput()));
             });
         }
     }

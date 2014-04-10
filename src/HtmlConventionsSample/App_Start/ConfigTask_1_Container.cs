@@ -10,7 +10,8 @@ namespace HtmlConventionsSample
         {
             var c = new ContainerBuilder();
             c.RegisterAssemblyModules(typeof (ConfigTask_1_Container).Assembly);
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(c.Build()));
+            StaticConfig.Container = c.Build();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(StaticConfig.Container));
         }
     }
 }

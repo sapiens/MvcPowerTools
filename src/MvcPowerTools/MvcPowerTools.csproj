@@ -205,11 +205,12 @@
     <Compile Include="ViewEngines\Conventions\BaseViewConvention.cs" />
     <Compile Include="ViewEngines\Conventions\MvcTemplatesConvention.cs" />
     <Compile Include="ViewEngines\Conventions\OneLayoutConvention.cs" />
+    <Compile Include="ViewEngines\Conventions\PartialsNearController.cs" />
     <Compile Include="ViewEngines\Conventions\RazorControllerActionConvention.cs" />
     <Compile Include="ViewEngines\Conventions\BaseRazorMvcConvention.cs" />
     <Compile Include="ViewEngines\Conventions\RazorSharedFolderConvention.cs" />
     <Compile Include="ViewEngines\Conventions\ViewIsControllerNameConvention.cs" />
-    <Compile Include="ViewEngines\Conventions\ViewsBesidesController.cs" />
+    <Compile Include="ViewEngines\Conventions\ViewsNearController.cs" />
     <Compile Include="ViewEngines\Extensions.cs" />
     <Compile Include="ViewEngines\FlexibleViewEngine.cs" />
     <Compile Include="ViewEngines\FlexibleViewEngineSettings.cs" />

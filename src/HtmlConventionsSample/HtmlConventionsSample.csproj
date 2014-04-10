@@ -146,24 +146,38 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Admin\" />
     <Folder Include="App_Data\" />
-    <Folder Include="App_Start\Html\" />
     <Folder Include="App_Start\ViewEngine\" />
-    <Folder Include="Views\Shared\DisplayTemplates\" />
+    <Folder Include="Views\AddPost\" />
+    <Folder Include="_Auxilia\Handlers\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\ConfigTask_AddRandomData.cs" />
     <Compile Include="App_Start\ConfigTask_Bundles.cs" />
     <Compile Include="App_Start\ConfigTask_1_Container.cs" />
+    <Compile Include="App_Start\ConfigTask_HtmlConventions.cs" />
+    <Compile Include="App_Start\ConfigTask_ViewEngine.cs" />
     <Compile Include="App_Start\Container\AspMvc.cs" />
     <Compile Include="App_Start\ConfigTask_Filters.cs" />
     <Compile Include="App_Start\Container\MvcPowerTools.cs" />
     <Compile Include="App_Start\ConfigTask_Routing.cs" />
-    <Compile Include="Browse\Posts\IndexController.cs" />
+    <Compile Include="App_Start\Container\Repositories.cs" />
+    <Compile Include="App_Start\Html\Display\Build.cs" />
+    <Compile Include="App_Start\Html\Editors\Modify.cs" />
+    <Compile Include="App_Start\StaticConfig.cs" />
+    <Compile Include="Browse\Posts\PostsListController.cs" />
+    <Compile Include="Browse\Posts\ViewModels\PostsListModel.cs" />
+    <Compile Include="Edit\AddPostController.cs" />
+    <Compile Include="Edit\ViewModels\AddPostModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="_Auxilia\Data\Post.cs" />
+    <Compile Include="_Auxilia\PagedInput.cs" />
+    <Compile Include="_Auxilia\PagedModel.cs" />
+    <Compile Include="_Auxilia\Persistence\InMemoryDb.cs" />
+    <Compile Include="_Auxilia\Persistence\PostsListHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -184,6 +198,11 @@
     <Content Include="Browse\Web.config" />
     <Content Include="Browse\_Layout.cshtml" />
     <Content Include="Browse\_ViewStart.cshtml" />
+    <Content Include="Browse\Posts\PostsList.cshtml" />
+    <Content Include="Browse\Posts\DisplayTemplates\Post.cshtml" />
+    <Content Include="Edit\AddPost.cshtml" />
+    <Content Include="Edit\Web.config" />
+    <Content Include="Edit\_ViewStart.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -210,10 +229,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

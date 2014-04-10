@@ -1,0 +1,9 @@
+﻿@using System.Web.Mvc.Html
+@using MvcPowerTools.Html
+@model HtmlConventionsSample.Edit.ViewModels.AddPostModel
+
+@using (Html.BeginForm())
+{
+    @Html.EditModel()
+    <button type="submit" class="btn btn-primary">Add</button>
+}

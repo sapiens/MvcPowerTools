@@ -8,22 +8,11 @@ namespace MvcPowerTools.ViewEngines.Conventions
     /// Views are in the same folder as controller. 
     /// View file name pattern is [controller].cshtml if using Handler convention or [controller]_[supplied view].cshtml
     /// </summary>
-    public class ViewsBesideController : BaseViewConvention
+    public class ViewsNearController : BaseViewConvention
     {
-        private readonly Assembly _appAssembly;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="appAssembly">Web application assembly</param>
-        public ViewsBesideController(Assembly appAssembly)
-        {
-            _appAssembly = appAssembly;
-        }
-
         public override bool Match(ControllerContext context, string viewName)
         {
-            return !viewName.StartsWith("_");
+            return !viewName.StartsWith("_") && !FlexibleViewEngine.IsMvcTemplate(viewName);
         }
 
         /// <summary>
@@ -33,9 +22,9 @@ namespace MvcPowerTools.ViewEngines.Conventions
         /// <returns/>
         public override string GetViewPath(ControllerContext controllerContext, string viewName)
         {
-            var ctrl = controllerContext.Controller.GetType();
+            var ctrlType = controllerContext.Controller.GetType();
 
-            var path = ctrl.ToWebsiteRelativePath(_appAssembly);
+            var path = ctrlType.ToWebsiteRelativePath(ctrlType.Assembly);
             if (viewName != "Get" && viewName != "Post")
             {
                 path =path+"_"+viewName;
