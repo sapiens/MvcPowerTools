@@ -19,11 +19,7 @@ namespace HtmlConventionsSample.Edit
 
         public override ActionResult Post(AddPostModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            return this.RedirectToController<PostsListController>(c => c.Get(new PagedInput()));
+            return this.Handle(model, nr => this.RedirectToController<PostsListController>(c => c.Get(new PagedInput())));
         }
     }
 }

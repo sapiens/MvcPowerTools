@@ -7,6 +7,7 @@ namespace HtmlConventionsSample._Auxilia.Data
         public Post()
         {
             Id = Guid.NewGuid();
+            CreatedOn = DateTime.Now;
         }
         public Guid Id { get; set; }
         public string Title { get; set; }

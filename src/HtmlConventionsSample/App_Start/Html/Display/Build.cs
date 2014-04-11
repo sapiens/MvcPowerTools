@@ -13,10 +13,10 @@ namespace HtmlConventionsSample.Html.Display
               .Build(m =>
               {
                   var time = m.Value<DateTime>();
-                  var tag = new HtmlTag("div")
+                  var tag = new HtmlTag("span")
                       .AddClass("last-update")
-                      .Attr("title", time.ToLocalTime())
-                      .Text(string.Format("Posted {0}", DateTime.UtcNow.Subtract(time).ToHuman()));
+                      .Attr("title", time)
+                      .Text(string.Format("Posted {0}", DateTime.Now.Subtract(time).ToHuman()));
                   return tag;
               });
         }

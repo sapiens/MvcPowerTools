@@ -149,7 +149,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="App_Start\ViewEngine\" />
     <Folder Include="Views\AddPost\" />
-    <Folder Include="_Auxilia\Handlers\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\ConfigTask_AddRandomData.cs" />
@@ -174,6 +173,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_Auxilia\Data\Post.cs" />
+    <Compile Include="_Auxilia\Handlers\AddPostHandler.cs" />
     <Compile Include="_Auxilia\PagedInput.cs" />
     <Compile Include="_Auxilia\PagedModel.cs" />
     <Compile Include="_Auxilia\Persistence\InMemoryDb.cs" />

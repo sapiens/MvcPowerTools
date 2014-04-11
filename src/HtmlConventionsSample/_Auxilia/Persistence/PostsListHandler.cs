@@ -20,9 +20,9 @@ namespace HtmlConventionsSample._Auxilia.Persistence
         public PostsListModel Handle(PagedInput input)
         {
             var model = new PostsListModel(input);
-            var pagination = input.ToPagination();
+            var pagination = input.ToPagination(PagedInput.DefaultPageSize);
             model.Data = new PagedResult<Post>();
-            model.Data.Items=  _db.Posts.Skip((int) pagination.Skip).Take(pagination.PageSize).ToArray();
+            model.Data.Items = _db.Posts.OrderByDescending(d => d.CreatedOn).Skip((int)pagination.Skip).Take(PagedInput.DefaultPageSize).ToArray();
             model.Data.Count = _db.Posts.Count();
             return model;
         }

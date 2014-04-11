@@ -1,4 +1,4 @@
 ﻿@using MvcPowerTools.Html
 @model HtmlConventionsSample._Auxilia.Data.Post
 
-<div>@Model.Title - @Html.Display(d=>d.CreatedOn)</div>
+<div>@Model.Title (by <i>@Model.Author</i>) - @Html.Display(d=>d.CreatedOn)</div>

@@ -4,7 +4,7 @@ namespace HtmlConventionsSample._Auxilia
 {
     public class PagedInput:IPagedInput
     {
-        public static int DefaultPageSize = 10;
+        public static int DefaultPageSize = 2;
         public PagedInput()
         {
             Page = 1;

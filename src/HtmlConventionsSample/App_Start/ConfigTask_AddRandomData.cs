@@ -12,7 +12,7 @@ namespace HtmlConventionsSample
             //var db=StaticConfig.Container
             var db = DependencyResolver.Current.GetService<InMemoryDb>();
             var f = new Fixture();
-            foreach (var p in f.CreateMany<Post>(5))
+            foreach (var p in f.Build<Post>().Without(d=>d.CreatedOn).CreateMany(5))
             {
                 db.Save(p);
             }
