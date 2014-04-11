@@ -17,9 +17,7 @@
     <frameworkAssemblies>
         <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations"  />
     </frameworkAssemblies>
-<references>
-	<reference file="CavemanTools.Web.dll"></reference>
-</references>
+
   </metadata> 
   <files>
         <file src="bin\Release\**\MvcPowerTools*" target="lib"></file>

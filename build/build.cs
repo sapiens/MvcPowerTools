@@ -115,7 +115,7 @@ static string GetDepVersion(string asmName)
 
 static string GetVersion(string asmName, bool stable=true)
 {
-    return Path.Combine(GetReleaseDir(asmName),"Net45",asmName+".dll").GetAssemblyVersion().ToSemanticVersion(stable?null:"pre1").ToString();
+    return Path.Combine(GetReleaseDir(asmName),"Net45",asmName+".dll").GetAssemblyVersion().ToSemanticVersion(stable?null:"pre2").ToString();
 }
 
 static string GetReleaseDir(string project)
