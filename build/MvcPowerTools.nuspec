@@ -3,7 +3,7 @@
   <metadata> 
     <id>MvcPowerTools</id> 
 	<title>MvcPowerTools</title>
-    <version>0.0.1</version> 
+    <version>0.0.0</version> 
     <authors>Mihai Mogosanu</authors>
     <description>Power tools for the seasoned Asp.Net Mvc developer. Enjoy greater flexibility and control with html conventions, routing conventions, action filter conventions, view engine conventions and smart controllers.</description> 
     <language>en-US</language>
@@ -11,18 +11,19 @@
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
     <projectUrl>https://github.com/sapiens/MvcPowerTools</projectUrl>
   <dependencies>
-   <dependency id="Microsoft.AspNet.Mvc" version="5.0.0" />
-   <dependency id="HtmlTags" version="2.0.0" />
+   <dependency id="Microsoft.AspNet.Mvc" version="[5.1.2,6.0.0)" />
+   <dependency id="HtmlTags" version="2.1.0" />
   </dependencies>
     <frameworkAssemblies>
         <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations"  />
     </frameworkAssemblies>
-
+<references>
+	<reference file="CavemanTools.Web.dll"></reference>
+</references>
   </metadata> 
   <files>
         <file src="bin\Release\**\MvcPowerTools*" target="lib"></file>
-        <file src="bin\Release\**\CavemanTools.Web*" target="lib"></file>
-        
+        <file src="bin\Release\**\CavemanTools.Web*" target="lib"></file>        
     </files>  
 
 </package>

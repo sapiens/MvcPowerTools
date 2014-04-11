@@ -85,7 +85,7 @@ static void Pack(string project,string[] deps=null)
 static void UpdateVersion(string nuspecFile,string assemblyName,Dictionary<string,string> localDeps=null)
 {
     var nuspec=nuspecFile.AsNuspec();   
-    nuspec.Metadata.Version=GetVersion(assemblyName);
+    nuspec.Metadata.Version=GetVersion(assemblyName,false);
     if (localDeps!=null)
     {
         foreach(var kv in localDeps)
@@ -113,9 +113,9 @@ static string GetDepVersion(string asmName)
 }
 
 
-static string GetVersion(string asmName)
+static string GetVersion(string asmName, bool stable=true)
 {
-    return Path.Combine(GetReleaseDir(asmName),"Net45",asmName+".dll").GetAssemblyVersion().ToSemanticVersion().ToString();
+    return Path.Combine(GetReleaseDir(asmName),"Net45",asmName+".dll").GetAssemblyVersion().ToSemanticVersion(stable?null:"pre1").ToString();
 }
 
 static string GetReleaseDir(string project)
