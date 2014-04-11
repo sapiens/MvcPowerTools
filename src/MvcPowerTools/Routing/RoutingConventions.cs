@@ -214,13 +214,13 @@ namespace MvcPowerTools.Routing
 #endif
 
 #if WEBAPI
-        private Func<RouteBuilderInfo, IEnumerable<HttpRoute>> _defaultBuilder = a => new HttpRoute[0];
+        private Func<RouteBuilderInfo, IEnumerable<IHttpRoute>> _defaultBuilder = a => new HttpRoute[0];
 #else
         private Func<RouteBuilderInfo, IEnumerable<Route>> _defaultBuilder = a => new Route[0];
 #endif
 
 #if WEBAPI
-        public IConfigureRoutingConventions DefaultBuilder(Func<RouteBuilderInfo, IEnumerable<HttpRoute>> builder)
+        public IConfigureRoutingConventions DefaultBuilder(Func<RouteBuilderInfo, IEnumerable<IHttpRoute>> builder)
 #else
         public IConfigureRoutingConventions DefaultBuilder(Func<RouteBuilderInfo, IEnumerable<Route>> builder)
 #endif
