@@ -3,11 +3,7 @@ MvcPowerTools
 
 Power tools for the seasoned Asp.Net Mvc developer needing great flexibility and control. Inspired from FubuMvc. This library doesn't replace default asp.net mvc functionality, but it aimes to extend it.
 
-
-### FubuMvc Users 
-
-Althugh they resemble the FubuMvc conventions (especially Html Conventions) MvcPowertools is not a port of it and doesn't contain Fubu code, Fubu served only as inspiration.
-
+Latest version[1.0.0](https://github.com/sapiens/MvcPowerTools/wiki/ChangeLog)
 
 See [Wiki](https://github.com/sapiens/MvcPowerTools/wiki) for usage.
 
