@@ -1003,6 +1003,12 @@
             <param name="inherit">True to lookup the hierarchy chain for the attribute</param>
             <returns></returns>
         </member>
+        <member name="M:CavemanTools.PasswordHash.ToString">
+            <summary>
+            Returns the hash as string of 92 chars
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:CavemanTools.Percentage.#ctor(System.Decimal)">
             <summary>
             A percentage as a number.

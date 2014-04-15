@@ -98,6 +98,7 @@
     <Compile Include="Routing\HandlerRouteConventionTests.cs" />
     <Compile Include="Routing\HomePageTests.cs" />
     <Compile Include="Routing\RoutingConventionsTests.cs" />
+    <Compile Include="ViewEngine\ExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
