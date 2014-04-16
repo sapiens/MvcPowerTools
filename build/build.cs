@@ -16,8 +16,12 @@ const string SlnDir=@"../src";
 
 const string TempDir=@"temp";
 
+const bool Stable=false;
+
 //for nuget
 const string PackageDir = @"temp/package";
+
+static string NugetExe= Path.GetFullPath(SlnDir+"/.nuget/nuget.exe");
 
 static string CurrentDir=Path.GetFullPath("./");
 
@@ -55,11 +59,14 @@ public static void Local()
 }
 
 [Depends("Build")]
+[SkipIf("Packed",true)]
 public static void Pack()
 {
    Pack("MvcPowerTools",new[]{"CavemanTools"});
 
 }
+
+static bool Packed=false;
 
 static void Pack(string project,string[] deps=null)
 {
@@ -77,15 +84,24 @@ static void Pack(string project,string[] deps=null)
     
     UpdateVersion(nuspecFile,project,depsVersions);
     BuildNuget(project,Path.Combine(SlnDir,project));
+	Packed=true;
 }
 
+
+[Depends("Pack")]
+public static void Push()
+{
+var project=Projects[0];
+var nupkg= Path.GetFullPath(Path.Combine(PackageDir,project+"."+GetVersion(project)+".nupkg"));
+Nuge.Exec("push",nupkg);
+}
 //------------------------------ Utils ----------------
 
 //updates version in nuspec file
 static void UpdateVersion(string nuspecFile,string assemblyName,Dictionary<string,string> localDeps=null)
 {
     var nuspec=nuspecFile.AsNuspec();   
-    nuspec.Metadata.Version=GetVersion(assemblyName,false);
+    nuspec.Metadata.Version=GetVersion(assemblyName);
     if (localDeps!=null)
     {
         foreach(var kv in localDeps)
@@ -113,9 +129,9 @@ static string GetDepVersion(string asmName)
 }
 
 
-static string GetVersion(string asmName, bool stable=true)
+static string GetVersion(string asmName)
 {
-    return Path.Combine(GetReleaseDir(asmName),"Net45",asmName+".dll").GetAssemblyVersion().ToSemanticVersion(stable?null:"pre2").ToString();
+    return Path.Combine(GetReleaseDir(asmName),"Net45",asmName+".dll").GetAssemblyVersion().ToSemanticVersion(Stable?null:"pre").ToString();
 }
 
 static string GetReleaseDir(string project)
