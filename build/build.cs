@@ -93,7 +93,7 @@ public static void Push()
 {
 var project=Projects[0];
 var nupkg= Path.GetFullPath(Path.Combine(PackageDir,project+"."+GetVersion(project)+".nupkg"));
-Nuge.Exec("push",nupkg);
+NugetExe.Exec("push",nupkg);
 }
 //------------------------------ Utils ----------------
 
