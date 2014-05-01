@@ -15,6 +15,7 @@
     @foreach (var p in Model.Data.Items)
     {
         <li>@Html.DisplayTemplate(p)</li>
+        <li>@Html.DisplayFor(m=>p)</li>
     }
 </ul>
 @Html.Pager(Model.Page, PagedInput.DefaultPageSize, Model.Data.Count, i => Url.CreateFor<PostsListController>(new PagedInput(){Page = i}))

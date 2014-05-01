@@ -67,7 +67,18 @@ namespace MvcPowerTools.Html
                 errMsg = info.ModelErrors[0].ErrorMessage;
             }
             return new ValidationMessageTag(info.HtmlId, info.ValidationFailed, errMsg);
-        }      
+        }
+
+        public static FormTag POST(this FormTag tag)
+        {
+            return tag.Method("POST");
+        }
+        
+        public static FormTag GET(this FormTag tag)
+        {
+            return tag.Method("GET");
+        }
+
 
         /// <summary>
         /// Sets the id of the tag using the asp.net mvc default convention

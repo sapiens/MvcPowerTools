@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq.Expressions;
 using System.Text;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
 using System.Web.Routing;
 using HtmlTags;
 
@@ -180,24 +181,33 @@ namespace MvcPowerTools.Html
             }
         }
 
-        //public static IDisposable BeginForm(this HtmlHelper html, string controller=null, string action=null,Action<FormTag> config=null)
-        //{
-        //    var form = new FormTag();
-        //    form.Method("POST");
+        public static MvcForm BeginForm(this HtmlHelper html, string controller = null, string action = null, Action<FormTag> config = null)
+        {
+            var form = new FormTag();
+            form.Method("POST");
 
-        //    if (controller.IsNullOrEmpty())
-        //    {
-        //        controller = html.ViewContext.GetControllerName();
-        //    }
+            if (controller.IsNullOrEmpty())
+            {
+                controller = html.ViewContext.GetControllerName();
+            }
 
-        //    if (action.IsNullOrEmpty())
-        //    {
-        //        action = html.ViewContext.GetActionName();
-        //    }
-            
-        //    if (config != null) config(form);
-        //    return null;
-        //}
+            if (action.IsNullOrEmpty())
+            {
+                action = html.ViewContext.GetActionName();
+            }
+
+            if (config != null) config(form);
+            form.Action(UrlHelper.GenerateUrl(null, action, controller, null,
+                html.RouteCollection, html.ViewContext.RequestContext, true));
+            form.NoClosingTag();
+            html.ViewContext.Writer.Write(form.ToString());
+            return new MvcForm(html.ViewContext);
+        }
+
+        public static MvcForm BeginForm<T>(this HtmlHelper html,Action<FormTag> config = null, string action = "Post") where T:Controller
+        {
+            return BeginForm(html,typeof (T).ControllerNameWithoutSuffix(), action, config);
+        }
 
         private static ModelInfo CreateModelInfo<T, R>(HtmlHelper<T> html, Expression<Func<T, R>> property,
             out ModelMetadata metadata)
