@@ -27,7 +27,7 @@ namespace MvcPowerTools.Controllers
         /// </summary>
         public Type ValidationFailedPolicy { get; set; }
 
-        internal static Type DefaultPolicy = typeof (ViewResultForInvalidModel<>);
+        public static Type DefaultPolicy = typeof (ViewResultForInvalidModel<>);
 
         public ValidModelOnlyAttribute()
         {
@@ -166,9 +166,13 @@ namespace MvcPowerTools.Controllers
         /// <summary>
         /// Registers types with a DI Container using the provided action
         /// </summary>
+        /// <param name="typeRegistration">Action which will register a type with the DI Container</param>
         /// <param name="genericTypeRegistration">Action which will register a generic open type with the DI Container</param>
-        public static void RegisterContainerTypes(Action<Type> genericTypeRegistration)
+        public static void RegisterInContainer(Action<Type> typeRegistration,Action<Type> genericTypeRegistration)
         {
+            typeRegistration.MustNotBeNull();
+            genericTypeRegistration.MustNotBeNull();
+            typeRegistration(typeof (ValidModelOnlyAttribute));
             Array.ForEach(TypesForDIContainer, genericTypeRegistration);
         }
        

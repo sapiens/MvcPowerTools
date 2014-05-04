@@ -20,7 +20,29 @@ namespace Tests.Controllers
     {
         private Stopwatch _t = new Stopwatch();
 
-      
+
+        [Fact]
+        public void for_DI_default_policy_is_registered()
+        {
+            bool registered = false;
+            ValidModelOnlyAttribute.RegisterInContainer(t=>{}, gt =>
+            {
+                registered = gt == ValidModelOnlyAttribute.DefaultPolicy;
+            });
+            registered.Should().BeTrue();
+        }
+
+        [Fact]
+        public void for_DI_ValidModelOnlyAttribute_is_registered()
+        {
+            bool registered = false;
+            ValidModelOnlyAttribute.RegisterInContainer(t =>
+            {
+                registered = t == typeof (ValidModelOnlyAttribute);
+            }, gt =>{});
+            registered.Should().BeTrue();
+        }
+
         [Fact]
         public void only_one_override_policy()
         {
