@@ -70,7 +70,7 @@ namespace MvcPowerTools.Filters
         public static void RegisterModules(this FiltersConventions filters, params Assembly[] assemblies)
         {
             assemblies.SelectMany(a=>a.GetTypesDerivedFrom<FiltersConventionsModule>(true))
-                .ForEach(t=> filters.LoadModule(DependencyResolver.Current.GetService(t) as FiltersConventionsModule));
+                .ForEach(t=> filters.LoadModule(t.CreateInstance() as FiltersConventionsModule));
         }
     }
 }
