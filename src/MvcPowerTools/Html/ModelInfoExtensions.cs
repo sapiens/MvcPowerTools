@@ -43,21 +43,23 @@ namespace MvcPowerTools.Html
         /// <typeparam name="T"></typeparam>
         /// <param name="info"></param>
         /// <param name="model"></param>
+        /// <param name="templateName"></param>
         /// <returns></returns>
-        public static HtmlTag RenderTemplate<T>(this ModelInfo info,  T model)
+        public static HtmlTag RenderTemplate<T>(this ModelInfo info,  T model,string templateName=null)
         {
-            return HtmlTag.Placeholder().AppendHtml(HtmlHelperExtensions.DisplayTemplate(info.ViewContext, model));
+            return HtmlTag.Placeholder().AppendHtml(HtmlHelperExtensions.DisplayTemplate(info.ViewContext, model,templateName));
         }
-        
+
         /// <summary>
         /// Renders the display template (found in DisplayTemplates/[typename].cshtml
         /// and wraps it with a html tag
         /// </summary>
         /// <param name="info"></param>
+        /// <param name="templateName"></param>
         /// <returns></returns>
-        public static HtmlTag RenderTemplate(this ModelInfo info)
+        public static HtmlTag RenderTemplate(this ModelInfo info,string templateName=null)
         {
-            return HtmlTag.Placeholder().AppendHtml(HtmlHelperExtensions.DisplayTemplate(info.ViewContext, info.RawValue));
+            return HtmlTag.Placeholder().AppendHtml(HtmlHelperExtensions.DisplayTemplate(info.ViewContext, info.RawValue,templateName));
         }
         
         /// <summary>

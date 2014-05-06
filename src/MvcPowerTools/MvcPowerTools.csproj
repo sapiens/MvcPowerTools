@@ -98,6 +98,7 @@
     <Compile Include="Html\Conventions\DataAnnotationBuilders.cs" />
     <Compile Include="Html\DisplayTemplateAttribute.cs" />
     <Compile Include="Html\Internals\DisplayTemplateGenerator.cs" />
+    <Compile Include="IgnoreAttribute.cs" />
     <Compile Include="IPagedInput.cs" />
     <Compile Include="ControllerHandlers\IHandleQuery.cs" />
     <Compile Include="Controllers\Internal\IContextFacadeForSmartAction.cs" />
@@ -202,6 +203,8 @@
     <Compile Include="Routing\RoutingConventionsSettings.cs" />
     <Compile Include="ThemeAttribute.cs" />
     <Compile Include="TransferResult.cs" />
+    <Compile Include="TransferToActionResult.cs" />
+    <Compile Include="TransferToRouteResult.cs" />
     <Compile Include="UnitTesting\FakeController.cs" />
     <Compile Include="ViewEngines\Conventions\BaseViewConvention.cs" />
     <Compile Include="ViewEngines\Conventions\MvcTemplatesConvention.cs" />

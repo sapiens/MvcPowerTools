@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq.Expressions;
 using System.Text;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
@@ -142,23 +143,29 @@ namespace MvcPowerTools.Html
 
         /// <summary>
         /// Renders a partial view for the specified model. 
-        /// The view must be in a DisplayTemplate directory and must have the type name
+        /// The view must be in a DisplayTemplate directory and must have either the type name or a specified name
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="R"></typeparam>
         /// <param name="html"></param>
         /// <param name="model"></param>
+        /// <param name="templateName"></param>
         /// <returns></returns>
-        public static MvcHtmlString DisplayTemplate<T, R>(this HtmlHelper<T> html, R model)
+        public static MvcHtmlString DisplayTemplate<T, R>(this HtmlHelper<T> html, R model,string templateName=null)
         {
             return new MvcHtmlString(DisplayTemplate(html.ViewContext, model));
         }
 
-        internal static string DisplayTemplate<R>(ViewContext context, R model)
+        public const string PartialModelCacheKey = "partial-model-";
+
+        internal static string DisplayTemplate<R>(ViewContext context, R model,string templateName=null)
         {
             if (model==null) throw new ArgumentNullException("model","Model must not be null");
-            var pname = "DisplayTemplates/" + model.GetType().Name;
+            if (templateName.IsNullOrEmpty()) templateName = model.GetType().Name;
+            var pname = "DisplayTemplates/" + templateName;
+            context.HttpContext.Set(PartialModelCacheKey, model);
             var viewResult = System.Web.Mvc.ViewEngines.Engines.FindPartialView(context.Controller.ControllerContext, pname);
+            
             if (viewResult.View == null)
             {
                 var sb = new StringBuilder();
@@ -172,10 +179,11 @@ namespace MvcPowerTools.Html
                 }
                 throw new InvalidOperationException(sb.ToString());
             }
+            context.HttpContext.Items.Remove(PartialModelCacheKey);
             using (var sw = new StringWriter())
             {
                 var vc = new ViewContext(context.Controller.ControllerContext, viewResult.View,
-                    new ViewDataDictionary(model), context.TempData, sw);
+                    new ViewDataDictionary(model), context.TempData, sw);               
                 viewResult.View.Render(vc, sw);
                 return sw.ToString();
             }

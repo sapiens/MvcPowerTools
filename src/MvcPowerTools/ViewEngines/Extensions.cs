@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using System.Web;
+using System.Web.Mvc;
 using CavemanTools;
+using MvcPowerTools.Html;
 
 namespace MvcPowerTools.ViewEngines
 {
@@ -30,6 +33,18 @@ namespace MvcPowerTools.ViewEngines
                 cfg.Conventions.Add(type.CreateInstance() as IFindViewConvention);
             }
             return cfg;
+        }
+
+        /// <summary>
+        /// Returns the partial model used when displaying a partial model template.
+        /// Model is set by Html.DisplayTemplate() and ModelInfo.RenderTemplate()
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cc"></param>
+        /// <returns></returns>
+        public static T TemplateModel<T>(this ControllerContext cc)
+        {
+            return cc.HttpContext.Get<T>(HtmlHelperExtensions.PartialModelCacheKey);
         }
     }
 }
