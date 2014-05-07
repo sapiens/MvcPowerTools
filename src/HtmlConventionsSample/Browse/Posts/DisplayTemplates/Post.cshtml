@@ -1,6 +1,9 @@
 ﻿@using MvcPowerTools.Html
 @model HtmlConventionsSample._Auxilia.Data.Post
 
+<i>@ViewData.TemplateInfo.GetFullHtmlFieldName("Template")</i>
 <div>@Model.Title (by <i>@Model.Author</i>) - @Html.Display(d=>d.CreatedOn)
-@Html.DisplayTemplate(Model.Template)
+  
+    @Html.Edit(m=>m.Template)
+    
 </div>

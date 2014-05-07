@@ -36,19 +36,19 @@ namespace MvcPowerTools.Html
             return HtmlConventionsManager.GetCurrentRequestProfile(info.ViewContext.HttpContext);
         }
 
-        /// <summary>
-        /// Renders the display template (found in DisplayTemplates/[typename].cshtml
-        /// and wraps it with a html tag
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="info"></param>
-        /// <param name="model"></param>
-        /// <param name="templateName"></param>
-        /// <returns></returns>
-        public static HtmlTag RenderTemplate<T>(this ModelInfo info,  T model,string templateName=null)
-        {
-            return HtmlTag.Placeholder().AppendHtml(HtmlHelperExtensions.DisplayTemplate(info.ViewContext, model,templateName));
-        }
+        ///// <summary>
+        ///// Renders the display template (found in DisplayTemplates/[typename].cshtml
+        ///// and wraps it with a html tag
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="info"></param>
+        ///// <param name="model"></param>
+        ///// <param name="templateName"></param>
+        ///// <returns></returns>
+        //public static HtmlTag DisplayTemplate<T>(this ModelInfo info,  T model,string templateName=null)
+        //{
+        //    return HtmlTag.Placeholder().AppendHtml(HtmlHelperExtensions.RenderTemplate(info.ViewContext, model,templateName,info.Name));
+        //}
 
         /// <summary>
         /// Renders the display template (found in DisplayTemplates/[typename].cshtml
@@ -57,11 +57,19 @@ namespace MvcPowerTools.Html
         /// <param name="info"></param>
         /// <param name="templateName"></param>
         /// <returns></returns>
-        public static HtmlTag RenderTemplate(this ModelInfo info,string templateName=null)
+        public static HtmlTag DisplayTemplate(this ModelInfo info,string templateName=null)
         {
-            return HtmlTag.Placeholder().AppendHtml(HtmlHelperExtensions.DisplayTemplate(info.ViewContext, info.RawValue,templateName));
+            if (templateName.IsNullOrEmpty()) templateName = info.Type.Name;
+            return HtmlTag.Placeholder().AppendHtml(HtmlHelperExtensions.RenderTemplate(info.ViewContext, info.RawValue,"DisplayTemplates/"+templateName));
+        }
+
+        public static HtmlTag EditorTemplate(this ModelInfo info, string templateName = null)
+        {
+            if (templateName.IsNullOrEmpty()) templateName = info.Type.Name;
+            return HtmlTag.Placeholder().AppendHtml(HtmlHelperExtensions.RenderTemplate(info.ViewContext, info.RawValue, "EditorTemplates/" + templateName,info.Name));
         }
         
+
         /// <summary>
         /// Gets the model info for the specified property
         /// </summary>

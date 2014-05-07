@@ -72,12 +72,11 @@ namespace MvcPowerTools.Html
         {
             if (PropertyDefinition != null)
             {
-                return PropertyDefinition.HasCustomAttribute<T>();
+                if(PropertyDefinition.HasCustomAttribute<T>()) return true;
             }
-            else
-            {
-                return Type.HasCustomAttribute<T>();
-            }
+            
+            return Type.HasCustomAttribute<T>();
+            
         }
 
         public T GetAttribute<T>() where T : Attribute

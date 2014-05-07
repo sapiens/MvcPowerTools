@@ -17,10 +17,10 @@ namespace HtmlConventionsSample._Auxilia.Data
         public string Title { get; set; }
         public DateTime CreatedOn { get; set; }
         public string Author { get; set; }
-        [DisplayTemplate]
+        
         public SomeTemplate Template { get; set; }
     }
-
+    [EditorTemplate]
     public class SomeTemplate:IdName
     {
         

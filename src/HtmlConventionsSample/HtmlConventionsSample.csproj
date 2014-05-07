@@ -203,7 +203,7 @@
     <Content Include="Edit\AddPost.cshtml" />
     <Content Include="Edit\Web.config" />
     <Content Include="Edit\_ViewStart.cshtml" />
-    <Content Include="Browse\Posts\DisplayTemplates\SomeTemplate.cshtml" />
+    <Content Include="Browse\Posts\EditorTemplates\SomeTemplate.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

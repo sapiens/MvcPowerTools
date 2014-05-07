@@ -8,7 +8,7 @@ namespace MvcPowerTools.Html.Internals
         
         public HtmlTag GenerateElement(ModelInfo info)
         {
-            return info.RenderTemplate();
+            return info.DisplayTemplate();
         }
     }
 }

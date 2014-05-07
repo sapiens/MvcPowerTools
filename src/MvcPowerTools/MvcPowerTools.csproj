@@ -98,6 +98,7 @@
     <Compile Include="Html\Conventions\DataAnnotationBuilders.cs" />
     <Compile Include="Html\DisplayTemplateAttribute.cs" />
     <Compile Include="Html\Internals\DisplayTemplateGenerator.cs" />
+    <Compile Include="Html\Internals\EditorTemplateGenerator.cs" />
     <Compile Include="IgnoreAttribute.cs" />
     <Compile Include="IPagedInput.cs" />
     <Compile Include="ControllerHandlers\IHandleQuery.cs" />

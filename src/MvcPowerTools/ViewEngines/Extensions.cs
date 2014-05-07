@@ -36,15 +36,17 @@ namespace MvcPowerTools.ViewEngines
         }
 
         /// <summary>
-        /// Returns the partial model used when displaying a partial model template.
-        /// Model is set by Html.DisplayTemplate() and ModelInfo.RenderTemplate()
+        /// Returns the partial model used when rendering a partial model template.
+        /// Model is set by ModelInfo.EditorTemplate() and ModelInfo.DisplayTemplate()
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="cc"></param>
+        /// <param name="viewName"></param>
         /// <returns></returns>
-        public static T TemplateModel<T>(this ControllerContext cc)
+        public static T TemplateModel<T>(this ControllerContext cc,string viewName)
         {
-            return cc.HttpContext.Get<T>(HtmlHelperExtensions.PartialModelCacheKey);
+            viewName.MustNotBeNull();
+            return cc.HttpContext.Get<T>(HtmlHelperExtensions.PartialModelCacheKey+viewName);
         }
     }
 }

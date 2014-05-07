@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Management.Instrumentation;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -12,9 +15,9 @@ namespace MvcPowerTools.Html
 {
     public static class HtmlHelperExtensions
     {
-        //todo display template without model helper
-
-     
+        //todo default builder for validation summary
+        //todo helpers for validation summary
+        
         
         /// <summary>
         /// Uses the defined html conventions to build an editor for the view model
@@ -141,30 +144,29 @@ namespace MvcPowerTools.Html
             return info.ConventionsRegistry().Displays.GenerateTags(info);
         }
 
-        /// <summary>
-        /// Renders a partial view for the specified model. 
-        /// The view must be in a DisplayTemplate directory and must have either the type name or a specified name
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="R"></typeparam>
-        /// <param name="html"></param>
-        /// <param name="model"></param>
-        /// <param name="templateName"></param>
-        /// <returns></returns>
-        public static MvcHtmlString DisplayTemplate<T, R>(this HtmlHelper<T> html, R model,string templateName=null)
-        {
-            return new MvcHtmlString(DisplayTemplate(html.ViewContext, model));
-        }
+        ///// <summary>
+        ///// Renders a partial view for the specified model. 
+        ///// The view must be in a DisplayTemplate directory and must have either the type name or a specified name
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <typeparam name="R"></typeparam>
+        ///// <param name="html"></param>
+        ///// <param name="model"></param>
+        ///// <param name="templateName"></param>
+        ///// <returns></returns>
+        //public static MvcHtmlString DisplayTemplate<T, R>(this HtmlHelper<T> html, R model,string templateName=null)
+        //{
+        //    return new MvcHtmlString(DisplayTemplate(html.ViewContext, model));
+        //}
 
         public const string PartialModelCacheKey = "partial-model-";
 
-        internal static string DisplayTemplate<R>(ViewContext context, R model,string templateName=null)
+        internal static string RenderTemplate<T>(ViewContext context, T model,string templateName,string property=null) where T:class 
         {
+            templateName.MustNotBeNull();
             if (model==null) throw new ArgumentNullException("model","Model must not be null");
-            if (templateName.IsNullOrEmpty()) templateName = model.GetType().Name;
-            var pname = "DisplayTemplates/" + templateName;
-            context.HttpContext.Set(PartialModelCacheKey, model);
-            var viewResult = System.Web.Mvc.ViewEngines.Engines.FindPartialView(context.Controller.ControllerContext, pname);
+            context.HttpContext.Set(PartialModelCacheKey+templateName, model);
+            var viewResult = System.Web.Mvc.ViewEngines.Engines.FindPartialView(context.Controller.ControllerContext, templateName);
             
             if (viewResult.View == null)
             {
@@ -183,12 +185,22 @@ namespace MvcPowerTools.Html
             using (var sw = new StringWriter())
             {
                 var vc = new ViewContext(context.Controller.ControllerContext, viewResult.View,
-                    new ViewDataDictionary(model), context.TempData, sw);               
+                    new ViewDataDictionary(context.ViewData)
+                    {
+                        Model = model                        
+                    }, context.TempData, sw);
+                if (property != null)
+                {
+                    vc.ViewData.TemplateInfo.HtmlFieldPrefix =
+                        context.ViewData.TemplateInfo.GetFullHtmlFieldName(property);
+                }
+                
                 viewResult.View.Render(vc, sw);
                 return sw.ToString();
             }
         }
 
+       
         public static MvcForm BeginForm(this HtmlHelper html, string controller = null, string action = null, Action<FormTag> config = null)
         {
             var form = new FormTag();

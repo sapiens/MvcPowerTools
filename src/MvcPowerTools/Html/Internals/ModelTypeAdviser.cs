@@ -8,9 +8,15 @@ namespace MvcPowerTools.Html.Internals
         public static IGenerateHtml GetGenerator(ModelInfo info,
             IHaveModelConventions conventions)
         {
+           
             if (info.HasAttribute<DisplayTemplateAttribute>())
             {
                 return DisplayTemplateGenerator.Instance;
+            }
+            
+            if (info.HasAttribute<EditorTemplateAttribute>())
+            {
+                return EditorTemplateGenerator.Instance;
             }
 
             if (conventions.IsIgnored)
