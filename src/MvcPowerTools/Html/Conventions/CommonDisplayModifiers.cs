@@ -9,8 +9,10 @@ namespace MvcPowerTools.Html.Conventions
     {
         public override void Configure(HtmlConventionsManager conventions)
         {
+            conventions.Displays.Ignore(d => d.HasAttribute<IgnoreAttribute>());
             conventions.Displays.IfNotCustomType()
                 .Modify(AddFieldLabel);
+
         }
 
         public static HtmlTag AddFieldLabel(HtmlTag tag, ModelInfo info)

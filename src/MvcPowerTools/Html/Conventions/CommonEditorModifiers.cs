@@ -24,6 +24,7 @@ namespace MvcPowerTools.Html.Conventions
             conventions.Editors.IfNotCustomType().Modify(AddValidationAttributes);
             conventions.Editors.IfNotCustomType().Modify(AddEditorLabel);
             conventions.Editors.IfNotCustomType().Modify(AddValidationMessage);
+            conventions.Editors.Ignore(d => d.HasAttribute<IgnoreAttribute>());
         }
 
      
