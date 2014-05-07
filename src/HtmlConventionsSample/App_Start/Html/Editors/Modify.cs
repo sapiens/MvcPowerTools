@@ -1,4 +1,5 @@
-﻿using HtmlTags;
+﻿using System;
+using HtmlTags;
 using MvcPowerTools.Html;
 
 namespace HtmlConventionsSample.Html.Editors
@@ -14,7 +15,7 @@ namespace HtmlConventionsSample.Html.Editors
         static void TwitterBootstrap(IDefinedConventions editor)
         {
             editor
-                .PropertiesOnly()
+                .PropertiesExceptOfType<bool>()
                 .Modify((tag, model) =>
                 {
                     tag.FirstInputTag().AddClass("form-control");
@@ -25,9 +26,22 @@ namespace HtmlConventionsSample.Html.Editors
                 .PropertiesOnly()
                 .Modify((tag, model) =>
                 {
-                    var wrapper = new DivTag().AddClass("form-group");
+                    var wrapper = new DivTag();
+                    if (tag is MvcCheckboxElement)
+                    {
+                        wrapper.AddClass("checkbox");
+                    }
+                    else
+                    {
+                        wrapper.AddClass("form-group");
+                    }
+                    if (model.ValidationFailed)
+                    {
+                        wrapper.AddClass("has-error");
+                    }
                     return tag.WrapWith(wrapper);
                 });
+
         }
     }
 }

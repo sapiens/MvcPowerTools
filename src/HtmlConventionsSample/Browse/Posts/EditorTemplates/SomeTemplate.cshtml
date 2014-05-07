@@ -1,8 +1,9 @@
-﻿@model HtmlConventionsSample._Auxilia.Data.SomeTemplate
+﻿@using System.Web.Mvc.Html
+@model HtmlConventionsSample._Auxilia.Data.SomeTemplate
 
 <div>
     <b>
        <i> Rendering editor template</i>
-       @Html.TextBoxFor(d => d.Id)
+       @Html.TextBoxFor(d => d.Name)   
     </b>
 </div>

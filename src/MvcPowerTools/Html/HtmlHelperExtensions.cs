@@ -15,7 +15,7 @@ namespace MvcPowerTools.Html
 {
     public static class HtmlHelperExtensions
     {
-        //todo default builder for validation summary
+        
         //todo helpers for validation summary
         
         
@@ -36,6 +36,11 @@ namespace MvcPowerTools.Html
         public static HtmlTag Label<T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property)
         {
             return html.GenerateFor(HtmlConventionsManager.LabelKey, property);
+        }
+
+        public static HtmlTag ValidationMessage<T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property)
+        {
+            return html.GenerateFor(HtmlConventionsManager.ValidationKey, property);
         }
 
         /// <summary>

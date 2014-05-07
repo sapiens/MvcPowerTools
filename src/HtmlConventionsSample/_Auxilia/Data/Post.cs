@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using CavemanTools.Model;
 using MvcPowerTools.Html;
 
@@ -14,6 +15,7 @@ namespace HtmlConventionsSample._Auxilia.Data
             Template.Id = new Random().Next();
         }
         public Guid Id { get; set; }
+      
         public string Title { get; set; }
         public DateTime CreatedOn { get; set; }
         public string Author { get; set; }
@@ -21,8 +23,10 @@ namespace HtmlConventionsSample._Auxilia.Data
         public SomeTemplate Template { get; set; }
     }
     [EditorTemplate]
-    public class SomeTemplate:IdName
+    public class SomeTemplate
     {
-        
+        public int Id { get; set; }
+
+        public string Name { get; set; }
     }
 }

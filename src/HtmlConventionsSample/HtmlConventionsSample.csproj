@@ -163,6 +163,8 @@
     <Compile Include="App_Start\Container\Repositories.cs" />
     <Compile Include="App_Start\Html\Display\Build.cs" />
     <Compile Include="App_Start\Html\Editors\Modify.cs" />
+    <Compile Include="App_Start\Html\Labels\Modify.cs" />
+    <Compile Include="App_Start\Html\Validation\Modify.cs" />
     <Compile Include="App_Start\StaticConfig.cs" />
     <Compile Include="Browse\Posts\PostsListController.cs" />
     <Compile Include="Browse\Posts\ViewModels\PostsListModel.cs" />

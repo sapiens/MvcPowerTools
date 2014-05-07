@@ -64,6 +64,24 @@ namespace MvcPowerTools.Html
         }
 
         /// <summary>
+        /// Renders a span with validation message 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+         public static HtmlTag ValidationBuilder(ModelInfo info)
+        {
+            if (info.IsRootModel) return HtmlTag.Empty();
+             var errMsg = "";
+            if (info.ValidationFailed)
+            {
+                errMsg = info.ModelErrors[0].ErrorMessage;
+            }
+            return new ValidationMessageTag(info.HtmlId, info.ValidationFailed, errMsg);
+        }
+
+
+
+        /// <summary>
         /// Creates a span
         /// </summary>
         /// <param name="info"></param>

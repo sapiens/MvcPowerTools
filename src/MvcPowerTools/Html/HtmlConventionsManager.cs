@@ -81,12 +81,14 @@ namespace MvcPowerTools.Html
             CreateRegistry(EditorKey);
             CreateRegistry(DisplayKey);            
             CreateRegistry(LabelKey);
+            CreateRegistry(ValidationKey);
             this.SetDefaults();
         }
 
         public const string EditorKey = "editors";
         public const string DisplayKey = "displays";
         public const string LabelKey = "labels";
+        public const string ValidationKey = "validation";
 
         public IDefinedConventions Editors
         {
@@ -109,6 +111,14 @@ namespace MvcPowerTools.Html
             get
             {
                 return _conventions[LabelKey];
+            }
+        }
+        
+        public IDefinedConventions Validation
+        {
+            get
+            {
+                return _conventions[ValidationKey];
             }
         }
 

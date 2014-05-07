@@ -64,7 +64,8 @@ namespace MvcPowerTools.Html.Conventions
             if (tag.HasChild<ValidationMessageTag>()) return tag;
             var input = tag.FirstNonHiddenInput();
             if (input == null) return tag;
-            var validator = input.CreateValidationTag(info);
+            var validator = info.ConventionsRegistry().Validation.GenerateTags(info);
+                //input.CreateValidationTag(info);
             var parent = input.Parent;
             var res = tag;
             if (parent == null)

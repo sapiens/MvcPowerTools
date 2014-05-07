@@ -35,7 +35,17 @@ namespace MvcPowerTools.Html
         {
             return conventions.If(d => !d.IsRootModel);
         }
-        
+
+        public static IConfigureAction PropertiesExcept(this IConfigureConventions conventions,Func<PropertyInfo,bool> exceptCriteria)
+        {
+            return conventions.If(model =>!model.IsRootModel && exceptCriteria(model.PropertyDefinition));
+        }
+
+        public static IConfigureAction PropertiesExceptOfType<T>(this IConfigureConventions conventions)
+        {
+            return conventions.PropertiesExcept(d => d.PropertyType != typeof (T));
+        }
+
         public static IConfigureAction IfNotCustomType(this IConfigureConventions conventions)
         {
             return conventions.If(d => !d.Type.IsUserDefinedClass());
@@ -68,6 +78,7 @@ namespace MvcPowerTools.Html
             conventions.Displays.DefaultBuilder(DefaultBuilders.BasicTagBuilder);
             conventions.Editors.DefaultBuilder(DefaultBuilders.FormInputBuilder);
             conventions.Labels.DefaultBuilder(DefaultBuilders.LabelBuilder);
+            conventions.Validation.DefaultBuilder(DefaultBuilders.ValidationBuilder);
             return conventions;
         }
 

@@ -59,15 +59,15 @@ namespace MvcPowerTools.Html
             return name.Replace('.', '_');
         }
 
-        public static ValidationMessageTag CreateValidationTag(this HtmlTag tag, ModelInfo info)
-        {
-            var errMsg = "";
-            if (info.ValidationFailed)
-            {
-                errMsg = info.ModelErrors[0].ErrorMessage;
-            }
-            return new ValidationMessageTag(info.HtmlId, info.ValidationFailed, errMsg);
-        }
+        //public static ValidationMessageTag CreateValidationTag(this HtmlTag tag, ModelInfo info)
+        //{
+        //    var errMsg = "";
+        //    if (info.ValidationFailed)
+        //    {
+        //        errMsg = info.ModelErrors[0].ErrorMessage;
+        //    }
+        //    return new ValidationMessageTag(info.HtmlId, info.ValidationFailed, errMsg);
+        //}
 
         public static FormTag POST(this FormTag tag)
         {
