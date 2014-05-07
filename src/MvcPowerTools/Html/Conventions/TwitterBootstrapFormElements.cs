@@ -1,4 +1,6 @@
-﻿using HtmlTags;
+﻿using System;
+using System.Web.Mvc;
+using HtmlTags;
 
 namespace MvcPowerTools.Html.Conventions
 {
@@ -25,12 +27,15 @@ namespace MvcPowerTools.Html.Conventions
                 .PropertiesExceptOfType<bool>()
                 .Modify((tag, model) =>
                 {
-                    tag.FirstInputTag().AddClass("form-control");
+                    var input = tag.FirstInputTag();
+                    if (input == null || input.IsHiddenInput()) return tag;
+                    input.AddClass("form-control");
                     return tag;
                 })
                 ;
-            editor
-                .PropertiesOnly()
+            editor.
+                If(m =>
+                !m.IsRootModel && !m.Type.IsUserDefinedClass() && !m.HasAttribute<HiddenInputAttribute>())
                 .Modify((tag, model) =>
                 {
                     var wrapper = new DivTag();
