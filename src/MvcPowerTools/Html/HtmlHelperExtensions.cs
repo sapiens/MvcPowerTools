@@ -16,9 +16,6 @@ namespace MvcPowerTools.Html
     public static class HtmlHelperExtensions
     {
         
-        //todo helpers for validation summary
-        
-        
         /// <summary>
         /// Uses the defined html conventions to build an editor for the view model
         /// </summary>
