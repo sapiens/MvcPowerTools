@@ -8,7 +8,7 @@ namespace HtmlConventionsSample
         public static void Run()
         {
             //predefined modifiers which mimic default asp.net mvc templating behaviour
-            HtmlConventionsManager.LoadModule(new DataAnnotationModifiers(), new CommonEditorModifiers(), new SemanticModifiers());
+            HtmlConventionsManager.LoadModule(new DataAnnotationModifiers(), new CommonEditorModifiers(), new SemanticModifiers(),new TwitterBootstrapFormElements());
 
             //load all conventions defined in the assembly
             HtmlConventionsManager.LoadModules(typeof(ConfigTask_HtmlConventions).Assembly);

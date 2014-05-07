@@ -7,10 +7,10 @@ namespace HtmlConventionsSample.Html.Labels
         public override void Configure(HtmlConventionsManager conventions)
         {
             var l = conventions.Labels;
-            l.Always.Modify((tag, model) =>
-            {
-                return tag.AddClass("control-label");
-            });
+            //l.Always.Modify((tag, model) =>
+            //{
+            //    return tag.AddClass("control-label");
+            //});
         }
     }
 }
