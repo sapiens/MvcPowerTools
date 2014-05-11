@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CavemanTools.Model;
 using HtmlConventionsSample.Browse.Posts;
 using HtmlConventionsSample.Edit.ViewModels;
 using HtmlConventionsSample._Auxilia;

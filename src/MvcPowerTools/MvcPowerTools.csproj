@@ -101,7 +101,6 @@
     <Compile Include="Html\Internals\DisplayTemplateGenerator.cs" />
     <Compile Include="Html\Internals\EditorTemplateGenerator.cs" />
     <Compile Include="IgnoreAttribute.cs" />
-    <Compile Include="IPagedInput.cs" />
     <Compile Include="ControllerHandlers\IHandleQuery.cs" />
     <Compile Include="Controllers\Internal\IContextFacadeForSmartAction.cs" />
     <Compile Include="Controllers\Internal\SmartActionWorker.cs" />

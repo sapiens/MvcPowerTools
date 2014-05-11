@@ -1,6 +1,6 @@
-﻿using HtmlConventionsSample.Browse.Posts;
-using HtmlConventionsSample._Auxilia;
-using MvcPowerTools.ControllerHandlers;
+﻿using CavemanTools.Model;
+using HtmlConventionsSample.Browse.Posts;
+
 using MvcPowerTools.Routing;
 
 

@@ -3,20 +3,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using CavemanTools;
 
 namespace MvcPowerTools.Extensions
 {
 	public static class Common
 	{
 
-	    public static Pagination ToPagination(this IPagedInput input,int pageSize=15)
-	    {
-	        return new Pagination(input.Page,pageSize);
-	    }
-
-        
-        /// <summary>
+	    /// <summary>
 	    /// Render error view 
 	    /// </summary>
 	    /// <param name="ctx">HttpContext</param>

@@ -400,6 +400,16 @@
             <exception cref="T:System.InvalidCastException"></exception>
             <returns></returns>
         </member>
+        <member name="P:CavemanTools.Model.IPagedInput.Page">
+            <summary>
+            Current page
+            </summary>
+        </member>
+        <member name="P:CavemanTools.Model.PagedModel`1.PageSize">
+            <summary>
+            How many items are on a page
+            </summary>
+        </member>
         <member name="M:CavemanTools.Model.ValueObjects.AbstractValueObject`1.#ctor(`0)">
             <summary>
             

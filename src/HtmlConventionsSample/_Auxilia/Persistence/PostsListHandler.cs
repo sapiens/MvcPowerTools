@@ -1,10 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using CavemanTools.Model;
 using HtmlConventionsSample.Browse.Posts.ViewModels;
 using HtmlConventionsSample._Auxilia.Data;
 using MvcPowerTools.ControllerHandlers;
-using MvcPowerTools.Extensions;
-using Ploeh.AutoFixture;
+
 
 namespace HtmlConventionsSample._Auxilia.Persistence
 {

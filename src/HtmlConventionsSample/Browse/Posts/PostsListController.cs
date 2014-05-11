@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
+using CavemanTools.Model;
 using HtmlConventionsSample.Browse.Posts.ViewModels;
-using HtmlConventionsSample._Auxilia;
 using MvcPowerTools.ControllerHandlers;
 namespace HtmlConventionsSample.Browse.Posts
 {
