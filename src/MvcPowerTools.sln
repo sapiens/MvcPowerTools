@@ -21,6 +21,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiPowerTools", "WebApiPowerTools\WebApiPowerTools.csproj", "{340B2703-FBC3-4779-BE2E-7B18295152F1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mvc", "Mvc", "{5744B9C1-CAA8-4CD8-B700-B11714743BF0}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{7C32C355-8F70-48B0-B5DC-D8DA6BCCF35E}"
 EndProject
