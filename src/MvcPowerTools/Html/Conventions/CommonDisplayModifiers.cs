@@ -17,8 +17,9 @@ namespace MvcPowerTools.Html.Conventions
 
         public static HtmlTag AddFieldLabel(HtmlTag tag, ModelInfo info)
         {
-            if (tag.HasChild<LabelTag>()) return tag;
-            var label = info.ConventionsRegistry().Labels.GenerateTags(info);
+            var label=new SpanTag().Text(info.Name).AddClass("display-label");
+            //if (tag.HasChild<LabelTag>()) return tag;
+            //var label = info.ConventionsRegistry().Labels.GenerateTags(info);
             tag.WrapWith(HtmlTag.Placeholder()).InsertFirst(label);
             return tag.Parent;
         }
