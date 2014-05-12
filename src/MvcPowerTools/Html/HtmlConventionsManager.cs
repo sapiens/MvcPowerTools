@@ -24,7 +24,7 @@ namespace MvcPowerTools.Html
 
         public static HtmlConventionsManager DefaultProfile
         {
-            get { return CreateProfile("default"); }
+            get { return CreateProfile(DefaultProfileId); }
         }
 
         private static object sync = new object();
@@ -142,7 +142,42 @@ namespace MvcPowerTools.Html
             Array.ForEach(assemblies, a => LoadModule(a.GetInstancesOfTypesDerivedFrom<HtmlConventionsModule>().ToArray()));        
         }
 
-        public static void LoadModule(params HtmlConventionsModule[] modules)
+        public static void LoadWidgets(params Assembly[] assemblies)
+        {
+            LoadWidgets(assemblies,null);
+        }
+        public static void LoadWidgets(Assembly[] assemblies, string profile = null)
+        {
+            var managers = GetOrCreateProfile(profile);
+            foreach (var manager in managers)
+            {
+                LoadWidgets(assemblies,typeof(DisplayWidgetBuilder<>),manager.Displays);
+                LoadWidgets(assemblies,typeof(EditorWidgetBuilder<>),manager.Editors);
+            }
+        }
+
+        static IEnumerable<HtmlConventionsManager> GetOrCreateProfile(string profile = null)
+        {
+            if (profiles.Count == 0)
+            {
+                CreateProfile(DefaultProfileId);
+            }
+            if (profile == null)
+            {
+                return profiles.Values;
+            }
+            return new[] {profiles[profile]};
+        }
+
+        static void LoadWidgets(Assembly[] assemblies, Type builderType, IDefinedConventions registry)
+        {
+            foreach (var asm in assemblies)
+            {
+                asm.GetTypes().Where(t => t.InheritsGenericType(builderType)).OrderByAttribute()
+                    .ForEach(t => registry.Add(t.CreateInstance() as IBuildElement));
+            }
+        }
+       public static void LoadModule(params HtmlConventionsModule[] modules)
         {
             if (profiles.Count == 0)
             {

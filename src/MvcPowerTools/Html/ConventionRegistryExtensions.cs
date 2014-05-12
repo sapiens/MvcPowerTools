@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using HtmlTags;
 using MvcPowerTools.Html.Internals;
@@ -81,6 +82,12 @@ namespace MvcPowerTools.Html
             conventions.Validation.DefaultBuilder(DefaultBuilders.ValidationBuilder);
             return conventions;
         }
+
+        //public static IDefinedConventions LoadWidgetBuilders(this IDefinedConventions conventions,params Assembly[] assemblies)
+        //{
+           
+        //    return conventions;
+        //}
 
        
     }

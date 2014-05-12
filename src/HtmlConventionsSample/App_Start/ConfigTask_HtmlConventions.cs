@@ -12,6 +12,8 @@ namespace HtmlConventionsSample
 
             //load all conventions defined in the assembly
             HtmlConventionsManager.LoadModules(typeof(ConfigTask_HtmlConventions).Assembly);
+            
+            HtmlConventionsManager.LoadWidgets(typeof(ConfigTask_HtmlConventions).Assembly);
 
             //predefined builders for use with model annotations
             HtmlConventionsManager.LoadModule(new DataAnnotationBuilders(), new CommonHtmlBuilders());   

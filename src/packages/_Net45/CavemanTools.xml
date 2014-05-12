@@ -1507,6 +1507,20 @@
             </summary>
             <typeparam name="T">Type of item</typeparam>
         </member>
+        <member name="M:System.TypeExtensions.OrderByAttribute(System.Collections.Generic.IEnumerable{System.Type},System.Func{System.Type,System.Int32})">
+            <summary>
+            Orders an enumerable using [Order] or specified ordering function.
+            </summary>
+            <param name="types"></param>
+            <param name="other">Optional ascending ordering function</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.TypeExtensions.OrderByAttribute``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Orders an enumerable using [Order] 
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:System.TypeExtensions.Implements``1(System.Type)">
             <summary>
             Used for checking if a class implements an interface

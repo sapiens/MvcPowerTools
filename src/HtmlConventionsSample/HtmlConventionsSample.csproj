@@ -162,6 +162,7 @@
     <Compile Include="App_Start\ConfigTask_Routing.cs" />
     <Compile Include="App_Start\Container\Repositories.cs" />
     <Compile Include="App_Start\Html\Display\Build.cs" />
+    <Compile Include="App_Start\Html\Display\DateTimeBuilder.cs" />
     <Compile Include="App_Start\Html\Editors\Modify.cs" />
     <Compile Include="App_Start\Html\Labels\Modify.cs" />
     <Compile Include="App_Start\Html\Validation\Modify.cs" />
