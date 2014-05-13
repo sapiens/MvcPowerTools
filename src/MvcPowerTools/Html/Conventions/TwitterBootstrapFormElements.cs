@@ -33,26 +33,35 @@ namespace MvcPowerTools.Html.Conventions
                     return tag;
                 })
                 ;
+           WrapFieldWithDiv(editor);
+        }
+
+        protected virtual void WrapFieldWithDiv(IDefinedConventions editor,Predicate<ModelInfo> overrideCondition=null)
+        {
+            if (overrideCondition == null)
+            {
+                overrideCondition = m =>
+                    !m.IsRootModel && !m.Type.IsUserDefinedClass() && !m.HasAttribute<HiddenInputAttribute>();
+            }
             editor.
-                If(m =>
-                !m.IsRootModel && !m.Type.IsUserDefinedClass() && !m.HasAttribute<HiddenInputAttribute>())
-                .Modify((tag, model) =>
-                {
-                    var wrapper = new DivTag();
-                    if (tag is MvcCheckboxElement)
-                    {
-                        wrapper.AddClass("checkbox");
-                    }
-                    else
-                    {
-                        wrapper.AddClass("form-group");
-                    }
-                    if (model.ValidationFailed)
-                    {
-                        wrapper.AddClass("has-error");
-                    }
-                    return tag.WrapWith(wrapper);
-                });
+               If(overrideCondition)
+               .Modify((tag, model) =>
+               {
+                   var wrapper = new DivTag();
+                   if (tag is MvcCheckboxElement)
+                   {
+                       wrapper.AddClass("checkbox");
+                   }
+                   else
+                   {
+                       wrapper.AddClass("form-group");
+                   }
+                   if (model.ValidationFailed)
+                   {
+                       wrapper.AddClass("has-error");
+                   }
+                   return tag.WrapWith(wrapper);
+               });
         }
     }
 }
