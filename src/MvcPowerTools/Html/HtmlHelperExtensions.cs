@@ -138,12 +138,28 @@ namespace MvcPowerTools.Html
         /// <param name="html"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static HtmlTag Widget<T>(this HtmlHelper<T> html, object model)
+        public static HtmlTag DisplayWidget<T>(this HtmlHelper<T> html, object model)
         {
             model.MustNotBeNull();
             var metadata=ModelMetadataProviders.Current.GetMetadataForType(() => model, model.GetType());
             var info = new ModelInfo(metadata, html.ViewContext);
             return info.ConventionsRegistry().Displays.GenerateTags(info);
+        }
+        
+        
+        /// <summary>
+        /// Uses the defined html conventions to build an editor widget for model
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static HtmlTag EditorWidget<T>(this HtmlHelper<T> html, object model)
+        {
+            model.MustNotBeNull();
+            var metadata=ModelMetadataProviders.Current.GetMetadataForType(() => model, model.GetType());
+            var info = new ModelInfo(metadata, html.ViewContext);
+            return info.ConventionsRegistry().Editors.GenerateTags(info);
         }
 
         ///// <summary>
