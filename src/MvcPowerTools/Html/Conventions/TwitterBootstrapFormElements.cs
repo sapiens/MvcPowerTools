@@ -36,15 +36,15 @@ namespace MvcPowerTools.Html.Conventions
            WrapFieldWithDiv(editor);
         }
 
-        protected virtual void WrapFieldWithDiv(IDefinedConventions editor,Predicate<ModelInfo> overrideCondition=null)
+        protected virtual bool WhenToWrapFields(ModelInfo m)
         {
-            if (overrideCondition == null)
-            {
-                overrideCondition = m =>
-                    !m.IsRootModel && !m.Type.IsUserDefinedClass() && !m.HasAttribute<HiddenInputAttribute>();
-            }
+            return !m.IsRootModel && !m.Type.IsUserDefinedClass() && !m.HasAttribute<HiddenInputAttribute>();
+        }
+
+        protected virtual void WrapFieldWithDiv(IDefinedConventions editor)
+        {
             editor.
-               If(overrideCondition)
+               If(WhenToWrapFields)
                .Modify((tag, model) =>
                {
                    var wrapper = new DivTag();
