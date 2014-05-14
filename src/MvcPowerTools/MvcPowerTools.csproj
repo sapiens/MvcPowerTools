@@ -93,6 +93,7 @@
     <Compile Include="Controllers\ReturnViewIfValidationFailsAttribute.cs" />
     <Compile Include="Controllers\TransferIfValidationFailsAttribute.cs" />
     <Compile Include="Html\AngularJsSupport.cs" />
+    <Compile Include="Html\AsOneElementAttribute.cs" />
     <Compile Include="Html\Conventions\CommonDisplayModifiers.cs" />
     <Compile Include="Html\Conventions\CommonEditorModifiers.cs" />
     <Compile Include="Html\Conventions\DataAnnotationBuilders.cs" />

@@ -30,6 +30,10 @@ namespace MvcPowerTools.Html.Internals
             }
             if (info.Type.IsUserDefinedClass())
             {
+                if (info.HasAttribute<AsOneElementAttribute>())
+                {
+                    return new PrimitiveTypeGenerator(conventions); 
+                }
                 return new CustomTypeGenerator(info.Meta, conventions);
             }
             if (info.Type == typeof (string) || !info.Type.DerivesFrom<IEnumerable>())

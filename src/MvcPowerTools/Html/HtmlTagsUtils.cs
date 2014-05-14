@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using HtmlTags;
+using MvcPowerTools.Html.Conventions;
 
 namespace MvcPowerTools.Html
 {
@@ -93,6 +94,13 @@ namespace MvcPowerTools.Html
         public static LabelTag CreateLabel(this HtmlTag tag,string display)
         {
             return new LabelTag(tag.Id(),display);
+        }
+
+        public static HtmlTag ApplyEditorsCommonModifiers(this HtmlTag tag,ModelInfo info)
+        {
+            tag = CommonEditorModifiers.AddValidationAttributes(tag, info);
+            tag = CommonEditorModifiers.AddEditorLabel(tag, info);
+            return CommonEditorModifiers.AddValidationMessage(tag, info);            
         }
 
         //public static HtmlTag CreateLabel(this HtmlTag tag, ModelInfo model)

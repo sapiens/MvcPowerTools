@@ -47,9 +47,9 @@ namespace MvcPowerTools.Html
             return conventions.PropertiesExcept(d => d.PropertyType != typeof (T));
         }
 
-        public static IConfigureAction IfNotCustomType(this IConfigureConventions conventions)
+        public static IConfigureAction IfNotCustomType(this IConfigureConventions conventions,bool onlyPrimitives=false)
         {
-            return conventions.If(d => !d.Type.IsUserDefinedClass());
+            return conventions.If(d => !d.Type.IsUserDefinedClass() || (onlyPrimitives || d.HasAttribute<AsOneElementAttribute>()));
         }
         
         public static IConfigureAction ForType<T>(this IConfigureConventions conventions,bool mustBeProperty=false)
