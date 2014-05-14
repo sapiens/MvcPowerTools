@@ -104,6 +104,7 @@
     <Compile Include="Html\Internals\DisplayTemplateGenerator.cs" />
     <Compile Include="Html\Internals\EditorTemplateGenerator.cs" />
     <Compile Include="Html\SpanTag.cs" />
+    <Compile Include="Html\TextareaTag.cs" />
     <Compile Include="Html\WidgetBuilder.cs" />
     <Compile Include="IgnoreAttribute.cs" />
     <Compile Include="ControllerHandlers\IHandleQuery.cs" />

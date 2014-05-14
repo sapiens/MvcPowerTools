@@ -46,7 +46,7 @@ namespace System.Web.Mvc.Html
                 tag.Value(modelInfo.ValueAsString);
             }
             
-            return tag.Name(modelInfo.Name).IdFromName().AddValidationAttributes(modelInfo) as TTag;
+            return tag.Name(modelInfo.HtmlName).IdFromName().AddValidationAttributes(modelInfo) as TTag;
         }
         /// <summary>
         /// Creates a html tag
@@ -58,7 +58,7 @@ namespace System.Web.Mvc.Html
         /// <returns></returns>
         public static TextareaTag TextArea<T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property)
         {
-            return FillTag(html, property, m => new TextareaTag());
+            return FillTag(html, property, m => new TextareaTag().Text(m.ValueAsString) as TextareaTag,false);
         }
 
         /// <summary>
@@ -312,8 +312,9 @@ namespace System.Web.Mvc.Html
         {
             metadata = ModelMetadata.FromLambdaExpression(property, html.ViewData);
             var info = new ModelInfo(metadata, html.ViewContext);
-            info.HtmlName = ExpressionHelper.GetExpressionText(property);
-            info.HtmlId = html.ViewData.TemplateInfo.GetFullHtmlFieldId(info.HtmlName);
+            var name = ExpressionHelper.GetExpressionText(property);
+            info.HtmlName = html.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
+            info.HtmlId = html.ViewData.TemplateInfo.GetFullHtmlFieldId(name);
             return info;
         }
     }
