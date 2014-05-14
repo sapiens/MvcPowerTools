@@ -27,9 +27,8 @@ namespace MvcPowerTools.Html.Conventions
             conventions.Editors.Ignore(d => d.HasAttribute<IgnoreAttribute>());
         }
 
-     
 
-        private static HtmlTag AddValidationAttributes(HtmlTag tag, ModelInfo info)
+        public static HtmlTag AddValidationAttributes(HtmlTag tag, ModelInfo info)
         {
             var input = tag.FirstNonHiddenInput();
             if (input == null) return tag;
@@ -38,14 +37,14 @@ namespace MvcPowerTools.Html.Conventions
         }
 
 
-        private static HtmlTag AddEditorLabel(HtmlTag tag, ModelInfo info)
+        public static HtmlTag AddEditorLabel(HtmlTag tag, ModelInfo info)
         {
             if (tag.HasChild<LabelTag>()) return tag;
             var input = tag.FirstNonHiddenInput();
             if (input == null) return tag;
             var label = info.ConventionsRegistry().Labels.GenerateTags(info);
             var parent = input.Parent;
-            var res = tag;
+           var res = tag;
             if (parent == null)
             {
                 parent = HtmlTag.Placeholder();
@@ -59,8 +58,8 @@ namespace MvcPowerTools.Html.Conventions
             return res;
         }
 
-       
-        private static HtmlTag AddValidationMessage(HtmlTag tag, ModelInfo info)
+
+        public static HtmlTag AddValidationMessage(HtmlTag tag, ModelInfo info)
         {
             if (tag.HasChild<ValidationMessageTag>()) return tag;
             var input = tag.FirstNonHiddenInput();

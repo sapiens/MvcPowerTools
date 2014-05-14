@@ -90,6 +90,50 @@ namespace MvcPowerTools.Html
             return tag.Id(IdFromName(tag.Attr("name")));
         }
 
+        public static LabelTag CreateLabel(this HtmlTag tag,string display)
+        {
+            return new LabelTag(tag.Id(),display);
+        }
+
+        //public static HtmlTag CreateLabel(this HtmlTag tag, ModelInfo model)
+        //{
+        //    var label = model.ConventionsRegistry().Labels.GenerateTags(model) as LabelTag;
+        //    label.For(tag.Id())
+        //}
+
+        /// <summary>
+        /// Returns parent tag
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <param name="addition"></param>
+        /// <returns></returns>
+        public static HtmlTag PlaceAfter(this HtmlTag tag, HtmlTag addition)
+        {
+            var parent = tag.Parent;
+            if (parent == null)
+            {
+                parent = HtmlTag.Placeholder();
+                parent.Append(tag);
+                
+            }
+            var pos = tag.PositionAsChild();
+            if (pos == 0) pos = 1;
+            addition.RegisterParent(parent);
+            parent.Children.Insert(pos - 1, addition);
+            return parent;
+        }
+
+        /// <summary>
+        /// Returns parent tag
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <param name="addition"></param>
+        /// <returns></returns>
+        public static HtmlTag PlaceBefore(this HtmlTag tag, HtmlTag addition)
+        {
+            return addition.PlaceAfter(tag);            
+        }
+
         /// <summary>
         /// Sets the input as checked (checkbox, radio buttons)
         /// </summary>
