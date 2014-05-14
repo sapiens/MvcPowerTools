@@ -20,7 +20,7 @@ namespace System.Web.Mvc.Html
             return new TextboxTag(name,modelInfo.ValueAsString).IdFromName().AddValidationAttributes(modelInfo) as TextboxTag;
         }
 
-        public static HtmlTag Textarea<T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property)
+        public static HtmlTag TextArea<T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property)
         {
             return TextBox(html, property).MultilineMode();
         }
