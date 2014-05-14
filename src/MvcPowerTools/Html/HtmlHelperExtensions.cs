@@ -11,7 +11,14 @@ namespace System.Web.Mvc.Html
 {
     public static class HtmlHelperExtensions
     {
-
+        /// <summary>
+        /// Creates a html tag
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="R"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="property"></param>
+        /// <returns></returns>
         public static TextboxTag TextBox<T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property)
         {
             return FillTag(html, property, m => new TextboxTag());
@@ -41,7 +48,14 @@ namespace System.Web.Mvc.Html
             
             return tag.Name(modelInfo.Name).IdFromName().AddValidationAttributes(modelInfo) as TTag;
         }
-
+        /// <summary>
+        /// Creates a html tag
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="R"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="property"></param>
+        /// <returns></returns>
         public static TextareaTag TextArea<T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property)
         {
             return FillTag(html, property, m => new TextareaTag());
@@ -60,12 +74,27 @@ namespace System.Web.Mvc.Html
            return html.GenerateFor(HtmlConventionsManager.EditorKey, property);
         }
 
-
+        /// <summary>
+        /// Uses the defined html conventions to render the label
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="R"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="property"></param>
+        /// <returns></returns>
         public static HtmlTag Label<T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property)
         {
             return html.GenerateFor(HtmlConventionsManager.LabelKey, property);
         }
 
+        /// <summary>
+        ///  Uses the defined html conventions to render a validation summary element
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="R"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="property"></param>
+        /// <returns></returns>
         public static HtmlTag ValidationMessage<T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property)
         {
             return html.GenerateFor(HtmlConventionsManager.ValidationKey, property);
