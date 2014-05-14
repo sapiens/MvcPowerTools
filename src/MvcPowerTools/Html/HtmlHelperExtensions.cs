@@ -17,7 +17,18 @@ namespace System.Web.Mvc.Html
             return FillTag(html, property, m => new TextboxTag());
         }
 
-        static TTag FillTag<TTag, T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property, Func<ModelInfo,TTag> tagCreator,bool setValue=true)
+        /// <summary>
+        /// Sets tag's name, id, validation attributes and value
+        /// </summary>
+        /// <typeparam name="TTag"></typeparam>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="R"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="property"></param>
+        /// <param name="tagCreator">Tag factory</param>
+        /// <param name="setValue">True for input types</param>
+        /// <returns></returns>
+        public static TTag FillTag<TTag, T, R>(HtmlHelper<T> html, Expression<Func<T, R>> property, Func<ModelInfo,TTag> tagCreator,bool setValue=true)
             where TTag : HtmlTag
         {
             ModelMetadata modelMetadata;
