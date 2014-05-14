@@ -1,21 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Linq.Expressions;
-using System.Management.Instrumentation;
 using System.Text;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Mvc.Html;
 using System.Web.Routing;
 using HtmlTags;
+using HtmlTags.Extended.Attributes;
+using MvcPowerTools.Html;
 
-namespace MvcPowerTools.Html
+
+namespace System.Web.Mvc.Html
 {
     public static class HtmlHelperExtensions
     {
-        
+
+        public static TextboxTag TextBox<T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property)
+        {
+            var name = ExpressionHelper.GetExpressionText(property);
+            ModelMetadata modelMetadata;
+            var modelInfo = CreateModelInfo(html,property,out modelMetadata);
+            return new TextboxTag(name,modelInfo.ValueAsString).IdFromName().AddValidationAttributes(modelInfo) as TextboxTag;
+        }
+
+        public static HtmlTag Textarea<T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property)
+        {
+            return TextBox(html, property).MultilineMode();
+        }
+
         /// <summary>
         /// Uses the defined html conventions to build an editor for the view model
         /// </summary>
