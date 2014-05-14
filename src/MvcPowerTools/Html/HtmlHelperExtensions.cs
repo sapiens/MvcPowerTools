@@ -14,15 +14,26 @@ namespace System.Web.Mvc.Html
 
         public static TextboxTag TextBox<T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property)
         {
-            var name = ExpressionHelper.GetExpressionText(property);
-            ModelMetadata modelMetadata;
-            var modelInfo = CreateModelInfo(html,property,out modelMetadata);
-            return new TextboxTag(name,modelInfo.ValueAsString).IdFromName().AddValidationAttributes(modelInfo) as TextboxTag;
+            return FillTag(html, property, m => new TextboxTag());
         }
 
-        public static HtmlTag TextArea<T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property)
+        static TTag FillTag<TTag, T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property, Func<ModelInfo,TTag> tagCreator,bool setValue=true)
+            where TTag : HtmlTag
         {
-            return TextBox(html, property).MultilineMode();
+            ModelMetadata modelMetadata;
+            var modelInfo = CreateModelInfo(html, property, out modelMetadata);
+            var tag = tagCreator(modelInfo);
+            if (setValue)
+            {
+                tag.Value(modelInfo.ValueAsString);
+            }
+            
+            return tag.Name(modelInfo.Name).IdFromName().AddValidationAttributes(modelInfo) as TTag;
+        }
+
+        public static TextareaTag TextArea<T, R>(this HtmlHelper<T> html, Expression<Func<T, R>> property)
+        {
+            return FillTag(html, property, m => new TextareaTag());
         }
 
         /// <summary>
