@@ -38,7 +38,7 @@ namespace MvcPowerTools.Html.Conventions
 
         protected virtual bool WhenToWrapFields(ModelInfo m)
         {
-            return !m.IsRootModel && !m.Type.IsUserDefinedClass() && !m.HasAttribute<HiddenInputAttribute>();
+            return !m.IsRootModel && (!m.Type.IsUserDefinedClass() || m.HasAttribute<AsOneElementAttribute>() )&& !m.HasAttribute<HiddenInputAttribute>();
         }
 
         protected virtual void WrapFieldWithDiv(IDefinedConventions editor)
