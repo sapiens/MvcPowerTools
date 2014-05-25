@@ -9,25 +9,29 @@ namespace MvcPowerTools.ControllerHandlers
     {
 
         public abstract Task<ActionResult> Get(TInput input);
-        
-        protected async Task<ActionResult> HandleAsync(TInput input)
+
+        protected async Task<ActionResult> HandleAsync(TInput input, Func<TViewModel, ActionResult> resultConfig = null, Func<ActionResult> nullModelResult = null)
         {
             input.MustNotBeNull("input");
             var model = await input.QueryAsyncTo<TViewModel>();
-            if (model == null) return NullModelResult(input);
-            return GetView(model);
+            if (model == null)
+            {
+                if (nullModelResult != null) return nullModelResult();
+                return NullModelResult(input);
+            }
+
+            if (resultConfig != null)
+            {
+                return resultConfig(model);
+            }
+            return View(model);  
             
         }
 
-        protected virtual ActionResult NullModelResult(TInput input)
+        protected ActionResult NullModelResult(TInput input)
         {
             return HttpNotFound();
-        }
-
-        protected virtual ActionResult GetView(TViewModel model)
-        {
-            return View(model);
-        }
+        }       
         
     }
 }
