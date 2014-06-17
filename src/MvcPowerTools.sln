@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcPowerTools", "MvcPowerTools\MvcPowerTools.csproj", "{595099EC-473C-4C23-8103-40750251ACBC}"
 EndProject
@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mvc", "Mvc", "{5744B9C1-CAA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{7C32C355-8F70-48B0-B5DC-D8DA6BCCF35E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Build", "BUild\Build.csproj", "{7C43C0EB-31F4-4414-A1A8-2E43DFAA42FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,14 +52,18 @@ Global
 		{340B2703-FBC3-4779-BE2E-7B18295152F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{340B2703-FBC3-4779-BE2E-7B18295152F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{340B2703-FBC3-4779-BE2E-7B18295152F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C43C0EB-31F4-4414-A1A8-2E43DFAA42FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C43C0EB-31F4-4414-A1A8-2E43DFAA42FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C43C0EB-31F4-4414-A1A8-2E43DFAA42FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C43C0EB-31F4-4414-A1A8-2E43DFAA42FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{118542F3-3C92-487B-AC9C-009377BE7A21} = {5744B9C1-CAA8-4CD8-B700-B11714743BF0}
 		{595099EC-473C-4C23-8103-40750251ACBC} = {5744B9C1-CAA8-4CD8-B700-B11714743BF0}
-		{340B2703-FBC3-4779-BE2E-7B18295152F1} = {7C32C355-8F70-48B0-B5DC-D8DA6BCCF35E}
+		{118542F3-3C92-487B-AC9C-009377BE7A21} = {5744B9C1-CAA8-4CD8-B700-B11714743BF0}
 		{7CFF25BE-8EF8-46E3-B983-2217E742DA2D} = {7C32C355-8F70-48B0-B5DC-D8DA6BCCF35E}
+		{340B2703-FBC3-4779-BE2E-7B18295152F1} = {7C32C355-8F70-48B0-B5DC-D8DA6BCCF35E}
 	EndGlobalSection
 EndGlobal

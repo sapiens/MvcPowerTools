@@ -1,140 +1,106 @@
-//uncomment to include reference to other assembly you might need (one directive per each)
-//#r "mycustom.dll"
+#r "..\src\packages\MakeSharp.1.1.0\tools\MakeSharp.Windows.Helpers.dll"
+
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Collections.Generic;
-using CSake;
-using NuGet;   //comment it out if you don't create nuget packs or manipulate nuspec files
+using System.Reflection;
+using MakeSharp;
+using MakeSharp.Windows.Helpers;
+using NuGet;
 
-//don't use namespaces
-//any class you create will be considered an inner class of the CSakeWrapper class
+// public class _
+// {
+    // public _()
+    // {
 
-const string SlnFile=@"../src/MvcPowerTools.sln";
-
-const string SlnDir=@"../src";
-
-const string TempDir=@"temp";
-
-const bool Stable=false;
-
-//for nuget
-const string PackageDir = @"temp/package";
-
-static string NugetExe= Path.GetFullPath(SlnDir+"/.nuget/nuget.exe");
-
-static string CurrentDir=Path.GetFullPath("./");
-
-static string[] Projects=new[]{"MvcPowerTools"};
-
-static string ReleaseDir=Path.Combine(SlnDir,"MvcPowerTools","bin/Release");
-
-static bool Built=false;
-
-[SkipIf("Built",true)]
-public static void CleanUp()
-{
-    TempDir.CleanupDir();
-    SlnFile.MsBuildClean();           
-}
+        Project.StaticName = "MvcPowerTools";
+        Solution.FileName = @"..\src\MvcPowerTools.sln";  
+		
+    // }
+// }
 
 
-[Depends("CleanUp")] 
-[SkipIf("Built",true)]
-public static void Build()
-{
-    SlnFile.MsBuildRelease();
-    Built=true;
-}
+
+ public class clean
+ {
+     public void Run()
+     {
+         
+         BuildScript.TempDirectory.CleanupDir();
+        Solution.Instance.FilePath.MsBuildClean();         
+	 }
+
+ }
 
 [Default]
-[Depends("Build")] 
-public static void Local()
+[Depends("clean")]
+public class build
 {
-    foreach(var project in Projects)
+
+	public void Run()
     {
-        var releaseDir=Path.GetFullPath(Path.Combine(SlnDir,project,"bin/Release"));
-        "robocopy".Exec(releaseDir,TempDir,"/E","/XN","/NS","/NC","/NJH","/NJS");
+        Solution.Instance.FilePath.MsBuildRelease();
+	}
+}
+
+
+[Depends("build")]
+public class pack
+{
+    public ITaskContext Context {get;set;}
+
+	public void Run()	
+    {
+       Project.Current.ReleaseDirOffset = "Net45";
+        var nuspec = BuildScript.GetNuspecFile(Project.Current.Name);
+        nuspec.Metadata.Version = Project.Current.GetAssemblySemanticVersion();
+	    
+//        Project.Current.AssemblyReleasePath.ToConsole();
+        var deps = new ExplicitDependencyVersion_(Project.Current);
+        deps.UpdateDependencies(nuspec);
+        
+        var tempDir = BuildScript.GetProjectTempDirectory(Project.Current);
+	    var projDir = Path.Combine(Project.Current.Solution.Directory, Project.Current.Name);
+        var nupkg=nuspec.Save(tempDir).CreateNuget(projDir,tempDir);
+	    Context.Data["pack"] = nupkg;
     }
 }
 
-[Depends("Build")]
-[SkipIf("Packed",true)]
-public static void Pack()
+
+[Depends("pack")]
+public class push
 {
-   Pack("MvcPowerTools",new[]{"CavemanTools"});
+    public ITaskContext Context { get; set; }
 
-}
-
-static bool Packed=false;
-
-static void Pack(string project,string[] deps=null)
-{
-    PackageDir.MkDir();
-    var nuspecFile=Path.Combine(CurrentDir,project+".nuspec");
     
-    Dictionary<string,string> depsVersions=new Dictionary<string,string>();
-    if (deps!=null)
+    public void Run()
     {
-        foreach(var dep in deps)
-        {
-            depsVersions[dep]=GetDepVersion(dep);             
-        }
+     return;
+        var nupkg=Context.Data.GetValue<string>("pack");
+     
+        BuildScript.NugetExePath.Exec("push", nupkg);
     }
-    
-    UpdateVersion(nuspecFile,project,depsVersions);
-    BuildNuget(project,Path.Combine(SlnDir,project));
-	Packed=true;
 }
 
 
-[Depends("Pack")]
-public static void Push()
-{
-var project=Projects[0];
-var nupkg= Path.GetFullPath(Path.Combine(PackageDir,project+"."+GetVersion(project)+".nupkg"));
-NugetExe.Exec("push",nupkg);
-}
-//------------------------------ Utils ----------------
 
-//updates version in nuspec file
-static void UpdateVersion(string nuspecFile,string assemblyName,Dictionary<string,string> localDeps=null)
+
+class ExplicitDependencyVersion_
 {
-    var nuspec=nuspecFile.AsNuspec();   
-    nuspec.Metadata.Version=GetVersion(assemblyName);
-    if (localDeps!=null)
+    private readonly Project _project;
+
+    public ExplicitDependencyVersion_(Project project)
     {
-        foreach(var kv in localDeps)
-        {
-            nuspec.AddDependency(kv.Key,kv.Value);
-        }
+        _project = project;
     }
-    nuspec.Save(TempDir);    
-}
 
-//basePath= relative path for package files source. Usually is the project dir.
-static void BuildNuget(string nuspecFile,string basePath)
-{
-    //if (!nuspecFile.EndsWith(".nuspec"))
-    //{
-      var project=nuspecFile;  
-        nuspecFile+=".nuspec";
-    //}
-    Path.Combine(TempDir,nuspecFile).CreateNuget(basePath,PackageDir);    
-}
-
-static string GetDepVersion(string asmName)
-{
-    return Path.Combine(ReleaseDir,"Net45",asmName+".dll").GetAssemblyVersion().ToSemanticVersion().ToString();
+    public void UpdateDependencies(NuSpecFile nuspec)
+    {
+         nuspec.Metadata.DependencySets[0].Dependencies.Where(d=>d.Version.Contains("replace"))
+         .ForEach(d=> 
+                d.Version=_project.ReleasePathForAssembly(d.Id+".dll").GetAssemblyVersion().ToString());
+    }
 }
 
 
-static string GetVersion(string asmName)
-{
-    return Path.Combine(GetReleaseDir(asmName),"Net45",asmName+".dll").GetAssemblyVersion().ToSemanticVersion(Stable?null:"pre").ToString();
-}
-
-static string GetReleaseDir(string project)
-{
- return Path.Combine(SlnDir,project,"bin","Release");
-}

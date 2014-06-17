@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MakeSharp.Windows.Helpers</name>
+    </assembly>
+    <members>
+        <member name="M:MakeSharp.Windows.Helpers.Extensions.MsBuildClean(System.String,System.String)">
+            <summary>
+            Invokes MSBuild.exe with Clean target and normal verbosity
+            </summary>
+            <param name="project">Project/solution file</param>
+            <param name="configuration">Default is "Release"</param>
+        </member>
+        <member name="M:MakeSharp.Windows.Helpers.Extensions.MsBuildRelease(System.String)">
+            <summary>
+            Invokes MSBuild.exe with Build target, Release configuration and no verbosity
+            </summary>
+            <param name="project">Project/solution file</param>
+        </member>
+        <member name="M:MakeSharp.Windows.Helpers.Extensions.Robocopy(System.String,System.String)">
+            <summary>
+            Copies files from srcDist to destDir using robocopy.exe (it should be default on any Windows starting with Vista)
+            </summary>
+            <param name="sourceDir"></param>
+            <param name="destDir"></param>
+        </member>
+    </members>
+</doc>

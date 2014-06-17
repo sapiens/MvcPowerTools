@@ -38,9 +38,12 @@
     <Reference Include="CavemanTools.Web">
       <HintPath>..\packages\_Net45\CavemanTools.Web.dll</HintPath>
     </Reference>
-    <Reference Include="FluentAssertions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+    <Reference Include="FluentAssertions, Version=3.0.107.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FluentAssertions.2.2.0.0\lib\net45\FluentAssertions.dll</HintPath>
+      <HintPath>..\packages\FluentAssertions.3.0.107\lib\net45\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions.Core">
+      <HintPath>..\packages\FluentAssertions.3.0.107\lib\net45\FluentAssertions.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -55,27 +58,27 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.1\lib\net45\System.Web.Helpers.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.1\lib\net45\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.2\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.1\lib\net45\System.Web.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.2\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.1\lib\net45\System.Web.WebPages.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.1\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.1\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
