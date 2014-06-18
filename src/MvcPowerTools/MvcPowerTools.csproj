@@ -26,11 +26,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\Net45\</OutputPath>
+    <OutputPath>bin\Release\net45\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Net45\MvcPowerTools.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\net45\MvcPowerTools.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CavemanTools, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">

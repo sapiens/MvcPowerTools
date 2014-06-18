@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Configuration;
 using System.Reflection;
 using MakeSharp;
 using MakeSharp.Windows.Helpers;
@@ -14,12 +15,42 @@ using NuGet;
     // public _()
     // {
 
-        Project.StaticName = "MvcPowerTools";
+        
         Solution.FileName = @"..\src\MvcPowerTools.sln";  
 		
     // }
 // }
 
+public class PowerToolsInit : IScriptParams
+{
+    public PowerToolsInit()
+    {
+        ScriptParams=new Dictionary<int, string>();
+    }
+
+    List<Project> _projects=new List<Project>();
+
+    public IEnumerable<Project> GetProjects()
+    {
+        if (_projects.Count == 0)
+        {
+            bool mvc = ScriptParams.Values.Contains("mvc");
+            bool api = ScriptParams.Values.Contains("api");
+            bool all = !mvc && !api;
+            if (mvc || all)
+            {
+                _projects.Add(new Project("MvcPowerTools",Solution.Instance){ReleaseDirOffset = "net45"});
+            }
+            if (api || all)
+            {
+                _projects.Add(new Project("WebApi",Solution.Instance){ReleaseDirOffset = "net45"});
+            }
+        }
+        return _projects;
+    }
+
+    public IDictionary<int, string> ScriptParams { get; private set; }
+}
 
 
  public class clean
@@ -50,20 +81,29 @@ public class pack
 {
     public ITaskContext Context {get;set;}
 
-	public void Run()	
+    void Pack(Project project)
     {
-       Project.Current.ReleaseDirOffset = "Net45";
-        var nuspec = BuildScript.GetNuspecFile(Project.Current.Name);
-        nuspec.Metadata.Version = Project.Current.GetAssemblySemanticVersion();
+        var nuspec = BuildScript.GetNuspecFile(project.Name);
+        nuspec.Metadata.Version = project.GetAssemblySemanticVersion();
 	    
-//        Project.Current.AssemblyReleasePath.ToConsole();
-        var deps = new ExplicitDependencyVersion_(Project.Current);
+        var deps = new ExplicitDependencyVersion_(project);
         deps.UpdateDependencies(nuspec);
         
-        var tempDir = BuildScript.GetProjectTempDirectory(Project.Current);
-	    var projDir = Path.Combine(Project.Current.Solution.Directory, Project.Current.Name);
+        var tempDir = BuildScript.GetProjectTempDirectory(project);
+	    var projDir = Path.Combine(project.Solution.Directory, project.Name);
         var nupkg=nuspec.Save(tempDir).CreateNuget(projDir,tempDir);
-	    Context.Data["pack"] = nupkg;
+	    Context.Data[project.Name+"pack"] = nupkg;
+    }
+
+  
+	public void Run()	
+    {
+
+	    foreach (var project in Context.InitData.As<PowerToolsInit>().GetProjects())
+	    {
+	        Pack(project);
+	    }
+      
     }
 }
 
