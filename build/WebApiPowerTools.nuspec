@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<package> 
+  <metadata> 
+    <id>WebApiPowerTools</id> 
+	<title>WebApiPowerTools</title>
+    <version>0.0.0</version> 
+    <authors>Mihai Mogosanu</authors>
+    <description>Power tools for the seasoned WebApi developer. Enjoy greater flexibility and control with routing conventions</description> 
+    <language>en-US</language>
+	<tags>web-api api routing conventions</tags>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
+    <projectUrl>https://github.com/sapiens/MvcPowerTools</projectUrl>
+  <dependencies>
+   <dependency id="Microsoft.AspNet.WebApi.Core" version="[5.1.2,6.0.0)" />
+      <dependency id="CavemanTools" version="0.0.0-replace" />
+
+  </dependencies>
+<!--    <frameworkAssemblies>
+        <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations"  />
+    </frameworkAssemblies>
+	-->
+
+  </metadata> 
+  <files>
+        <file src="bin\Release\**\WebApiPowerTools*" target="lib"></file>
+        
+    </files>  
+
+</package>

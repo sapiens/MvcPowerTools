@@ -43,7 +43,7 @@ public class PowerToolsInit : IScriptParams
             }
             if (api || all)
             {
-                _projects.Add(new Project("WebApi",Solution.Instance){ReleaseDirOffset = "net45"});
+                _projects.Add(new Project("WebApiPowerTools",Solution.Instance){ReleaseDirOffset = "net45"});
             }
         }
         return _projects;
@@ -84,7 +84,7 @@ public class pack
     void Pack(Project project)
     {
         var nuspec = BuildScript.GetNuspecFile(project.Name);
-        nuspec.Metadata.Version = project.GetAssemblySemanticVersion();
+        nuspec.Metadata.Version = project.GetAssemblySemanticVersion("pre");
 	    
         var deps = new ExplicitDependencyVersion_(project);
         deps.UpdateDependencies(nuspec);
@@ -101,7 +101,8 @@ public class pack
 
 	    foreach (var project in Context.InitData.As<PowerToolsInit>().GetProjects())
 	    {
-	        Pack(project);
+	        "Packing {0} ".WriteInfo(project.Name);
+            Pack(project);
 	    }
       
     }
@@ -117,9 +118,14 @@ public class push
     public void Run()
     {
      return;
-        var nupkg=Context.Data.GetValue<string>("pack");
-     
-        BuildScript.NugetExePath.Exec("push", nupkg);
+        foreach (var project in Context.InitData.As<PowerToolsInit>().GetProjects())
+	    {
+	        var nupkg=Context.Data.GetValue<string>(project.Name+"pack");     
+            BuildScript.NugetExePath.Exec("push", nupkg);
+	    }
+      
+        
+       
     }
 }
 
