@@ -16,7 +16,7 @@ using NuGet;
     // {
 
         
-        Solution.FileName = @"..\src\MvcPowerTools.sln";  
+       
 		
     // }
 // }
@@ -26,6 +26,7 @@ public class PowerToolsInit : IScriptParams
     public PowerToolsInit()
     {
         ScriptParams=new Dictionary<int, string>();
+        Solution.FileName = @"..\src\MvcPowerTools.sln";  
     }
 
     List<Project> _projects=new List<Project>();
