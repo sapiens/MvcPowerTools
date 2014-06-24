@@ -13,7 +13,13 @@ namespace Tests.Routing
 
     public class ModelHandlerInput
     {
+        public ModelHandlerInput()
+        {
+            Text = "";
+        }
         public int Page { get; set; }
+        public string Text { get; set; }
+        public int? Optional { get; set; }
     }
 
     public class ModelFixtureController : Controller

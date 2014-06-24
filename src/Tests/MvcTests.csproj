@@ -95,11 +95,14 @@
   <ItemGroup>
     <Compile Include="Controllers\SmartControllerTests.cs" />
     <Compile Include="Filters\FilterConventionsTests.cs" />
+    <Compile Include="PropertiesOrderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\ActionCallTests.cs" />
     <Compile Include="Routing\Fixture.cs" />
+    <Compile Include="Routing\GetRouteDefaultValueTests.cs" />
     <Compile Include="Routing\HandlerRouteConventionTests.cs" />
     <Compile Include="Routing\HomePageTests.cs" />
+    <Compile Include="Routing\OneModelInConventionTests.cs" />
     <Compile Include="Routing\RoutingConventionsTests.cs" />
     <Compile Include="ViewEngine\ExtensionsTests.cs" />
   </ItemGroup>

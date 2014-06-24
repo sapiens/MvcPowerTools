@@ -22,8 +22,47 @@ namespace MvcPowerTools.Routing
 {
     public static class Extensions
     {
+        /// <summary>
+        /// If available, it will set route parameter's default value.
+        /// A null string sets no defaults, an empty string means optional.
+        /// </summary>
+        /// <param name="member"></param>
+        /// <param name="modelInstance"></param>
+        /// <param name="defaults"></param>
+        public static void SetDefaultValue(this MemberInfo member, object modelInstance, IDictionary<string, object> defaults)
+        {
+            var name = member.Name.ToLower();
+           
+            var value = GetMemberValue(member, modelInstance);
+            var type = member.GetMemberType();
 
-      
+            if (value == null)
+            {
+                if (!type.IsClass) defaults[name] = UrlParameter.Optional;
+                return;
+            }
+            
+            if (type.Is<string>() && (string) value == string.Empty)
+            {
+                defaults[name] = UrlParameter.Optional;
+                return;
+            }
+
+            if (!value.Equals(type.GetDefault()))
+            {
+                defaults[name] = value;                
+            }
+        }
+
+        static object GetMemberValue(MemberInfo mi, object inst)
+        {
+            if (mi.MemberType == MemberTypes.Property)
+            {
+                return mi.As<PropertyInfo>().GetValue(inst);
+            }
+            return mi.As<FieldInfo>().GetValue(inst);
+        }
+
         /// <summary>
         /// Returns action name, taking into account [ActionName]
         /// </summary>
@@ -221,7 +260,9 @@ namespace MvcPowerTools.Routing
         /// <returns></returns>
         public static RoutingConventions UseOneModelInHandlerConvention(this RoutingConventions policy,Predicate<ActionCall> applyTo=null)
         {
-            policy.Add(new OneModelInHandlerConvention(applyTo));
+            var convention = new OneModelInHandlerConvention(applyTo);
+            policy.Add((IBuildRoutes)convention);
+            policy.Add((IModifyRoute)convention);
             return policy;
         }
 

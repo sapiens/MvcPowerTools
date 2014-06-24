@@ -185,6 +185,8 @@
     <Compile Include="LocalizationAttribute.cs" />
     <Compile Include="ModelStateWrapper.cs" />
     <Compile Include="OverrideThemeAttribute.cs" />
+    <Compile Include="PropertiesOrderAttribute.cs" />
+    <Compile Include="PropertiesOrderExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ControllerHandlers\IHandleQueryAsync.cs" />
     <Compile Include="ControllerHandlers\Mediator.cs" />

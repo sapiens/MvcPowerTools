@@ -8,7 +8,7 @@ using System.Web.Routing;
 
 namespace MvcPowerTools.Routing.Conventions
 {
-    public class OneModelInHandlerConvention : IBuildRoutes
+    public class OneModelInHandlerConvention : IBuildRoutes,IModifyRoute
     {
         private readonly Predicate<ActionCall> _match = a => true;
 
@@ -17,114 +17,95 @@ namespace MvcPowerTools.Routing.Conventions
             if (match!=null) _match = match;
         }
 
-        public virtual bool Match(ActionCall action)
+      
+        /// <summary>
+        /// Customize route for a given action and controller
+        /// </summary>
+        /// <param name="callInfo"></param>
+        /// <param name="sb"></param>
+        protected virtual void FormatRouteTemplate(ActionCall callInfo, StringBuilder sb)
         {
-            return _match(action);          
-        }
-
-        protected virtual string FormatControllerName(string name)
-        {
-            return name;
-        }
-
-        protected virtual bool IsGetAction(MethodInfo method)
-        {
-            return method.Name.StartsWith("get", StringComparison.OrdinalIgnoreCase);
-        }
-
-        string GenerateUrlAndDefaults(RouteBuilderInfo info, RouteValueDictionary defaults)
-        {
-            var sb = new StringBuilder();
-            sb.Append(FormatControllerName(info.ActionCall.Controller.ControllerNameWithoutSuffix()));
-            
-            if (info.ActionCall.IsGet())
-            {
-                GenerateForGet(info.ActionCall, defaults, sb);   
-            }
-            
-            return sb.ToString();
+            sb.Append(callInfo.Controller.ControllerNameWithoutSuffix());
         }
 
         /// <summary>
-        /// Allows you to control the parameter name and prefix.
-        /// The route param will be {member_name} to lower
-        /// By default it checks for [RouteSegmentPrefix]
+        /// Allows overrider to write route params from model members
         /// </summary>
         /// <param name="member"></param>
         /// <param name="sb"></param>
-        protected virtual void FormatRouteSegment(MemberInfo member,StringBuilder sb)
+        protected virtual void FormatRouteTemplate(MemberInfo member, StringBuilder sb)
         {
             var prefix = member.GetSingleAttribute<RouteSegmentPrefixAttribute>();
             if (prefix != null)
             {
                 sb.AppendFormat("/{0}", prefix.Prefix);
             }
-            sb.Append("/{" + member.Name.ToLower() + "}");
+            sb.Append("{" + member.Name.ToLower() + "}");            
         }
 
-        private void GenerateForGet(ActionCall info, RouteValueDictionary defaults, StringBuilder sb)
+        protected virtual bool CanBeRouteParameter(MemberInfo info)
         {
-            var args = info.Method.GetParameters();
-            if (args.Length > 0)
-            {
-                var pinfo = args.First();
+            return (info.MemberType == MemberTypes.Field || info.MemberType == MemberTypes.Property)
+                   && !info.HasCustomAttribute<ExcludeFromRouteAttribute>()
+                   && IsValidForRoute(info.GetMemberType());
 
-                var inst = pinfo.ParameterType.CreateInstance();
-
-                foreach (
-                    var member in
-                        pinfo.ParameterType.GetMembers(BindingFlags.Instance | BindingFlags.Public)
-                            .Where(d =>
-                                d.MemberType == MemberTypes.Field || d.MemberType == MemberTypes.Property)
-                            .Where(d => IsValidForRoute(d.GetMemberType()))
-                            .Where(d=> !d.HasCustomAttribute<ExcludeFromRouteAttribute>())
-                    )
-                {
-                    var name = member.Name.ToLower();
-                   FormatRouteSegment(member,sb);
-                    var value = GetMemberValue(member, inst);
-                    var type = member.GetMemberType();
-
-                    if (value == null)
-                    {
-                       if (!type.Is<string>() && (type.IsNullable() || type.IsClass))
-                        {
-                            defaults[name] = UrlParameter.Optional;
-                        }
-                    }
-                    else
-                    {
-                        if (value.Equals(type.GetDefault()))
-                        {
-                            if (!type.IsValueType)
-                            {
-                                defaults[name] = UrlParameter.Optional;
-                            }
-                        }
-                        else
-                        {
-                            if (type.Is<string>() && (string) value == string.Empty)
-                            {
-                                defaults[name] = UrlParameter.Optional;
-                            }
-                            else
-                            {
-                                defaults[name] = value;
-                            }                            
-                        }
-                    }
-                }
-            }
         }
 
         /// <summary>
-        /// Base method MUST be invoked
+        /// Sets constraint for the specified model member (route parameters)
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="builder"></param>
+        /// <param name="data"></param>
+        protected virtual void SetConstraint(MemberInfo info, RouteBuilderInfo builder, IDictionary<string, object> data)
+        {
+            var constraint = builder.GetConstraint(info.DeclaringType);
+            constraint.IfNotNullDo(d => data[info.Name.ToLower()]=d);            
+        }
+
+        /// <summary>
+        /// Sets route param's default value with rules:
+        /// a null string sets no defaults, an empty string means optional; value type with default value is ignored;
+        /// nullable means optional; classes except string are ignored. Rules are implemented in <see cref="Extensions.SetDefaultValue"/> method
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="modelInstance"></param>
+        /// <param name="data"></param>
+        protected virtual void SetDefaultValue(MemberInfo info, object modelInstance, IDictionary<string, object> data)
+        {
+            info.SetDefaultValue(modelInstance,data);
+        }
+
+        /// <summary>
+        /// Sets route constraints based on action/controller type
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="data"></param>
+        protected void SetConstraints(RouteBuilderInfo info, IDictionary<string, object> data)
+        {
+          
+        }
+
+        public virtual bool Match(ActionCall action)
+        {
+            return _match(action);          
+        }
+
+        public void Modify(Route route, RouteBuilderInfo info)
+        {
+            if (info.ActionCall.IsGet()) route.ConstrainToGet();
+            if (info.ActionCall.IsPost()) route.ConstrainToPost();       
+        }
+
+
+        /// <summary>
+        /// Only primitives, nullables and string are valid
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        protected virtual bool IsValidForRoute(Type type)
+        protected bool IsValidForRoute(Type type)
         {
-           if (type.IsPrimitive) return true;
+            if (type.IsPrimitive) return true;
             var allowed = new[]
             {
                 typeof (DateTime)
@@ -145,22 +126,73 @@ namespace MvcPowerTools.Routing.Conventions
             return allowed.Contains(type);
         }
 
-        object GetMemberValue(MemberInfo mi, object inst)
+     
+        string BuildUrlTemplate(ModelInfo info)
         {
-            if (mi.MemberType == MemberTypes.Property)
-            {
-                return mi.As<PropertyInfo>().GetValue(inst);
-            }
-            return mi.As<FieldInfo>().GetValue(inst);
+            var urlBuilder = new StringBuilder();
+            FormatRouteTemplate(info.Action, urlBuilder);
+           
+          if (!info.HasModel) return urlBuilder.ToString();
+            
+            info.Members
+                .ForEach(m =>
+                {
+                    urlBuilder.Append("/");
+                    FormatRouteTemplate(m, urlBuilder);
+                });
+            return urlBuilder.ToString();
+     
         }
 
         public virtual IEnumerable<Route> Build(RouteBuilderInfo info)
         {
-            var route = info.CreateRoute();
-            route.Url = GenerateUrlAndDefaults(info, route.Defaults);
-            if (info.ActionCall.IsGet()) route.ConstrainToGet();
-            if (info.ActionCall.IsPost()) route.ConstrainToPost();            
+           var modelInfo=new ModelInfo(info.ActionCall,CanBeRouteParameter);
+            var route = info.CreateRoute(BuildUrlTemplate(modelInfo));
+           
+           modelInfo.Members.ForEach(m =>
+           {
+              SetDefaultValue(m,modelInfo.Instance,route.Defaults);
+              SetConstraint(m,info,route.Constraints);
+           });
+
+            SetConstraints(info,route.Constraints);
+                
             return new[] { route };
         }
+
+        #region Inner class
+
+        private class ModelInfo
+        {
+            private readonly ActionCall _action;
+            private readonly Func<MemberInfo, bool> _filterMembers;
+
+            public ModelInfo(ActionCall action, Func<MemberInfo, bool> filterMembers)
+            {
+                _action = action;
+                _filterMembers = filterMembers;
+                Members = Enumerable.Empty<MemberInfo>();
+                var modelInfo = action.Method.GetParameters().FirstOrDefault();
+                HasModel = modelInfo != null;
+                if (!HasModel) return;
+                Members = modelInfo.ParameterType.GetMembers(BindingFlags.Instance | BindingFlags.Public)
+                    .Where(_filterMembers);
+
+                Members = Members.ToArray().OrderAsAnnotated();             
+             
+                Instance = modelInfo.ParameterType.CreateInstance();
+            }
+
+            public bool HasModel { get; private set; }
+            public object Instance { get; private set; }
+            public IEnumerable<MemberInfo> Members { get; private set; }
+
+            public ActionCall Action
+            {
+                get { return _action; }
+            }
+        }
+
+        #endregion
     }
 }
