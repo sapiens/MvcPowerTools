@@ -1,6 +1,8 @@
 ﻿using System;
 using Autofac;
+using CavemanTools.Logging;
 using MvcPowerTools.ControllerHandlers;
+using MvcPowerTools.Controllers;
 
 namespace HtmlConventionsSample.Container
 {
@@ -12,6 +14,13 @@ namespace HtmlConventionsSample.Container
             builder.RegisterAssemblyTypes(typeof (MvcPowerTools).Assembly)
                 .Where(d => d.ImplementsGenericInterface(typeof (IHandleAction<,>)))
                 .AsImplementedInterfaces();
+            ValidModelOnly(builder);
+            LogHelper.DefaultLogger.Debug("ValidModelOnly autofac configured");
+        }
+
+        void ValidModelOnly(ContainerBuilder cb)
+        {
+            ValidModelOnlyAttribute.RegisterInContainer(a=>cb.RegisterType(a).SingleInstance(),t=>cb.RegisterGeneric(t));
         }
     }
 }

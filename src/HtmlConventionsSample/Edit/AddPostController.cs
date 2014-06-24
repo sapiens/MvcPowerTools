@@ -20,6 +20,7 @@ namespace HtmlConventionsSample.Edit
 
         public override ActionResult Post(AddPostModel model)
         {
+            if(!ModelState.IsValid) throw new Exception("[ValidModelOnly] should have kicked in");
             return this.Handle(model, nr => this.RedirectToController<PostsListController>(c => c.Get(new PagedInput())));
         }
     }

@@ -1,4 +1,6 @@
-﻿using FluentValidation.Mvc;
+﻿using System.Diagnostics;
+using CavemanTools.Logging;
+using FluentValidation.Mvc;
 using StartItUp;
 
 
@@ -8,7 +10,8 @@ namespace HtmlConventionsSample
     {
         protected void Application_Start()
         {
-           StartupTasks.RunFromAssemblyOf<ConfigTask_1_Container>();
+           LogHelper.OutputTo(s=>Debug.Write(s));
+            StartupTasks.RunFromAssemblyOf<ConfigTask_1_Container>();
             FluentValidationModelValidatorProvider.Configure();
         }
 

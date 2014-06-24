@@ -11,6 +11,7 @@ namespace HtmlConventionsSample
             GlobalFilters.Filters.Add(new HandleErrorAttribute());
             FiltersConventions.Config.RegisterControllers(typeof(ConfigTask_Filters).Assembly);
             FiltersConventions.Config.RegisterConventions(typeof (ConfigTask_Filters).Assembly);
+            FiltersConventions.Config.RegisterModules(typeof (ConfigTask_Filters).Assembly);
             FiltersConventions.Config.BuildAndEnable();
             
         }

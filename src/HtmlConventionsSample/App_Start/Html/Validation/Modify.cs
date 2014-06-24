@@ -1,4 +1,4 @@
-﻿using CavemanTools.Model.ValueObjects;
+﻿
 using MvcPowerTools.Html;
 
 namespace HtmlConventionsSample.Html.Validation

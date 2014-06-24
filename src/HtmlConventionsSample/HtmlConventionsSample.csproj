@@ -161,6 +161,7 @@
     <Compile Include="App_Start\Container\MvcPowerTools.cs" />
     <Compile Include="App_Start\ConfigTask_Routing.cs" />
     <Compile Include="App_Start\Container\Repositories.cs" />
+    <Compile Include="App_Start\Filters\Filters.cs" />
     <Compile Include="App_Start\Html\Display\Build.cs" />
     <Compile Include="App_Start\Html\Display\DateTimeBuilder.cs" />
     <Compile Include="App_Start\Html\Editors\Modify.cs" />
