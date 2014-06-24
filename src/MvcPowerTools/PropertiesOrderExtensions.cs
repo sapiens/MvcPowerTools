@@ -16,8 +16,19 @@ namespace MvcPowerTools
         {
             var m = members.FirstOrDefault();
             if (m == null) return members;
-            var attrib = m.DeclaringType.GetCustomAttribute<PropertiesOrderAttribute>();
-            return attrib.ReturnDefaultOrResult(a=>a.Sort(members),members);
+            return members.OrderAsAnnotated(m.DeclaringType, d => d.Name);
+        }
+
+        /// <summary>
+        /// Orders the members according to the <see cref="PropertiesOrderAttribute"/> specified on their declaring type.        
+        /// </summary>
+        /// <param name="members"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> OrderAsAnnotated<T>(this IEnumerable<T> members, Type modelType,
+            Func<T, string> nameProjection)
+        {
+            var attrib = modelType.GetCustomAttribute<PropertiesOrderAttribute>();
+            return attrib.ReturnDefaultOrResult(a => a.Sort(members,nameProjection), members); 
         }
     }
 }

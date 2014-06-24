@@ -22,7 +22,12 @@ namespace MvcPowerTools
 
         public IEnumerable<MemberInfo> Sort(IEnumerable<MemberInfo> members)
         {
-            return Properties.Select(d => members.First(m => m.Name == d));
+            return Sort(members, d => d.Name);            
+        }
+
+        public IEnumerable<T> Sort<T>(IEnumerable<T> data, Func<T, string> nameProjection)
+        {
+            return Properties.Select(d => data.First(m => nameProjection(m) == d));
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Web.Http.Routing;
 
 namespace WebApiPowerTools.Routing.Conventions
 {
+    //todo make it use onemodelin
     public class RouteFromParametersConvention : IBuildRoutes
     {
         private static IHttpRouteConstraint GetConstraint(RouteBuilderInfo builderHelper,string arg)

@@ -18,7 +18,7 @@ namespace MvcPowerTools.Html.Internals
         public HtmlTag GenerateElement(ModelInfo info)
         {
             var tag = HtmlTag.Placeholder();
-            foreach (var property in Meta.Properties)
+            foreach (var property in Meta.Properties.OrderAsAnnotated(info.Type,m=>m.PropertyName))
             {
                 var child = GetTag(property, info);
                 tag.Children.Add(child);
