@@ -38,13 +38,22 @@ namespace MvcPowerTools.Routing
 
             if (value == null)
             {
-                if (!type.IsClass) defaults[name] = UrlParameter.Optional;
+                
+#if WEBAPI
+                if (!type.IsClass) defaults[name] = RouteParameter.Optional;
+#else
+		         if (!type.IsClass) defaults[name] = UrlParameter.Optional;
+#endif
                 return;
             }
             
             if (type.Is<string>() && (string) value == string.Empty)
             {
-                defaults[name] = UrlParameter.Optional;
+#if WEBAPI
+                defaults[name] = RouteParameter.Optional;
+#else
+	    	    defaults[name] = UrlParameter.Optional;
+#endif
                 return;
             }
 

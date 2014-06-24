@@ -60,8 +60,23 @@
     <Compile Include="..\MvcPowerTools\Extensions\ControllerExtensions.cs">
       <Link>ControllerExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\MvcPowerTools\PropertiesOrderAttribute.cs">
+      <Link>PropertiesOrderAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcPowerTools\PropertiesOrderExtensions.cs">
+      <Link>PropertiesOrderExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\MvcPowerTools\Routing\ActionCall.cs">
       <Link>Routing\ActionCall.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcPowerTools\Routing\Conventions\ExcludeFromRouteAttribute.cs">
+      <Link>Routing\Conventions\ExcludeFromRouteAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcPowerTools\Routing\Conventions\OneModelInHandlerConvention.cs">
+      <Link>Routing\Conventions\OneModelInHandlerConvention.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcPowerTools\Routing\Conventions\RouteSegmentPrefixAttribute.cs">
+      <Link>Routing\Conventions\RouteSegmentPrefixAttribute.cs</Link>
     </Compile>
     <Compile Include="..\MvcPowerTools\Routing\Extensions.cs">
       <Link>Routing\Extensions.cs</Link>

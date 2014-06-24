@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
+#if WEBAPI
+
+namespace WebApiPowerTools
+#else
 namespace MvcPowerTools
+#endif
 {
     public static class PropertiesOrderExtensions
     {

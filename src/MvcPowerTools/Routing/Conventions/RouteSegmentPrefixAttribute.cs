@@ -1,6 +1,11 @@
 using System;
 
+#if WEBAPI
+
+namespace WebApiPowerTools.Routing.Conventions
+#else
 namespace MvcPowerTools.Routing.Conventions
+#endif
 {
     
     /// <summary>

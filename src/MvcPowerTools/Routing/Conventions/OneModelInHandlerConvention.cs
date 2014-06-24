@@ -3,20 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+
+#if WEBAPI
+using System.Web.Http;
+using System.Web.Http.Routing;
+
+#else
 using System.Web.Mvc;
 using System.Web.Routing;
+#endif
 
+
+#if WEBAPI
+
+namespace WebApiPowerTools.Routing.Conventions
+#else
 namespace MvcPowerTools.Routing.Conventions
+#endif
 {
+
+#if WEBAPI
     public class OneModelInHandlerConvention : IBuildRoutes,IModifyRoute
+
+#else
+		 public class OneModelInHandlerConvention : IBuildRoutes,IModifyRoute
+#endif   
     {
         private readonly Predicate<ActionCall> _match = a => true;
 
         public OneModelInHandlerConvention(Predicate<ActionCall> match=null)
         {
             if (match!=null) _match = match;
-        }
-
+        }       
       
         /// <summary>
         /// Customize route for a given action and controller
@@ -91,10 +109,15 @@ namespace MvcPowerTools.Routing.Conventions
             return _match(action);          
         }
 
-        public void Modify(Route route, RouteBuilderInfo info)
+#if WEBAPI
+        public void Modify(IHttpRoute route, RouteBuilderInfo info)
+#else
+		public void Modify(Route route, RouteBuilderInfo info)
+       
+#endif
         {
             if (info.ActionCall.IsGet()) route.ConstrainToGet();
-            if (info.ActionCall.IsPost()) route.ConstrainToPost();       
+            if (info.ActionCall.IsPost()) route.ConstrainToPost();
         }
 
 
@@ -132,7 +155,7 @@ namespace MvcPowerTools.Routing.Conventions
             var urlBuilder = new StringBuilder();
             FormatRouteTemplate(info.Action, urlBuilder);
            
-          if (!info.HasModel) return urlBuilder.ToString();
+          if (!info.HasModel || IsCommand(info.Action)) return urlBuilder.ToString();
             
             info.Members
                 .ForEach(m =>
@@ -144,17 +167,34 @@ namespace MvcPowerTools.Routing.Conventions
      
         }
 
-        public virtual IEnumerable<Route> Build(RouteBuilderInfo info)
+        /// <summary>
+        /// When a controller action is a command, the input model is ignored
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        protected virtual bool IsCommand(ActionCall action)
+        {
+            return !action.IsGet();
+        }
+
+#if WEBAPI
+        public virtual IEnumerable<IHttpRoute> Build(RouteBuilderInfo info)
+#else
+		 public virtual IEnumerable<Route> Build(RouteBuilderInfo info)
+#endif
         {
            var modelInfo=new ModelInfo(info.ActionCall,CanBeRouteParameter);
             var route = info.CreateRoute(BuildUrlTemplate(modelInfo));
-           
-           modelInfo.Members.ForEach(m =>
-           {
-              SetDefaultValue(m,modelInfo.Instance,route.Defaults);
-              SetConstraint(m,info,route.Constraints);
-           });
 
+            if (!IsCommand(info.ActionCall))
+            {
+                modelInfo.Members.ForEach(m =>
+                {
+                    SetDefaultValue(m, modelInfo.Instance, route.Defaults);
+                    SetConstraint(m, info, route.Constraints);
+                });
+            }
+           
             SetConstraints(info,route.Constraints);
                 
             return new[] { route };

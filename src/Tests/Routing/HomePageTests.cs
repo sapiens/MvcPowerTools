@@ -46,7 +46,6 @@ namespace Tests.Routing
             var id = 2;
             sut.HomeIs<ModelFixtureController>(f => f.Get(new ModelHandlerInput(){Page = 67}));
             var routes = sut.BuildRoutes();
-            routes.Count().Should().Be(2);
             var def = routes.Last();
             def.Url.Should().Be("{*catch}");
             def.Defaults["controller"].Should().Be("ModelFixture");

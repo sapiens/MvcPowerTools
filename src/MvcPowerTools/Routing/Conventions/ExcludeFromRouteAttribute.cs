@@ -1,6 +1,11 @@
 ﻿using System;
 
+#if WEBAPI
+
+namespace WebApiPowerTools.Routing.Conventions
+#else
 namespace MvcPowerTools.Routing.Conventions
+#endif
 {
     /// <summary>
     /// Signals that the property should not be included in the route url.

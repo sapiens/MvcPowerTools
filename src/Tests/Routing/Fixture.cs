@@ -28,5 +28,12 @@ namespace Tests.Routing
         {
             return Content("");
         }
+
+        [HttpPost]
+        public ActionResult Post(ModelHandlerInput data)
+        {
+
+            return Content("");
+        }
     }
 }
