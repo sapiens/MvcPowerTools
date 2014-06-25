@@ -92,5 +92,16 @@ namespace MvcPowerTools.Routing
             }
             return null;
         }
+ 
+#if WEBAPI
+        public IHttpRouteConstraint GetConstraint<T>()
+#else
+        public IRouteConstraint GetConstraint<T>()
+#endif
+        
+        {
+            return GetConstraint(typeof(T));
+        }
     }
+    
 }

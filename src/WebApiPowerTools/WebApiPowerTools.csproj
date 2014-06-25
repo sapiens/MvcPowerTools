@@ -75,8 +75,8 @@
     <Compile Include="..\MvcPowerTools\Routing\Conventions\OneModelInHandlerConvention.cs">
       <Link>Routing\Conventions\OneModelInHandlerConvention.cs</Link>
     </Compile>
-    <Compile Include="..\MvcPowerTools\Routing\Conventions\RouteSegmentPrefixAttribute.cs">
-      <Link>Routing\Conventions\RouteSegmentPrefixAttribute.cs</Link>
+    <Compile Include="..\MvcPowerTools\Routing\Conventions\RouteSegmentDecoratorAttribute.cs">
+      <Link>Routing\Conventions\RouteSegmentDecoratorAttribute.cs</Link>
     </Compile>
     <Compile Include="..\MvcPowerTools\Routing\Conventions\SemanticConstraints.cs">
       <Link>Routing\Conventions\SemanticConstraints.cs</Link>

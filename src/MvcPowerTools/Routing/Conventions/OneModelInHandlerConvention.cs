@@ -53,12 +53,13 @@ namespace MvcPowerTools.Routing.Conventions
         /// <param name="sb"></param>
         protected virtual void FormatRouteTemplate(MemberInfo member, StringBuilder sb)
         {
-            var prefix = member.GetSingleAttribute<RouteSegmentPrefixAttribute>();
+            var prefix = member.GetSingleAttribute<RouteSegmentDecoratorAttribute>();
+            var name = member.Name.ToLower();
             if (prefix != null)
             {
-                sb.AppendFormat("/{0}", prefix.Prefix);
+                sb.Append("/"+ prefix.Prefix.ToFormat(name));
             }
-            sb.Append("{" + member.Name.ToLower() + "}");            
+            sb.Append("{" + name + "}");            
         }
 
         protected virtual bool CanBeRouteParameter(MemberInfo info)
