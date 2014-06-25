@@ -118,7 +118,7 @@ public class push
     
     public void Run()
     {
-     return;
+     //return;
         foreach (var project in Context.InitData.As<PowerToolsInit>().GetProjects())
 	    {
 	        var nupkg=Context.Data.GetValue<string>(project.Name+"pack");     
