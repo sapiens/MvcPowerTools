@@ -194,6 +194,7 @@
     <Compile Include="ControllerHandlers\QueryControllerAsync.cs" />
     <Compile Include="RequestMetricsFilter.cs" />
     <Compile Include="Routing\ActionCall.cs" />
+    <Compile Include="Routing\Conventions\SemanticConstraints.cs" />
     <Compile Include="Routing\Extensions.cs" />
     <Compile Include="Routing\Conventions\HandlerRouteConvention.cs" />
     <Compile Include="Routing\IConfigureAction.cs" />

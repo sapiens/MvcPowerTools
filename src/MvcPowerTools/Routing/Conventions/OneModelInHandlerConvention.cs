@@ -23,10 +23,10 @@ namespace MvcPowerTools.Routing.Conventions
 {
 
 #if WEBAPI
-    public class OneModelInHandlerConvention : IBuildRoutes,IModifyRoute
+    public class OneModelInHandlerConvention : IBuildRoutes
 
 #else
-		 public class OneModelInHandlerConvention : IBuildRoutes,IModifyRoute
+		 public class OneModelInHandlerConvention : IBuildRoutes
 #endif   
     {
         private readonly Predicate<ActionCall> _match = a => true;
@@ -109,17 +109,6 @@ namespace MvcPowerTools.Routing.Conventions
             return _match(action);          
         }
 
-#if WEBAPI
-        public void Modify(IHttpRoute route, RouteBuilderInfo info)
-#else
-		public void Modify(Route route, RouteBuilderInfo info)
-       
-#endif
-        {
-            if (info.ActionCall.IsGet()) route.ConstrainToGet();
-            if (info.ActionCall.IsPost()) route.ConstrainToPost();
-        }
-
 
         /// <summary>
         /// Only primitives, nullables and string are valid
@@ -194,7 +183,11 @@ namespace MvcPowerTools.Routing.Conventions
                     SetConstraint(m, info, route.Constraints);
                 });
             }
-           
+
+            if (!IsCommand(info.ActionCall)) route.ConstrainToGet();
+            
+            if (info.ActionCall.IsPost()) route.ConstrainToPost();
+
             SetConstraints(info,route.Constraints);
                 
             return new[] { route };
@@ -235,4 +228,5 @@ namespace MvcPowerTools.Routing.Conventions
 
         #endregion
     }
+    
 }

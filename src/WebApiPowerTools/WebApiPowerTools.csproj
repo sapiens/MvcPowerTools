@@ -78,6 +78,9 @@
     <Compile Include="..\MvcPowerTools\Routing\Conventions\RouteSegmentPrefixAttribute.cs">
       <Link>Routing\Conventions\RouteSegmentPrefixAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\MvcPowerTools\Routing\Conventions\SemanticModifiers.cs">
+      <Link>Routing\Conventions\SemanticModifiers.cs</Link>
+    </Compile>
     <Compile Include="..\MvcPowerTools\Routing\Extensions.cs">
       <Link>Routing\Extensions.cs</Link>
     </Compile>

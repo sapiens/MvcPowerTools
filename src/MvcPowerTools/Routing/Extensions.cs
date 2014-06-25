@@ -130,6 +130,7 @@ namespace MvcPowerTools.Routing
         /// <returns></returns>
         public static bool IsGet(this ActionCall action)
         {
+            if (action.Method.HasCustomAttribute<HttpGetAttribute>()) return true;
             return action.Method.Name.StartsWith("get", StringComparison.OrdinalIgnoreCase);
         }
         
@@ -140,9 +141,23 @@ namespace MvcPowerTools.Routing
         /// <returns></returns>
         public static bool IsPost(this ActionCall action)
         {
+            if (action.Method.HasCustomAttribute<HttpPostAttribute>()) return true;
             return action.Method.Name.StartsWith("post", StringComparison.OrdinalIgnoreCase);
         }
 
+#if WEBAPI
+        public static bool IsPut(this ActionCall action)
+        {
+            if (action.Method.HasCustomAttribute<HttpPutAttribute>()) return true;
+            return action.Method.Name.StartsWith("put", StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static bool IsDelete(this ActionCall action)
+        {
+            if (action.Method.HasCustomAttribute<HttpDeleteAttribute>()) return true;
+            return action.Method.Name.StartsWith("delete", StringComparison.OrdinalIgnoreCase);
+        }
+#endif
         public static void LoadModules(this RoutingConventions policy, Assembly asm)
         {
             policy
@@ -270,8 +285,8 @@ namespace MvcPowerTools.Routing
         public static RoutingConventions UseOneModelInHandlerConvention(this RoutingConventions policy,Predicate<ActionCall> applyTo=null)
         {
             var convention = new OneModelInHandlerConvention(applyTo);
-            policy.Add((IBuildRoutes)convention);
-            policy.Add((IModifyRoute)convention);
+            policy.Add(convention);
+            
             return policy;
         }
 
@@ -291,7 +306,7 @@ namespace MvcPowerTools.Routing
             route.Constrain("POST");
         }
 
-        static void Constrain(this Route route, string method)
+        public static void Constrain(this Route route, string method)
         {
             route.MustNotBeNull();
             route.Constraints["httpMethod"] = new HttpMethodConstraint(method);
@@ -309,7 +324,7 @@ namespace MvcPowerTools.Routing
             route.Constrain(HttpMethod.Post);
         }
 
-        static void Constrain(this IHttpRoute route, HttpMethod method)
+        public static void Constrain(this IHttpRoute route, HttpMethod method)
         {
             route.MustNotBeNull();
             route.Constraints["httpMethod"] = new HttpMethodConstraint(method);
