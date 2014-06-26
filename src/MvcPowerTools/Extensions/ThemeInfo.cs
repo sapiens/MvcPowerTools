@@ -1,8 +1,4 @@
-using System;
-using System.Web;
-using System.Web.Mvc;
-
-namespace MvcPowerTools.Extensions
+namespace System.Web.Mvc
 {
     /// <summary>
     /// 

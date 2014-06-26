@@ -71,10 +71,7 @@ namespace System.Web.Mvc
             }
             rv["action"] = action;
             rv["controller"] = typeof(T).ControllerNameWithoutSuffix();
-            //foreach (var p in args)
-            //{
-            //    rv[p.Name] = param[p.Position].GetValue();              
-            //}
+            
             return rv;
         }
 

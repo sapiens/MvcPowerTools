@@ -130,7 +130,7 @@
     <Compile Include="Extensions\ExpressionObjectValue.cs" />
     <Compile Include="Extensions\ExpressionParamValue.cs" />
     <Compile Include="Extensions\HtmlHelpers.cs" />
-    <Compile Include="Extensions\ThemeHelper.cs" />
+    <Compile Include="Extensions\ThemeExtensions.cs" />
     <Compile Include="Extensions\ThemeInfo.cs" />
     <Compile Include="Filters\Extensions.cs" />
     <Compile Include="Filters\FilterActionInfo.cs" />
@@ -192,7 +192,6 @@
     <Compile Include="ControllerHandlers\Mediator.cs" />
     <Compile Include="ControllerHandlers\QueryController.cs" />
     <Compile Include="ControllerHandlers\QueryControllerAsync.cs" />
-    <Compile Include="RequestMetricsFilter.cs" />
     <Compile Include="Routing\ActionCall.cs" />
     <Compile Include="Routing\Conventions\SemanticConstraints.cs" />
     <Compile Include="Routing\Extensions.cs" />

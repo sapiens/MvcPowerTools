@@ -1,7 +1,6 @@
 using System;
 using System.Web.Mvc;
 using CavemanTools.Web;
-using MvcPowerTools.Extensions;
 
 namespace MvcPowerTools
 {

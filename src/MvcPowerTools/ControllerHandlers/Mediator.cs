@@ -11,6 +11,12 @@ namespace MvcPowerTools.ControllerHandlers
             return NoResult.Instance;
         }
 
+        /// <summary>
+        /// Invokes the query handler which will take the specified argument as the input model
+        /// </summary>
+        /// <typeparam name="TOut">View model</typeparam>
+        /// <param name="model">Input model</param>
+        /// <returns></returns>
         public static TOut QueryTo<TOut>(this object model)  where TOut : class
         {
             model.MustNotBeNull();
@@ -19,7 +25,13 @@ namespace MvcPowerTools.ControllerHandlers
             if (handler==null) throw new InvalidOperationException("There's no handler implementing 'IHandleQuery<{0},{1}>' registered with the DI Container".ToFormat(model.GetType().Name, typeof(TOut).Name));
             return (TOut) handler.Handle((dynamic)model);
         }
-           
+
+        /// <summary>
+        /// Invokes the async query handler which will take the specified argument as the input model
+        /// </summary>
+        /// <typeparam name="TOut">View model</typeparam>
+        /// <param name="model">Input model</param>
+        /// <returns></returns>
         public static async Task<TOut> QueryAsyncTo<TOut>(this object model)  where TOut : class
         {
             model.MustNotBeNull();
@@ -29,7 +41,12 @@ namespace MvcPowerTools.ControllerHandlers
             return await (Task<TOut>) handler.HandleAsync((dynamic)model);
         }
 
-
+        /// <summary>
+        /// Invokes a request (command) taking the specified argument as the input model and returns its result
+        /// </summary>
+        /// <typeparam name="TResult">Output model</typeparam>
+        /// <param name="input">Input model</param>
+        /// <returns></returns>
         public static TResult Request<TResult>(this object input) where TResult : class
         {
             input.MustNotBeNull();

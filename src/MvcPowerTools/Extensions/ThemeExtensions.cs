@@ -1,8 +1,4 @@
-using System;
-using System.Web;
-using System.Web.Mvc;
-
-namespace MvcPowerTools.Extensions
+namespace System.Web.Mvc
 {
     public static class ThemeExtensions
     {
@@ -28,7 +24,7 @@ namespace MvcPowerTools.Extensions
             var t= ctx.Get<ThemeInfo>(ThemeInfoKey);
             if (t == null)
             {
-                var theme = ctx.GetCurrentTheme();
+                var theme = ctx.GetCurrentThemeName();
                 if (!theme.IsNullOrEmpty())
                 {
                     t = new ThemeInfo(ctx,theme);
@@ -43,7 +39,7 @@ namespace MvcPowerTools.Extensions
         /// </summary>
         /// <param name="ctx"></param>
         /// <returns></returns>
-        public static string GetCurrentTheme(this HttpContextBase ctx)
+        public static string GetCurrentThemeName(this HttpContextBase ctx)
         {
             return (string)ctx.Items["theme"];
         }
