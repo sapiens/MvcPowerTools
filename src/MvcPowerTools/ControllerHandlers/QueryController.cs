@@ -14,6 +14,13 @@ namespace MvcPowerTools.ControllerHandlers
 
         public abstract ActionResult Get(TInput input);
         
+        /// <summary>
+        /// Executes the handler
+        /// </summary>
+        /// <param name="input">Input model</param>
+        /// <param name="resultConfig">Lambda to configure handler result</param>
+        /// <param name="nullModelResult">What to return if the result is null</param>
+        /// <returns></returns>
         protected ActionResult Handle(TInput input,Func<TViewModel,ActionResult> resultConfig=null,Func<ActionResult> nullModelResult=null)
         {
             input.MustNotBeNull("input");

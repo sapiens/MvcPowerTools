@@ -13,9 +13,20 @@ namespace MvcPowerTools.ControllerHandlers
     {
         public abstract ActionResult Post(TModel model);
 
-        protected ActionResult Handle(TModel input,Func<TResult,ActionResult> handlerSuccess)
+        /// <summary>
+        /// Executes the handler
+        /// </summary>
+        /// <param name="input">Input model</param>
+        /// <param name="resultConfig">What to do with the command's result</param>
+        /// <param name="nullModelResult">What to return if the model is invalid</param>
+        /// <returns></returns>
+        protected ActionResult Handle(TModel input,Func<TResult,ActionResult> handlerSuccess,Func<TModel,ActionResult> invalidModel=null)
         {
-            if (!ModelState.IsValid) return GetView(input);
+            if (!ModelState.IsValid)
+            {
+                if (invalidModel == null) invalidModel = GetView;
+                return invalidModel(input);
+            }
             var result = input.SendAndReturn<TResult>();
             return handlerSuccess(result);
         }
