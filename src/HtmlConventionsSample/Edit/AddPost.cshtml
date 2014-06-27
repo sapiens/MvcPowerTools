@@ -3,12 +3,11 @@
 @using MvcPowerTools.Html
 @model HtmlConventionsSample.Edit.ViewModels.AddPostModel
 
-@using (Html.BeginForm<AddPostController>(f =>
+
+
+@using (Html.BeginForm<AddPostController>(f => f.DoGET().Attr("role", "form")))
 {
-    f.Attr("role", "form");
-}))
-{
-    @Html.EditModel()
+    @Html.EditModel()   
     <button type="submit" class="btn btn-primary">Add</button>
 }
 

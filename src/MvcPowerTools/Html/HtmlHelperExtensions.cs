@@ -159,10 +159,10 @@ namespace System.Web.Mvc.Html
             return info.ConventionsRegistry().Displays.GenerateTags(info);
         }
 
-        public static HtmlTag LinkTo<T>(this UrlHelper url, string text, object model = null, string action = "get", bool urlEncoded = true) where T : Controller
+        public static HtmlTag LinkTo<T>(this HtmlHelper html, string text, object model = null, string action = "get", bool urlEncoded = true) where T : Controller
         {
             var controller = typeof (T).ControllerNameWithoutSuffix();
-            return LinkTo(url, controller, text, model, action,urlEncoded);
+            return LinkTo(html, controller, text, model, action,urlEncoded);
         }
 
         /// <summary>
@@ -184,8 +184,9 @@ namespace System.Web.Mvc.Html
             return url.Action(action, controller, model);
         }
 
-        public static HtmlTag LinkTo(this UrlHelper url, string controller, string text, object model = null, string action = "get",bool urlEncoded=true)           
+        public static HtmlTag LinkTo(this HtmlHelper html, string controller, string text, object model = null, string action = "get",bool urlEncoded=true)
         {
+            var url = new UrlHelper(html.ViewContext.RequestContext);
             var tagUrl = url.Action(action, controller, model);
             if (!urlEncoded) tagUrl = url.RequestContext.HttpContext.Server.UrlDecode(tagUrl);
             return new LinkTag(text, tagUrl);

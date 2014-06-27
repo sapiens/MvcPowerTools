@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using MvcPowerTools.Html;
 
 namespace HtmlConventionsSample.Edit.ViewModels
 {

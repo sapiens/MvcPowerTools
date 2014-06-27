@@ -70,12 +70,12 @@ namespace MvcPowerTools.Html
         //    return new ValidationMessageTag(info.HtmlId, info.ValidationFailed, errMsg);
         //}
 
-        public static FormTag POST(this FormTag tag)
+        public static FormTag DoPOST(this FormTag tag)
         {
             return tag.Method("POST");
         }
         
-        public static FormTag GET(this FormTag tag)
+        public static FormTag DoGET(this FormTag tag)
         {
             return tag.Method("GET");
         }
