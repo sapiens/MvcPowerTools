@@ -47,7 +47,7 @@ namespace MvcPowerTools.ControllerHandlers
         /// <typeparam name="TResult">Output model</typeparam>
         /// <param name="input">Input model</param>
         /// <returns></returns>
-        public static TResult Request<TResult>(this object input) where TResult : class
+        public static TResult SendAndReturn<TResult>(this object input) where TResult : class
         {
             input.MustNotBeNull();
             var handlerType = typeof(IHandleCommand<,>).MakeGenericType(input.GetType(), typeof(TResult));

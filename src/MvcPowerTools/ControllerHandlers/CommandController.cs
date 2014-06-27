@@ -16,7 +16,7 @@ namespace MvcPowerTools.ControllerHandlers
         protected ActionResult Handle(TModel input,Func<TResult,ActionResult> handlerSuccess)
         {
             if (!ModelState.IsValid) return GetView(input);
-            var result = input.Request<TResult>();
+            var result = input.SendAndReturn<TResult>();
             return handlerSuccess(result);
         }
 
