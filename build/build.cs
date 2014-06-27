@@ -85,7 +85,7 @@ public class pack
     void Pack(Project project)
     {
         var nuspec = BuildScript.GetNuspecFile(project.Name);
-        nuspec.Metadata.Version = project.GetAssemblySemanticVersion("pre");
+        nuspec.Metadata.Version = project.GetAssemblySemanticVersion();
 	    
         var deps = new ExplicitDependencyVersion_(project);
         deps.UpdateDependencies(nuspec);
