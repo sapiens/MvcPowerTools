@@ -97,6 +97,7 @@
     <Compile Include="Html\Conventions\CommonDisplayModifiers.cs" />
     <Compile Include="Html\Conventions\CommonEditorModifiers.cs" />
     <Compile Include="Html\Conventions\DataAnnotationBuilders.cs" />
+    <Compile Include="Html\Conventions\PopulatePasswordAttribute.cs" />
     <Compile Include="Html\Conventions\TwitterBootstrapFormElements.cs" />
     <Compile Include="Html\DisplayTemplateAttribute.cs" />
     <Compile Include="Html\DisplayWidgetBuilder.cs" />
