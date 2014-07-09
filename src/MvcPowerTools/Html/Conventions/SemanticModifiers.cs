@@ -22,7 +22,12 @@ namespace MvcPowerTools.Html.Conventions
             })
                 .Modify((tag, info) =>
                 {
-                    tag.FirstInputTag().PasswordMode();
+                    var input = tag.FirstInputTag();
+                    input.PasswordMode();
+                    if (!info.HasAttribute<PopulatePasswordAttribute>())
+                    {
+                        input.Value(null);
+                    }
                     return tag;
                 });
         }

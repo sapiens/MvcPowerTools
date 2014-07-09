@@ -37,6 +37,10 @@ namespace MvcPowerTools.Html.Conventions
                         if (attr.DataType == DataType.Password)
                         {
                             input.PasswordMode();
+                            if (!info.HasAttribute<PopulatePasswordAttribute>())
+                            {
+                                input.Value(null);
+                            }
                             return tag;
                         }
                         if (attr.DataType == DataType.EmailAddress)
