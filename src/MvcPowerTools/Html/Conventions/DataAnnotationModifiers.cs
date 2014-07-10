@@ -18,8 +18,23 @@ namespace MvcPowerTools.Html.Conventions
                 .Modify((tag, info) =>
                 {
                     var attr = info.GetAttribute<DisplayAttribute>();
-                    return tag.Text(attr.Name);                   
-                    
+                    if (!attr.Name.IsNullOrEmpty())
+                    {
+                        tag.Text(attr.Name);
+                    }
+                    return tag;
+                });
+
+            conventions.Editors
+                .ForModelWithAttribute<DisplayAttribute>()
+                .Modify((tag, info) =>
+                {
+                    var attr = info.GetAttribute<DisplayAttribute>();
+                    if (!attr.Prompt.IsNullOrEmpty())
+                    {
+                        tag.FirstInputTag().Attr("placeholder", attr.Prompt);
+                    }
+                    return tag;
                 });
 
             conventions.Editors
@@ -59,7 +74,6 @@ namespace MvcPowerTools.Html.Conventions
 
          
             conventions.Editors
-
                 .ForModelWithAttribute<StringLengthAttribute>()
                     .Modify((tag, info) =>
                     {
