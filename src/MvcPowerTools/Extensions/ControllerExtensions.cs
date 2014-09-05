@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -40,9 +41,9 @@ namespace System.Web.Mvc
         /// <param name="c"></param>
         /// <param name="selector">lambda statement</param>
         /// <returns></returns>
-        public static ActionResult RedirectToController<T>(this Controller c,Expression<Action<T>> selector) where T:Controller
+        public static ActionResult RedirectToController<T>(this Controller c, Expression<Action<T>> selector, object routeValues = null) where T : Controller
         {
-            return new RedirectToRouteResult(ToRouteValues(selector));
+            return new RedirectToRouteResult(ToRouteValues(selector,routeValues));
         }
 
         public static string GetControllerName(this ControllerContext ctrl)
@@ -50,25 +51,42 @@ namespace System.Web.Mvc
             return ctrl.RouteData.GetRequiredString("controller");
         }
 
-        internal static RouteValueDictionary ToRouteValues<T>(Expression<Action<T>> selector) where T : Controller
+        public static void Add(this RouteValueDictionary dic, object value)
+        {
+            if (value == null) return;
+            foreach (PropertyDescriptor p in TypeDescriptor.GetProperties(value))
+            {
+                dic.Add(p.Name, p.GetValue(value));
+            }
+        }
+
+        internal static RouteValueDictionary ToRouteValues<T>(Expression<Action<T>> selector,object routeValues=null) where T : Controller
         {
             var method = selector.Body as MethodCallExpression;
             method.MustComplyWith(m => m != null, "Only controller actions are accepted");
 
             var action = method.Method.Name;
             var args = method.Arguments.ToArray();
+            var methodParams = method.Method.GetParameters();
 
-            RouteValueDictionary rv = null;
-
-            if (args.Length > 0)
+            RouteValueDictionary rv = new RouteValueDictionary(routeValues);
+            var i = 0;
+            foreach (var a in args)
             {
-                var argValue = args[0].GetValue();
-                rv = new RouteValueDictionary(argValue);
+                var arg = a.GetValue();
+                var info = methodParams[i];
+                if (info.ParameterType.IsUserDefinedClass())
+                {
+                    rv.Add(arg);
+                }
+                else
+                {
+                    rv[info.Name.ToLower()] = arg;
+                }
+                
+                i++;
             }
-            else
-            {
-                rv = new RouteValueDictionary();
-            }
+                    
             rv["action"] = action;
             rv["controller"] = typeof(T).ControllerNameWithoutSuffix();
             

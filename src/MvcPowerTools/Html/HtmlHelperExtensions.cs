@@ -290,7 +290,7 @@ namespace System.Web.Mvc.Html
         }
 
        
-        public static MvcForm BeginForm(this HtmlHelper html, string controller = null, string action = null, Action<FormTag> config = null)
+        public static MvcForm BeginForm(this HtmlHelper html, string controller = null, string action = null, Action<FormTag> config = null,object routeValues=null)
         {
             var form = new FormTag();
             form.Method("POST");
@@ -306,16 +306,16 @@ namespace System.Web.Mvc.Html
             }
 
             if (config != null) config(form);
-            form.Action(UrlHelper.GenerateUrl(null, action, controller, null,
+            form.Action(UrlHelper.GenerateUrl(null, action, controller, new RouteValueDictionary(routeValues), 
                 html.RouteCollection, html.ViewContext.RequestContext, true));
             form.NoClosingTag();
             html.ViewContext.Writer.Write(form.ToString());
             return new MvcForm(html.ViewContext);
         }
 
-        public static MvcForm BeginForm<T>(this HtmlHelper html,Action<FormTag> config = null, string action = "Post") where T:Controller
+        public static MvcForm BeginForm<T>(this HtmlHelper html,Action<FormTag> config = null, string action = "Post",object routeValues=null) where T:Controller
         {
-            return BeginForm(html,typeof (T).ControllerNameWithoutSuffix(), action, config);
+            return BeginForm(html,typeof (T).ControllerNameWithoutSuffix(), action, config,routeValues);
         }
 
         private static ModelInfo CreateModelInfo<T, R>(HtmlHelper<T> html, Expression<Func<T, R>> property,
