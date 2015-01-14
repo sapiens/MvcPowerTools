@@ -10,6 +10,7 @@ namespace MvcPowerTools.ViewEngines
 {
     public static class Extensions
     {
+       
         public static FlexibleViewEngineSettings RegisterConventions(this FlexibleViewEngineSettings cfg,params Assembly[] assemblies)
         {
             foreach (var asm in assemblies)

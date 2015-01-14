@@ -51,6 +51,18 @@ namespace System.Web.Mvc
             return ctrl.RouteData.GetRequiredString("controller");
         }
 
+        public static string UrlizeNamespace(this ControllerBase ctx, bool includeControllerName = false,
+           bool stripControllerSuffix = true)
+        {
+            var ctrlType = ctx.GetType();
+            var result = ctrlType.Namespace.Urlize(ctrlType.Assembly);
+            if (includeControllerName)
+            {
+                result += "/" + (stripControllerSuffix ? ctrlType.ControllerNameWithoutSuffix() : ctrlType.Name);
+            }
+            return result;
+        }
+
         public static void Add(this RouteValueDictionary dic, object value)
         {
             if (value == null) return;
