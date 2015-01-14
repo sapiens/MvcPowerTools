@@ -219,6 +219,8 @@
     <Compile Include="ViewEngines\Conventions\BaseViewConvention.cs" />
     <Compile Include="ViewEngines\Conventions\MvcTemplatesConvention.cs" />
     <Compile Include="ViewEngines\Conventions\OneLayoutConvention.cs" />
+    <Compile Include="ViewEngines\Conventions\PartialsInFoldersWithControllerName.cs" />
+    <Compile Include="ViewEngines\Conventions\PartialsInNamespaceRoot.cs" />
     <Compile Include="ViewEngines\Conventions\PartialsNearController.cs" />
     <Compile Include="ViewEngines\Conventions\RazorControllerActionConvention.cs" />
     <Compile Include="ViewEngines\Conventions\BaseRazorMvcConvention.cs" />
