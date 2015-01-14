@@ -13,7 +13,7 @@ namespace MvcPowerTools.Routing.Conventions
 
         public IEnumerable<Route> Build(RouteBuilderInfo info)
         {
-            var url = info.ActionCall.Controller.ToWebsiteRelativePath(GetType().Assembly).ToLower();
+            var url = info.ActionCall.Controller.ToWebsiteRelativePath(info.ActionCall.Controller.Assembly).ToLower();
             url = url.TrimStart('~', '/');
             var route = info.CreateRoute(url);
             return new[] { route };
