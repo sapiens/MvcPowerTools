@@ -17,9 +17,15 @@ namespace MvcPowerTools.ViewEngines.Conventions
         /// <returns/>
         public override string GetViewPath(ControllerContext controllerContext, string viewName)
         {
+            var nspace = GetNamespace(controllerContext);
+            return "~/" + nspace + "/" + viewName + ".cshtml";
+        }
+
+        protected string GetNamespace(ControllerContext controllerContext)
+        {
             var ctrlType = controllerContext.Controller.GetType();
             var nspace = ctrlType.Namespace.Urlize(ctrlType.Assembly);
-            return "~/" + nspace + "/" + viewName + ".cshtml";
+            return nspace;
         }
     }
 }
