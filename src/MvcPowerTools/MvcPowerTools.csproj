@@ -194,6 +194,7 @@
     <Compile Include="ControllerHandlers\QueryController.cs" />
     <Compile Include="ControllerHandlers\QueryControllerAsync.cs" />
     <Compile Include="Routing\ActionCall.cs" />
+    <Compile Include="Routing\Conventions\NamespaceBasedRouting.cs" />
     <Compile Include="Routing\Conventions\SemanticConstraints.cs" />
     <Compile Include="Routing\Extensions.cs" />
     <Compile Include="Routing\Conventions\HandlerRouteConvention.cs" />

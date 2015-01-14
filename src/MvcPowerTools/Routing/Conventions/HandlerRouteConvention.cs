@@ -67,5 +67,4 @@ namespace MvcPowerTools.Routing.Conventions
             }
         }
     }
-    
 }
