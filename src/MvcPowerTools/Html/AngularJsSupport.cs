@@ -15,7 +15,7 @@ namespace MvcPowerTools.Html
         public static HtmlTag Angular(this HtmlTag tag, string directive, string value=null)
         {
             directive.MustNotBeEmpty();
-            return tag.Attr("ng-" + directive, value??"");
+            return tag.UnencodedAttr("ng-" + directive, value ?? "");
         }
 
         public static HtmlTag NgModel(this HtmlTag tag, string value)
