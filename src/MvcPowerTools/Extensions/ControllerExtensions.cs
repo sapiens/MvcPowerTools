@@ -150,8 +150,13 @@ namespace System.Web.Mvc
 
         public static IEnumerable<MethodInfo> GetActionMethods(this Type controllerType)
         {
+            return GetActionMethods(controllerType,
+                BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+        }
+        public static IEnumerable<MethodInfo> GetActionMethods(this Type controllerType, BindingFlags flags)
+        {
             return
-                controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance|BindingFlags.DeclaredOnly)
+                controllerType.GetMethods(flags)
                     .Where(m => !m.HasCustomAttribute<NonActionAttribute>() /*&& !m.Name.StartsWith("get_") && !m.Name.StartsWith("set_")*/);
         }
 

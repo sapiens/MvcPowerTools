@@ -228,6 +228,11 @@ namespace MvcPowerTools.Routing
         {
             return RegisterControllers(policy,asm.GetControllerTypes().ToArray());          
         }
+
+        public static RoutingConventions RegisterControllers(this RoutingConventions policy, Assembly asm, Func<Type, IEnumerable<MethodInfo>> actionMatch)
+        {
+            return RegisterControllers(policy,actionMatch,asm.GetControllerTypes().ToArray());          
+        }
         ///// <summary>
         ///// Register as actions types matching a criteria
         ///// </summary>
@@ -263,9 +268,13 @@ namespace MvcPowerTools.Routing
         /// <param name="controllers"></param>
         public static RoutingConventions RegisterControllers(this RoutingConventions policy, params Type[] controllers)
         {
+            return RegisterControllers(policy, ControllerExtensions.GetActionMethods, controllers);
+        }
+        public static RoutingConventions RegisterControllers(this RoutingConventions policy, Func<Type,IEnumerable<MethodInfo>> actionMatch,params Type[] controllers)
+        {
             foreach (var c in controllers)
             {
-                policy.Actions.AddRange(c.GetActionMethods().Select(m=>new ActionCall(m)));                
+                policy.Actions.AddRange(actionMatch(c).Select(m=>new ActionCall(m,c)));                
             }
             return policy;
         }
