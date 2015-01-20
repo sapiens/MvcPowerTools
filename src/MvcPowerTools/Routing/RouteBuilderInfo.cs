@@ -69,7 +69,9 @@ namespace MvcPowerTools.Routing
 		public Route CreateRoute(string url = ActionCall.EmptyRouteUrl)
         {
             url.MustNotBeEmpty();
-            return new Route(url, CreateDefaults(), new RouteValueDictionary(), Settings.CreateHandler());
+            var r= new Route(url, CreateDefaults(), new RouteValueDictionary(), Settings.CreateHandler());
+            r.DataTokens = new RouteValueDictionary();
+            return r;
         }
 #endif
         

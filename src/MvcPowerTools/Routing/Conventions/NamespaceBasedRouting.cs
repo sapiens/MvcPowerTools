@@ -16,6 +16,7 @@ namespace MvcPowerTools.Routing.Conventions
             var url = info.ActionCall.Controller.ToWebsiteRelativePath(info.ActionCall.Controller.Assembly).ToLower();
             url = url.TrimStart('~', '/');
             var route = info.CreateRoute(url);
+            route.DataTokens["Namespaces"] = new[] { info.ActionCall.Controller.Namespace };
             return new[] { route };
         }
     }
